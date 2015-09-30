@@ -1,0 +1,32 @@
+{
+	"keywords" : [
+		"router",
+		"configurable"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Mcustiel\\PowerRoute\\" : "src"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"Mcustiel\\PowerRoute\\Tests\\Unit\\" : "tests/unit",
+			"Mcustiel\\PowerRoute\\Tests\\Functional\\" : "tests/functional"
+		}
+	},
+	"name" : "mcustiel/power-route",
+	"type" : "library",
+	"description" : "Power Route is a configurable router for PHP",
+	"license" : "GPL-3.0+",
+	"require" : {
+		"php" : ">=5.5",
+		"zendframework/zend-diactoros" : ">=1.1.3"
+	},
+	"require-dev" : {
+	    "phpunit/phpunit" : ">=4.8.9",
+        "phing/phing" : ">=2.12.0",
+        "squizlabs/php_codesniffer" : ">=2.3.4",
+        "phpmd/phpmd" : ">=2.3.2",
+        "sebastian/phpcpd" : ">=2.0.2"
+	}
+}
