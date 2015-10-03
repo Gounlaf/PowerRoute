@@ -9,6 +9,6 @@ class NotFoundAction extends AbstractArgumentAware implements ActionInterface
 {
     public function execute(Request $request, ResponseInterface $response)
     {
-        $response->setStatusCode(404);
+        return $response->withStatus(404, 'Not Found');
     }
 }

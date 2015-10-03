@@ -7,25 +7,21 @@ return [
         'route1' => [
             'condition' => [
                 'evaluator' => [
-                    'name' => 'cookie',
-                    'argument' => 'cookieTest'
+                    'cookie' => 'cookieTest'
                 ],
                 'matcher' => [
-                    'name' => 'notNull',
-                    'argument' => null
+                    'notNull' => null
                 ]
             ],
             'actions' => [
                 'match' => [
                     [
-                        'action' => 'displayFile',
-                        'argument' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
+                        'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
                     ]
                 ],
                 'doesNotMatch' => [
                     [
-                        'action' => 'goto',
-                        'argument' => 'route2'
+                        'goto' => 'route2'
                     ]
                 ]
             ]

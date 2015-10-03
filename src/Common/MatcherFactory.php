@@ -3,17 +3,11 @@ namespace Mcustiel\PowerRoute\Common;
 
 use Mcustiel\PowerRoute\Matchers as Matchers;
 
-class MatcherFactory
+class MatcherFactory extends Mapping
 {
-    private $mapping = [
-        'equals' => Matchers\EqualsMatcher::class,
-        'notNull' => Matchers\NotNullMatcher::class,
-        'inArray' => Matchers\InArrayMatcher::class,
-    ];
-
     public function __construct(array $mapping)
     {
-        $this->mapping = array_merge($this->mapping, $mapping);
+        parent::__construct($mapping);
     }
 
     /**
@@ -25,10 +19,9 @@ class MatcherFactory
      */
     public function createFromConfig(array $config)
     {
-        if (!isset($this->mapping[$config['name']])) {
-            throw new \Exception();
-        }
+        $class = key($config);
+        $this->checkMappingIsValid($class);
 
-        return new $this->mapping[$config['name']]($config['argument']);
+        return new $this->mapping[$class]($config[$class]);
     }
 }

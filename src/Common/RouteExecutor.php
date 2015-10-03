@@ -48,8 +48,10 @@ class RouteExecutor
         );
 
         foreach ($actions as $action) {
-            $action->execute($request, $response);
+            $response = $action->execute($request, $response);
         }
+
+        return $response;
     }
 
     private function evaluateCondition($route, $request)

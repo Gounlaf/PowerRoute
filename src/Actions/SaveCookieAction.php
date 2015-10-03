@@ -10,7 +10,7 @@ class SaveCookieAction extends AbstractAction implements ActionInterface
     {
         $value = $this->getValueOrPlaceholder($this->argument->value, $request);
 
-        $response->withHeader(
+        return $response->withHeader(
             'Set-Cookie',
             $this->argument->name . '=' . $value
             . (isset($this->argument->ttl)? '; expires=' . (time() + $this->argument->ttl) : '')

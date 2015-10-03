@@ -9,7 +9,8 @@ interface ActionInterface
     /**
      * @param Request $dataBag
      * @param ResponseInterface $response
-     * @param mixed $argument
+     *
+     * @return ResponseInterface
      */
     public function execute(Request $request, ResponseInterface $response);
 }

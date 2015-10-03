@@ -1,18 +1,11 @@
 <?php
 namespace Mcustiel\PowerRoute\Common;
 
-use Mcustiel\PowerRoute\Evaluators as Evaluator;
-
-class EvaluatorFactory
+class EvaluatorFactory extends Mapping
 {
-    private $mapping = [
-        'queryString' => Evaluator\QueryStringParamEvaluator::class,
-        'cookie' => Evaluator\CookieEvaluator::class,
-    ];
-
     public function __construct(array $mapping)
     {
-        $this->mapping = array_merge($this->mapping, $mapping);
+        parent::__construct($mapping);
     }
 
     /**
@@ -24,10 +17,9 @@ class EvaluatorFactory
      */
     public function createFromConfig(array $config)
     {
-        if (!isset($this->mapping[$config['name']])) {
-            throw new \Exception();
-        }
+        $class = key($config);
+        $this->checkMappingIsValid($class);
 
-        return new $this->mapping[$config['name']]($config['argument']);
+        return new $this->mapping[$class]($config[$class]);
     }
 }

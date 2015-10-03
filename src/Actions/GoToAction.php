@@ -8,7 +8,7 @@ class GoToAction extends AbstractAction implements ActionInterface
 {
     public function execute(Request $request, ResponseInterface $response)
     {
-        $this->argument->executor->execute(
+        return $this->argument->executor->execute(
             $this->getValueOrPlaceholder($this->argument->route, $request),
             $request,
             $response

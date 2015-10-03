@@ -3,18 +3,11 @@ namespace Mcustiel\PowerRoute\Common;
 
 use Mcustiel\PowerRoute\Actions as Actions;
 
-class ActionFactory
+class ActionFactory extends Mapping
 {
-    private $mapping = [
-        'goto' => Actions\GoToAction::class,
-        'redirect' => Actions\RedirectAction::class,
-        'notFound' => Actions\NotFoundAction::class,
-        'displayFile' => Actions\DisplayFileAction::class
-    ];
-
     public function __construct(array $mapping)
     {
-        $this->mapping = array_merge($this->mapping, $mapping);
+        parent::__construct(array_merge(['goto' => Actions\GoToAction::class], $mapping));
     }
 
     /**
@@ -26,21 +19,27 @@ class ActionFactory
     {
         $actions = [];
 
-        foreach ($actionsConfig as $actionData) {
-            if (!isset($this->mapping[$actionData['action']])) {
-                throw new \Exception();
-            }
-            $class = $this->mapping[$actionData['action']];
-            if ($class == Actions\GoToAction::class) {
-                $argument = new \stdClass;
-                $argument->route = $actionData['argument'];
-                $argument->executor = $executor;
-            } else {
-                $argument = $actionData['argument'];
-            }
-            $actions[] = new $class($argument);
+        foreach ($actionsConfig as $action => $argument) {
+            $this->checkMappingIsValid($action);
+
+            $class = $this->mapping[$action];
+            $actions[] = new $class($this->getConstructorArgument($executor, $argument, $class));
         }
 
         return $actions;
     }
+
+    private function getConstructorArgument($executor, $argument, $class)
+    {
+        if ($class == Actions\GoToAction::class) {
+            $classArgument = new \stdClass;
+            $classArgument->route = $argument;
+            $classArgument->executor = $executor;
+        } else {
+            $classArgument = $argument;
+        }
+
+        return $classArgument;
+    }
+
 }
