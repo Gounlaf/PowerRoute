@@ -11,19 +11,20 @@ class ActionFactory extends Mapping
     }
 
     /**
-     * @param array|\stdClass $config
+     * @param array $config
      *
      * @return \Mcustiel\PowerRoute\Actions\ActionInterface[]
      */
-    public function createFromConfig(array $actionsConfig, RouteExecutor $executor)
+    public function createFromConfig(array $config, RouteExecutor $executor)
     {
         $actions = [];
 
-        foreach ($actionsConfig as $action => $argument) {
-            $this->checkMappingIsValid($action);
+        foreach ($config as $actionConfig) {
+            $className = key($actionConfig);
+            $this->checkMappingIsValid($className);
 
-            $class = $this->mapping[$action];
-            $actions[] = new $class($this->getConstructorArgument($executor, $argument, $class));
+            $class = $this->mapping[$className];
+            $actions[] = new $class($this->getConstructorArgument($executor, $actionConfig[$className], $class));
         }
 
         return $actions;
