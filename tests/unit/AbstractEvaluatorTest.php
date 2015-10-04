@@ -15,10 +15,7 @@ abstract class AbstractEvaluatorTest extends \PHPUnit_Framework_TestCase
      */
     protected $request;
 
-    /**
-     * @before
-     */
-    public function buildMocks()
+    public function setUp()
     {
         $this->matcher = $this->getMockBuilder(MatcherInterface::class)
             ->disableOriginalConstructor()

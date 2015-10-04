@@ -7,9 +7,9 @@ use Mcustiel\PowerRoute\Http\Request;
 
 class HeaderEvaluator extends AbstractArgumentAware implements EvaluatorInterface
 {
-    public function evaluate($value, MatcherInterface $matcher, Request $request)
+    public function evaluate(MatcherInterface $matcher, Request $request)
     {
         $header = $request->getPsr()->getHeader($this->argument);
-        return $matcher->match(empty($header) ? null : $header[0]);
+        return $matcher->match(empty($header) ? null : implode(',', $header));
     }
 }

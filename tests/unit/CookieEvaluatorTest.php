@@ -8,7 +8,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
     /**
      * @test
      */
-    public function shouldGetTheQueryStringParamAndPassItToMatcher()
+    public function shouldGetTheCookieAndPassItToMatcher()
     {
         $this->request
             ->expects($this->once())
@@ -25,7 +25,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
     /**
      * @test
      */
-    public function shouldPassNullToMatcherIfQueryStringParamIsNotSet()
+    public function shouldPassNullToMatcherIfCookieIsNotSet()
     {
         $this->request
             ->expects($this->once())

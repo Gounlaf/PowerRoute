@@ -7,10 +7,9 @@ use Mcustiel\PowerRoute\Http\Request;
 
 class UrlEvaluator extends AbstractArgumentAware implements EvaluatorInterface
 {
-    public function evaluate($value, MatcherInterface $matcher, Request $request)
+    public function evaluate(MatcherInterface $matcher, Request $request)
     {
-        $value = $this->getValueFromUrl($request);
-        return $matcher->match($request->url());
+        return $matcher->match($this->getValueFromUrl($request));
     }
 
     private function getValueFromUrl(Request $url)
