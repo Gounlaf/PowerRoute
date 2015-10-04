@@ -43,7 +43,7 @@ return [
                         'saveCookie' => [
                             'name' => 'cookieTest',
                             'value' => '{{get.potato}}',
-                            'ttl' => '1500',
+                            'ttl' => '3600',
                             'domain' => '',
                             'path' => '',
                             'secure' => false

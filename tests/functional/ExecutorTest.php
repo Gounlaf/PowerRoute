@@ -66,10 +66,8 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'php://temp',
             ['Cookie' => 'cookieTest=baked;potato=coco']
         );
-        $request = new Request($psrRequest);
-        $response = new Response();
+        $response = $this->executor->execute('route1', new Request($psrRequest),  new Response());
 
-        $response = $this->executor->execute('route1', $request, $response);
         $this->assertEquals('potato baked', $response->getBody()->__toString());
     }
 
@@ -85,13 +83,11 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'get',
             'php://temp'
         );
-        $request = new Request($psrRequest);
-        $response = new Response();
+        $response = $this->executor->execute('route1', new Request($psrRequest), new Response());
 
-        $response = $this->executor->execute('route1', $request, $response);
         $this->assertEquals('potato grilled', $response->getBody()->__toString());
         $this->assertEquals(
-            [ 'cookieTest=grilled; expires=Thursday, 01-Oct-2015 21:00:41 UTC; domain=; path=; secure' ],
+            [ 'cookieTest=grilled; expires=Thursday, 01-Oct-2015 21:35:41 UTC; domain=; path=; secure' ],
             $response->getHeader('Set-Cookie')
         );
     }
@@ -106,10 +102,8 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'get',
             'php://temp'
             );
-        $request = new Request($psrRequest);
-        $response = new Response();
+        $response = $this->executor->execute('route1', new Request($psrRequest), new Response());
 
-        $response = $this->executor->execute('route1', $request, $response);
         $this->assertEquals('', $response->getBody()->__toString());
         $this->assertEquals([ 'http://www.google.com' ], $response->getHeader('Location'));
         $this->assertEquals(302, $response->getStatusCode());
