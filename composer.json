@@ -10,8 +10,8 @@
 	},
 	"autoload-dev" : {
 		"psr-4" : {
-			"Mcustiel\\PowerRoute\\Tests\\Unit\\" : "tests/unit",
-			"Mcustiel\\PowerRoute\\Tests\\Functional\\" : "tests/functional"
+			"Mcustiel\\PowerRoute\\Tests\\" : "tests/unit",
+			"Mcustiel\\PowerRoute\\Tests\\" : "tests/functional"
 		}
 	},
 	"name" : "mcustiel/power-route",
@@ -21,7 +21,7 @@
 	"require" : {
 		"php" : ">=5.5",
 		"zendframework/zend-diactoros" : ">=1.1.3",
-        "mcustiel/mockable-datetime": "*"
+		"mcustiel/mockable-datetime" : "*"
 	},
 	"require-dev" : {
 		"phpunit/phpunit" : ">=4.8.9",
