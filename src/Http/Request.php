@@ -27,7 +27,10 @@ class Request
     public function cookies()
     {
         if ($this->cookies === null) {
-            $this->cookies = $this->getParams($this->psrRequest->getHeader('Cookie')[0], ';');
+            $cookies = $this->psrRequest->getHeader('Cookie');
+            if (!empty($cookies)) {
+                $this->cookies = $this->getParams($cookies[0], ';');
+            }
         }
         return $this->cookies;
     }

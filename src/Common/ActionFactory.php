@@ -42,5 +42,4 @@ class ActionFactory extends Mapping
 
         return $classArgument;
     }
-
 }

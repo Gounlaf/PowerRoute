@@ -31,19 +31,16 @@ return [
         'route2' => [
             'condition' => [
                 'evaluator' => [
-                    'name' => 'queryString',
-                    'argument' => 'potato'
+                    'queryString' => 'potato'
                 ],
                 'matcher' => [
-                    'name' => 'inArray',
-                    'argument' => ['baked', 'boiled', 'grilled']
+                    'inArray' => ['baked', 'boiled', 'grilled']
                 ]
             ],
             'actions' => [
                 'match' => [
                     [
-                        'action' => 'saveCookie',
-                        'argument' => [
+                        'saveCookie' => [
                             'name' => 'cookieTest',
                             'value' => '{{get.potato}}',
                             'ttl' => '1500',
@@ -53,14 +50,12 @@ return [
                         ]
                     ],
                     [
-                        'action' => 'displayFile',
-                        'argument' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
+                        'displayFile' => __DIR__ . '/files/potato-{{get.potato}}.html'
                     ]
                 ],
                 'doesNotMatch' => [
                     [
-                        'action' => 'goto',
-                        'argument' => 'default'
+                        'goto' => 'default'
                     ]
                 ]
             ]

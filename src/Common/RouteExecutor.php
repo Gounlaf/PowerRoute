@@ -33,13 +33,25 @@ class RouteExecutor
         $this->matcherFactory = $matcherFactory;
     }
 
+    /**
+     * @param \Mcustiel\PowerRoute\Http\Request   $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     */
     public function start(Request $request, ResponseInterface $response)
     {
         $this->execute($this->config['start'], $request, $response);
     }
 
+    /**
+     * @param string                              $routeName
+     * @param \Mcustiel\PowerRoute\Http\Request   $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function execute($routeName, Request $request, ResponseInterface $response)
     {
+        echo 'Running route ' . $routeName . PHP_EOL;
         $route = $this->config['routes'][$routeName];
 
         $actions = $this->actionFactory->createFromConfig(
