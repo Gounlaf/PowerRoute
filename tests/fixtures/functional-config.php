@@ -67,11 +67,9 @@ return [
             'actions' => [
                 'match' => [
                     [
-                        'action' => 'redirect',
-                        'argument' => 'http://www.google.com/'
+                        'redirect' => 'http://www.google.com'
                     ]
-                ],
-                'doesNotMatch' => []
+                ]
             ]
         ]
     ]

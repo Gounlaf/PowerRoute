@@ -14,6 +14,7 @@ use Mcustiel\PowerRoute\Evaluators\QueryStringParamEvaluator;
 use Mcustiel\PowerRoute\Matchers\InArrayMatcher;
 use Mcustiel\PowerRoute\Actions\SaveCookieAction;
 use Mcustiel\Mockable\DateTimeUtils;
+use Mcustiel\PowerRoute\Actions\RedirectAction;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,9 +35,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
      */
     public function buildExecutor()
     {
-        $this->matcherFactory = new MatcherFactory([]);
-        $this->evaluatorFactory = new EvaluatorFactory([]);
-        $this->actionFactory = new ActionFactory([]);
+        $this->buildFactories();
 
         $this->executor = new RouteExecutor(
             include FIXTURES_PATH . '/functional-config.php',
@@ -44,6 +43,8 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             $this->evaluatorFactory,
             $this->matcherFactory
         );
+
+        $this->setMappings();
     }
 
     /**
@@ -68,10 +69,6 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $request = new Request($psrRequest);
         $response = new Response();
 
-        $this->evaluatorFactory->addMapping('cookie', CookieEvaluator::class);
-        $this->matcherFactory->addMapping('notNull', NotNullMatcher::class);
-        $this->actionFactory->addMapping('displayFile', DisplayFileAction::class);
-
         $response = $this->executor->execute('route1', $request, $response);
         $this->assertEquals('potato baked', $response->getBody()->__toString());
     }
@@ -91,18 +88,50 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $request = new Request($psrRequest);
         $response = new Response();
 
-        $this->evaluatorFactory->addMapping('cookie', CookieEvaluator::class);
-        $this->evaluatorFactory->addMapping('queryString', QueryStringParamEvaluator::class);
-        $this->matcherFactory->addMapping('notNull', NotNullMatcher::class);
-        $this->matcherFactory->addMapping('inArray', InArrayMatcher::class);
-        $this->actionFactory->addMapping('saveCookie', SaveCookieAction::class);
-        $this->actionFactory->addMapping('displayFile', DisplayFileAction::class);
-
         $response = $this->executor->execute('route1', $request, $response);
         $this->assertEquals('potato grilled', $response->getBody()->__toString());
         $this->assertEquals(
-            ['cookieTest=grilled; expires=Thursday, 01-Oct-2015 21:00:41 UTC; domain=; path=; secure'],
+            [ 'cookieTest=grilled; expires=Thursday, 01-Oct-2015 21:00:41 UTC; domain=; path=; secure' ],
             $response->getHeader('Set-Cookie')
         );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRunTheDefaultRoute()
+    {
+        $psrRequest = new \Zend\Diactoros\Request(
+            'http://potato.org?a&b=test',
+            'get',
+            'php://temp'
+            );
+        $request = new Request($psrRequest);
+        $response = new Response();
+
+        $response = $this->executor->execute('route1', $request, $response);
+        $this->assertEquals('', $response->getBody()->__toString());
+        $this->assertEquals([ 'http://www.google.com' ], $response->getHeader('Location'));
+        $this->assertEquals(302, $response->getStatusCode());
+    }
+
+    private function buildFactories()
+    {
+        $this->matcherFactory = new MatcherFactory([]);
+        $this->evaluatorFactory = new EvaluatorFactory([]);
+        $this->actionFactory = new ActionFactory([]);
+    }
+
+    private function setMappings()
+    {
+        $this->evaluatorFactory->addMapping('cookie', CookieEvaluator::class);
+        $this->evaluatorFactory->addMapping('queryString', QueryStringParamEvaluator::class);
+
+        $this->matcherFactory->addMapping('notNull', NotNullMatcher::class);
+        $this->matcherFactory->addMapping('inArray', InArrayMatcher::class);
+
+        $this->actionFactory->addMapping('saveCookie', SaveCookieAction::class);
+        $this->actionFactory->addMapping('displayFile', DisplayFileAction::class);
+        $this->actionFactory->addMapping('redirect', RedirectAction::class);
     }
 }

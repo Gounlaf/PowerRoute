@@ -51,7 +51,6 @@ class RouteExecutor
      */
     public function execute($routeName, Request $request, ResponseInterface $response)
     {
-        echo 'Running route ' . $routeName . PHP_EOL;
         $route = $this->config['routes'][$routeName];
 
         $actions = $this->actionFactory->createFromConfig(
