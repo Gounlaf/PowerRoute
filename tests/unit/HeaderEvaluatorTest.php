@@ -2,33 +2,18 @@
 namespace Mcustiel\PowerRoute\Tests;
 
 use Mcustiel\PowerRoute\Evaluators\HeaderEvaluator;
-use Psr\Http\Message\ResponseInterface;
 
 class HeaderEvaluatorTest extends AbstractEvaluatorTest
 {
-    private $psrRequest;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->psrRequest = $this->getMockBuilder(ResponseInterface::class)
-            ->disableOriginalClone()
-            ->getMock();
-        $this->request
-            ->expects($this->once())
-            ->method('getPsr')
-            ->willReturn($this->psrRequest);
-    }
-
     /**
      * @test
      */
     public function shouldGetTheHeaderAndPassItToMatcher()
     {
-        $this->psrRequest->expects($this->once())
-            ->method('getHeader')
+        $this->request->expects($this->once())
+            ->method('getHeaderLine')
             ->with('X-Banana')
-            ->willReturn(['potato']);
+            ->willReturn('potato');
         $this->matcher
             ->expects($this->once())
             ->method('match')
@@ -42,11 +27,11 @@ class HeaderEvaluatorTest extends AbstractEvaluatorTest
      */
     public function shouldPassNullToMatcherIfHeaderIsNotSet()
     {
-        $this->psrRequest
+        $this->request
             ->expects($this->once())
-            ->method('getHeader')
+            ->method('getHeaderLine')
             ->with('X-Banana')
-            ->willReturn([]);
+            ->willReturn('');
         $this->matcher
             ->expects($this->once())
             ->method('match')
@@ -60,10 +45,10 @@ class HeaderEvaluatorTest extends AbstractEvaluatorTest
      */
     public function shouldReturnSameValueAsMatcher()
     {
-        $this->psrRequest->expects($this->once())
-            ->method('getHeader')
+        $this->request->expects($this->once())
+            ->method('getHeaderLine')
             ->with('X-Banana')
-            ->willReturn(['potato']);
+            ->willReturn('potato');
         $this->matcher
             ->expects($this->once())
             ->method('match')

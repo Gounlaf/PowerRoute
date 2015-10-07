@@ -12,7 +12,7 @@ class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
     {
         $this->request
             ->expects($this->once())
-            ->method('get')
+            ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
         $this->matcher
             ->expects($this->once())
@@ -29,7 +29,7 @@ class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
     {
         $this->request
             ->expects($this->once())
-            ->method('get')
+            ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
         $this->matcher
             ->expects($this->once())
@@ -46,7 +46,7 @@ class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
     {
         $this->request
             ->expects($this->once())
-            ->method('get')
+            ->method('getQueryParams')
             ->willReturn([]);
         $this->matcher
             ->expects($this->once())

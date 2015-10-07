@@ -1,15 +1,19 @@
 <?php
 namespace Mcustiel\PowerRoute\Actions;
 
-use Psr\Http\Message\ResponseInterface;
-use Mcustiel\PowerRoute\Http\Request;
+use Mcustiel\PowerRoute\Common\TransactionData;
 
 class RedirectAction extends AbstractAction implements ActionInterface
 {
-    public function execute(Request $request, ResponseInterface $response)
+    public function execute(TransactionData $transactionData)
     {
-        return $response
-            ->withHeader('Location', $this->getValueOrPlaceholder($this->argument, $request))
-            ->withStatus(302);
+        return $transactionData->setResponse(
+            $transactionData->getResponse()
+            ->withHeader(
+                'Location',
+                $this->getValueOrPlaceholder($this->argument, $transactionData->getRequest())
+            )
+            ->withStatus(302)
+        );
     }
 }

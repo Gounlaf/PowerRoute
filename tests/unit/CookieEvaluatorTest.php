@@ -12,7 +12,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
     {
         $this->request
             ->expects($this->once())
-            ->method('cookies')
+            ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
         $this->matcher
             ->expects($this->once())
@@ -29,7 +29,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
     {
         $this->request
             ->expects($this->once())
-            ->method('cookies')
+            ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
         $this->matcher
             ->expects($this->once())
@@ -46,7 +46,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
     {
         $this->request
             ->expects($this->once())
-            ->method('cookies')
+            ->method('getCookieParams')
             ->willReturn([]);
         $this->matcher
             ->expects($this->once())

@@ -3,37 +3,37 @@ namespace Mcustiel\PowerRoute\Evaluators;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
-use Mcustiel\PowerRoute\Http\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 class UrlEvaluator extends AbstractArgumentAware implements EvaluatorInterface
 {
-    public function evaluate(MatcherInterface $matcher, Request $request)
+    public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
     {
         return $matcher->match($this->getValueFromUrl($request));
     }
 
-    private function getValueFromUrl(Request $url)
+    private function getValueFromUrl(ServerRequestInterface $request)
     {
         switch($this->argument)
         {
             case 'full':
-                return $url->url();
+                return $request->getUri()->__toString();
             case 'host':
-                return $url->getPsr()->getUri()->getHost();
+                return $request->getUri()->getHost();
             case 'scheme':
-                return $url->getPsr()->getUri()->getScheme();
+                return $request->getUri()->getScheme();
             case 'authority':
-                return $url->getPsr()->getUri()->getAuthority();
+                return $request->getUri()->getAuthority();
             case 'fragment':
-                return $url->getPsr()->getUri()->getFragment();
+                return $request->getUri()->getFragment();
             case 'path':
-                return $url->getPsr()->getUri()->getPath();
+                return $request->getUri()->getPath();
             case 'port':
-                return $url->getPsr()->getUri()->getPort();
+                return $request->getUri()->getPort();
             case 'query':
-                return $url->getPsr()->getUri()->getQuery();
+                return $request->getUri()->getQuery();
             case 'user-info':
-                return $url->getPsr()->getUri()->getUserInfo();
+                return $request->getUri()->getUserInfo();
 
             throw \Exception('Invalid config');
         }

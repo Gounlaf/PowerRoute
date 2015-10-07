@@ -2,7 +2,7 @@
 namespace Mcustiel\PowerRoute\Tests;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
-use Mcustiel\PowerRoute\Http\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractEvaluatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ abstract class AbstractEvaluatorTest extends \PHPUnit_Framework_TestCase
      */
     protected $matcher;
     /**
-     * @var \Mcustiel\PowerRoute\Http\Request|\PHPUnit_Framework_MockObject_MockObject $request
+     * @var \Psr\Http\Message\ServerRequestInterface|\PHPUnit_Framework_MockObject_MockObject $request
      */
     protected $request;
 
@@ -20,7 +20,7 @@ abstract class AbstractEvaluatorTest extends \PHPUnit_Framework_TestCase
         $this->matcher = $this->getMockBuilder(MatcherInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->request = $this->getMockBuilder(Request::class)
+        $this->request = $this->getMockBuilder(ServerRequestInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
     }

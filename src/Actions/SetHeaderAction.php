@@ -1,16 +1,17 @@
 <?php
 namespace Mcustiel\PowerRoute\Actions;
 
-use Psr\Http\Message\ResponseInterface;
-use Mcustiel\PowerRoute\Http\Request;
+use Mcustiel\PowerRoute\Common\TransactionData;
 
 class SetHeaderAction extends AbstractAction implements ActionInterface
 {
-    public function execute(Request $request, ResponseInterface $response)
+    public function execute(TransactionData $transactionData)
     {
-        return $response->withHeader(
-            $this->argument->name,
-            $this->getValueOrPlaceholder($this->argument->value, $request)
+        return $transactionData->setResponse(
+            $transactionData->getResponse()->withHeader(
+                $this->argument->name,
+                $this->getValueOrPlaceholder($this->argument->value, $transactionData->getRequest())
+            )
         );
     }
 }

@@ -15,6 +15,8 @@ use Mcustiel\PowerRoute\Matchers\InArrayMatcher;
 use Mcustiel\PowerRoute\Actions\SaveCookieAction;
 use Mcustiel\Mockable\DateTimeUtils;
 use Mcustiel\PowerRoute\Actions\RedirectAction;
+use Zend\Diactoros\ServerRequest;
+use Mcustiel\PowerRoute\Common\TransactionData;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
@@ -60,14 +62,23 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldRunTheFirstRoute()
     {
-        $psrRequest = new \Zend\Diactoros\Request(
+        $request = new ServerRequest(
+            [],
+            [],
             'http://potato.org?a&b=potato',
             'get',
-            'php://temp',
-            ['Cookie' => 'cookieTest=baked;potato=coco']
+            'php://temp'
         );
-        $response = $this->executor->execute('route1', new Request($psrRequest),  new Response());
 
+        $response = $this->executor->execute(
+            'route1',
+            new TransactionData(
+                $request->withCookieParams(
+                    ['cookieTest' => 'baked', 'potato' => 'coconut']
+                ),
+                new Response()
+            )
+        );
         $this->assertEquals('potato baked', $response->getBody()->__toString());
     }
 
@@ -78,12 +89,21 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
     {
         DateTimeUtils::setCurrentTimestampFixed((new \DateTime('2015-10-01 20:35:41'))->getTimestamp());
 
-        $psrRequest = new \Zend\Diactoros\Request(
+        $request = new ServerRequest(
+            [],
+            [],
             'http://potato.org?a&b=test&potato=grilled',
             'get',
             'php://temp'
         );
-        $response = $this->executor->execute('route1', new Request($psrRequest), new Response());
+
+        $response = $this->executor->execute(
+            'route1',
+            new TransactionData(
+                $request->withQueryParams(['a' => '', 'b' => 'test', 'potato' => 'grilled']),
+                new Response()
+            )
+        );
 
         $this->assertEquals('potato grilled', $response->getBody()->__toString());
         $this->assertEquals(
@@ -97,12 +117,14 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldRunTheDefaultRoute()
     {
-        $psrRequest = new \Zend\Diactoros\Request(
+        $request = new ServerRequest(
+            [],
+            [],
             'http://potato.org?a&b=test',
             'get',
             'php://temp'
-            );
-        $response = $this->executor->execute('route1', new Request($psrRequest), new Response());
+        );
+        $response = $this->executor->execute('route1', new TransactionData($request, new Response()));
 
         $this->assertEquals('', $response->getBody()->__toString());
         $this->assertEquals([ 'http://www.google.com' ], $response->getHeader('Location'));

@@ -1,8 +1,8 @@
 <?php
 namespace Mcustiel\PowerRoute\Common;
 
-use Mcustiel\PowerRoute\Http\Request;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RouteExecutor
 {
@@ -34,35 +34,36 @@ class RouteExecutor
     }
 
     /**
-     * @param \Mcustiel\PowerRoute\Http\Request   $request
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
      */
-    public function start(Request $request, ResponseInterface $response)
+    public function start(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $this->execute($this->config['start'], $request, $response);
+        $transactionData = new TransactionData($request, $response);
+        return $this->execute($this->config['start'], $transactionData);
     }
 
     /**
-     * @param string                              $routeName
-     * @param \Mcustiel\PowerRoute\Http\Request   $request
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param string                                  $routeName
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function execute($routeName, Request $request, ResponseInterface $response)
+    public function execute($routeName, TransactionData $transactionData)
     {
         $route = $this->config['routes'][$routeName];
 
         $actions = $this->actionFactory->createFromConfig(
-            $this->getActionsToRun($route, $this->evaluateCondition($route, $request)),
+            $this->getActionsToRun($route, $this->evaluateCondition($route, $transactionData->getRequest())),
             $this
         );
 
         foreach ($actions as $action) {
-            $response = $action->execute($request, $response);
+            $action->execute($transactionData);
         }
 
-        return $response;
+        return $transactionData->getResponse();
     }
 
     private function evaluateCondition($route, $request)

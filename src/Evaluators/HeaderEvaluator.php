@@ -3,13 +3,13 @@ namespace Mcustiel\PowerRoute\Evaluators;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
-use Mcustiel\PowerRoute\Http\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HeaderEvaluator extends AbstractArgumentAware implements EvaluatorInterface
 {
-    public function evaluate(MatcherInterface $matcher, Request $request)
+    public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
     {
-        $header = $request->getPsr()->getHeader($this->argument);
-        return $matcher->match(empty($header) ? null : implode(',', $header));
+        $header = $request->getHeaderLine($this->argument);
+        return $matcher->match(empty($header) ? null : $header);
     }
 }

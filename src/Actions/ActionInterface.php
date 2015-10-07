@@ -1,16 +1,12 @@
 <?php
 namespace Mcustiel\PowerRoute\Actions;
 
-use Psr\Http\Message\ResponseInterface;
-use Mcustiel\PowerRoute\Http\Request;
+use Mcustiel\PowerRoute\Common\TransactionData;
 
 interface ActionInterface
 {
     /**
-     * @param Request $dataBag
-     * @param ResponseInterface $response
-     *
-     * @return ResponseInterface
+     * @param \Mcustiel\PowerRoute\Common\TransactionData
      */
-    public function execute(Request $request, ResponseInterface $response);
+    public function execute(TransactionData $transactionData);
 }

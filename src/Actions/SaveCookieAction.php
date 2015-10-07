@@ -1,17 +1,21 @@
 <?php
 namespace Mcustiel\PowerRoute\Actions;
 
-use Psr\Http\Message\ResponseInterface;
-use Mcustiel\PowerRoute\Http\Request;
 use Mcustiel\Mockable\DateTime;
+use Mcustiel\PowerRoute\Common\TransactionData;
 
 class SaveCookieAction extends AbstractAction implements ActionInterface
 {
-    public function execute(Request $request, ResponseInterface $response)
+    public function execute(TransactionData $transactionData)
     {
-        $value = $this->getValueOrPlaceholder($this->argument['value'], $request);
-
-        return $response->withHeader('Set-Cookie', $this->buildSetCookieHeaderValue($value));
+        $transactionData->setResponse(
+            $transactionData->getResponse()->withHeader(
+                'Set-Cookie',
+                $this->buildSetCookieHeaderValue(
+                    $this->getValueOrPlaceholder($this->argument['value'], $transactionData->getRequest())
+                )
+            )
+        );
     }
 
     private function buildSetCookieHeaderValue($value)

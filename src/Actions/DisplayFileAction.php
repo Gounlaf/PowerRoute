@@ -1,16 +1,20 @@
 <?php
 namespace Mcustiel\PowerRoute\Actions;
 
-use Psr\Http\Message\ResponseInterface;
-use Mcustiel\PowerRoute\Http\Request;
 use Zend\Diactoros\Stream;
+use Mcustiel\PowerRoute\Common\TransactionData;
 
 class DisplayFileAction extends AbstractAction implements ActionInterface
 {
-    public function execute(Request $request, ResponseInterface $response)
+    public function execute(TransactionData $transactionData)
     {
-        return $response->withBody(
-            new Stream('file://' . $this->getValueOrPlaceholder($this->argument, $request))
+        $transactionData->setResponse(
+            $transactionData->getResponse()->withBody(
+                new Stream('file://' . $this->getValueOrPlaceholder(
+                    $this->argument,
+                    $transactionData->getRequest()
+                ))
+            )
         );
     }
 }
