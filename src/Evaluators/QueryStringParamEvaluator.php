@@ -9,8 +9,7 @@ class QueryStringParamEvaluator extends AbstractArgumentAware implements Evaluat
 {
     public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
     {
-        $get = $request->getQueryParams();
-        $value = isset($get[$this->argument])? $get[$this->argument] : null;
-        return $matcher->match($value);
+        $array = $request->getQueryParams();
+        return $matcher->match(isset($array[$this->argument])? $array[$this->argument] : null);
     }
 }

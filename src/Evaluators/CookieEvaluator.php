@@ -9,8 +9,7 @@ class CookieEvaluator extends AbstractArgumentAware implements EvaluatorInterfac
 {
     public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
     {
-        $cookies = $request->getCookieParams();
-        $value = isset($cookies[$this->argument])? $cookies[$this->argument] : null;
-        return $matcher->match($value);
+        $array = $request->getCookieParams();
+        return $matcher->match(isset($array[$this->argument])? $array[$this->argument] : null);
     }
 }

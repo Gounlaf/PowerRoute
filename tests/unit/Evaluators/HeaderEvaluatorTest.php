@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests;
+namespace Mcustiel\PowerRoute\Tests\Evaluators;
 
 use Mcustiel\PowerRoute\Evaluators\HeaderEvaluator;
 

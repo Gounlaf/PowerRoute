@@ -34,8 +34,8 @@ class UrlEvaluator extends AbstractArgumentAware implements EvaluatorInterface
                 return $request->getUri()->getQuery();
             case 'user-info':
                 return $request->getUri()->getUserInfo();
-
-            throw \Exception('Invalid config');
+            default:
+            throw new \Exception('Invalid config');
         }
     }
 }

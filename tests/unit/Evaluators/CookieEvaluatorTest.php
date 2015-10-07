@@ -1,41 +1,41 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests;
+namespace Mcustiel\PowerRoute\Tests\Evaluators;
 
-use Mcustiel\PowerRoute\Evaluators\QueryStringParamEvaluator;
+use Mcustiel\PowerRoute\Evaluators\CookieEvaluator;
 
-class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
+class CookieEvaluatorTest extends AbstractEvaluatorTest
 {
     /**
      * @test
      */
-    public function shouldGetTheQueryStringParamAndPassItToMatcher()
+    public function shouldGetTheCookieAndPassItToMatcher()
     {
         $this->request
             ->expects($this->once())
-            ->method('getQueryParams')
+            ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
         $this->matcher
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo('potato'));
-        $evaluator = new QueryStringParamEvaluator('banana');
+        $evaluator = new CookieEvaluator('banana');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
     /**
      * @test
      */
-    public function shouldPassNullToMatcherIfQueryStringParamIsNotSet()
+    public function shouldPassNullToMatcherIfCookieIsNotSet()
     {
         $this->request
             ->expects($this->once())
-            ->method('getQueryParams')
+            ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
         $this->matcher
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo(null));
-        $evaluator = new QueryStringParamEvaluator('coconut');
+        $evaluator = new CookieEvaluator('coconut');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -46,14 +46,14 @@ class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
     {
         $this->request
             ->expects($this->once())
-            ->method('getQueryParams')
+            ->method('getCookieParams')
             ->willReturn([]);
         $this->matcher
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo(null))
             ->willReturn(true);
-        $evaluator = new QueryStringParamEvaluator('coconut');
+        $evaluator = new CookieEvaluator('coconut');
         $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
     }
 }
