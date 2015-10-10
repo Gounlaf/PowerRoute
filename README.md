@@ -119,3 +119,10 @@ This action sets the value of a cookie. It receives as an argument an object wit
 This action sets the value of a header. As an argument receives an object with the following keys:
 * name
 * value
+
+## The configuration
+
+The configuration should be a php array. It must define two keys:
+* start: The first route to evaluate (the root of the binary tree).
+* routes: The definition of all the routes.
+

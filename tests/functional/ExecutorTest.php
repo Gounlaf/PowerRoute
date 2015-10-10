@@ -70,16 +70,17 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'php://temp'
         );
 
-        $response = $this->executor->execute(
-            'route1',
-            new TransactionData(
-                $request->withCookieParams(
-                    ['cookieTest' => 'baked', 'potato' => 'coconut']
-                ),
-                new Response()
-            )
+        $transactionData = new TransactionData(
+            $request->withCookieParams(
+                ['cookieTest' => 'baked', 'potato' => 'coconut']
+            ),
+            new Response()
         );
-        $this->assertEquals('potato baked', $response->getBody()->__toString());
+        $this->executor->execute(
+            'route1',
+            $transactionData
+        );
+        $this->assertEquals('potato baked', $transactionData->getResponse()->getBody()->__toString());
     }
 
     /**
@@ -97,18 +98,19 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'php://temp'
         );
 
+        $transactionData = new TransactionData(
+            $request->withQueryParams(['a' => '', 'b' => 'test', 'potato' => 'grilled']),
+            new Response()
+        );
         $response = $this->executor->execute(
             'route1',
-            new TransactionData(
-                $request->withQueryParams(['a' => '', 'b' => 'test', 'potato' => 'grilled']),
-                new Response()
-            )
+            $transactionData
         );
 
-        $this->assertEquals('potato grilled', $response->getBody()->__toString());
+        $this->assertEquals('potato grilled', $transactionData->getResponse()->getBody()->__toString());
         $this->assertEquals(
             [ 'cookieTest=grilled; expires=Thursday, 01-Oct-2015 21:35:41 UTC; domain=; path=; secure' ],
-            $response->getHeader('Set-Cookie')
+            $transactionData->getResponse()->getHeader('Set-Cookie')
         );
     }
 
@@ -124,11 +126,12 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'get',
             'php://temp'
         );
-        $response = $this->executor->execute('route1', new TransactionData($request, new Response()));
+        $transactionData = new TransactionData($request, new Response());
+        $response = $this->executor->execute('route1', $transactionData);
 
-        $this->assertEquals('', $response->getBody()->__toString());
-        $this->assertEquals([ 'http://www.google.com' ], $response->getHeader('Location'));
-        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals('', $transactionData->getResponse()->getBody()->__toString());
+        $this->assertEquals([ 'http://www.google.com' ], $transactionData->getResponse()->getHeader('Location'));
+        $this->assertEquals(302, $transactionData->getResponse()->getStatusCode());
     }
 
     private function buildFactories()

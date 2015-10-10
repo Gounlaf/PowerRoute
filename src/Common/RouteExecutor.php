@@ -40,7 +40,8 @@ class RouteExecutor
     public function start(ServerRequestInterface $request, ResponseInterface $response)
     {
         $transactionData = new TransactionData($request, $response);
-        return $this->execute($this->config['start'], $transactionData);
+        $this->execute($this->config['start'], $transactionData);
+        return $transactionData->getResponse();
     }
 
     /**
@@ -62,8 +63,6 @@ class RouteExecutor
         foreach ($actions as $action) {
             $action->execute($transactionData);
         }
-
-        return $transactionData->getResponse();
     }
 
     private function evaluateCondition($route, $request)
