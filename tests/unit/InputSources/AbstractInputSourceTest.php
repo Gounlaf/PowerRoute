@@ -1,10 +1,10 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\s;
+namespace Mcustiel\PowerRoute\Tests\InputSources;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-abstract class AbstractTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractInputSourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Mcustiel\PowerRoute\Matchers\MatcherInterface|\PHPUnit_Framework_MockObject_MockObject $matcher

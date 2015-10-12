@@ -7,10 +7,10 @@ use Mcustiel\PowerRoute\Common\MatcherFactory;
 use Mcustiel\PowerRoute\Common\InputSourceFactory;
 use Mcustiel\PowerRoute\Common\ActionFactory;
 use Mcustiel\PowerRoute\InputSources\Cookie;
-use Mcustiel\PowerRoute\Matchers\NotNullMatcher;
+use Mcustiel\PowerRoute\Matchers\NotNull;
 use Mcustiel\PowerRoute\Actions\DisplayFileAction;
 use Mcustiel\PowerRoute\InputSources\QueryStringParam;
-use Mcustiel\PowerRoute\Matchers\InArrayMatcher;
+use Mcustiel\PowerRoute\Matchers\InArray;
 use Mcustiel\PowerRoute\Actions\SaveCookieAction;
 use Mcustiel\Mockable\DateTimeUtils;
 use Mcustiel\PowerRoute\Actions\RedirectAction;
@@ -145,8 +145,8 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->evaluatorFactory->addMapping('cookie', Cookie::class);
         $this->evaluatorFactory->addMapping('queryString', QueryStringParam::class);
 
-        $this->matcherFactory->addMapping('notNull', NotNullMatcher::class);
-        $this->matcherFactory->addMapping('inArray', InArrayMatcher::class);
+        $this->matcherFactory->addMapping('notNull', NotNull::class);
+        $this->matcherFactory->addMapping('inArray', InArray::class);
 
         $this->actionFactory->addMapping('saveCookie', SaveCookieAction::class);
         $this->actionFactory->addMapping('displayFile', DisplayFileAction::class);

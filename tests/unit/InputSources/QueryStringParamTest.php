@@ -1,9 +1,9 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\s;
+namespace Mcustiel\PowerRoute\Tests\InputSources;
 
 use Mcustiel\PowerRoute\InputSources\QueryStringParam;
 
-class QueryStringParamTest extends AbstractTest
+class QueryStringParamTest extends AbstractInputSourceTest
 {
     /**
      * @test

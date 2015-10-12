@@ -1,9 +1,9 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\s;
+namespace Mcustiel\PowerRoute\Tests\InputSources;
 
 use Mcustiel\PowerRoute\InputSources\Cookie;
 
-class CookieTest extends AbstractTest
+class CookieTest extends AbstractInputSourceTest
 {
     /**
      * @test

@@ -3,7 +3,7 @@ namespace Mcustiel\PowerRoute\Matchers;
 
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 
-class EqualsMatcher extends AbstractArgumentAware implements MatcherInterface
+class Equals extends AbstractArgumentAware implements MatcherInterface
 {
     public function match($value)
     {

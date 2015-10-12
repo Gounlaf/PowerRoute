@@ -3,10 +3,10 @@ namespace Mcustiel\PowerRoute\Matchers;
 
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 
-class NotEmptyMatcher extends AbstractArgumentAware implements MatcherInterface
+class InArray extends AbstractArgumentAware implements MatcherInterface
 {
     public function match($value)
     {
-        return !empty($value);
+        return in_array($value, $this->argument);
     }
 }

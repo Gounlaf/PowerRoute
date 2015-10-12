@@ -1,10 +1,10 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\s;
+namespace Mcustiel\PowerRoute\Tests\InputSources;
 
 use Psr\Http\Message\UriInterface;
 use Mcustiel\PowerRoute\InputSources\Url;
 
-class UrlTest extends AbstractTest
+class UrlTest extends AbstractInputSourceTest
 {
     /**
      * @var \Psr\Http\Message\UriInterface|\PHPUnit_Framework_MockObject_MockObject $uri

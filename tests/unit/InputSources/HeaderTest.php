@@ -1,9 +1,9 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\s;
+namespace Mcustiel\PowerRoute\Tests\InputSources;
 
 use Mcustiel\PowerRoute\InputSources\Header;
 
-class HeaderTest extends AbstractTest
+class HeaderTest extends AbstractInputSourceTest
 {
     /**
      * @test
