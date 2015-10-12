@@ -8,6 +8,9 @@ abstract class AbstractArgumentAware
      */
     protected $argument;
 
+    /**
+     * @param mixed $argument
+     */
     public function __construct($argument = null)
     {
         $this->argument = $argument;

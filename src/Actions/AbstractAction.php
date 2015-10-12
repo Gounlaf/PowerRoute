@@ -3,11 +3,20 @@ namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
+use Mcustiel\PowerRoute\Common\RequestUrlAccess;
 
 abstract class AbstractAction extends AbstractArgumentAware
 {
+    use RequestUrlAccess;
+
     const PLACEHOLDER_NOTATION = '/\{\{\s*(uri|get|post|header|cookie|method)(?:\.([a-z0-9-_]+))?\s*\}\}/i';
 
+    /**
+     * @param mixed                                    $value
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
+     * @return mixed
+     */
     protected function getValueOrPlaceholder($value, ServerRequestInterface $request)
     {
         return preg_replace_callback(self::PLACEHOLDER_NOTATION, function($matches) use ($request) {
@@ -19,12 +28,22 @@ abstract class AbstractAction extends AbstractArgumentAware
         }, $value);
     }
 
+    /**
+     * @param string                                   $from
+     * @param string|null                              $name
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
+     * @return mixed
+     */
     private function getValueFromPlaceholder($from, $name, ServerRequestInterface $request)
     {
-        switch($from) {
+        switch ($from) {
             case 'method':
                 return $request->getMethod();
             case 'uri':
+                if ($name != null) {
+                    return $this->getValueFromUrlPlaceholder($name, $request->getUri());
+                }
                 return $request->getUri()->__toString();
             case 'get':
                 return $request->getQueryParams()[$name];

@@ -1,6 +1,8 @@
 # PowerRoute
 Power route is a PHP routing system that can execute different sets of actions based in several components of the HTTP requests and is fully compatible with PSR-7.
 
+** Important note: ** PowerRoute is a work in progress, there is no versions yet and no BC checks are done during development. 
+
 The configuration is formed by three main components and defines a binary tree:
 * Evaluators: The evaluators are the component that takes something from the request to be evaluated.
 * Matchers: This component receives the value from the evaluator and executes a check on it.
@@ -79,16 +81,16 @@ A string specifying the part of the url to evaluate. With the following possible
 #### EqualsMatcher
 Returns true if the value from the evaluator is equal to another value received as argument.
 
-### InArrayMatcher
+#### InArrayMatcher
 Returns true if the value from the evaluator is in a list of values received as argument.
 
-### NotEmptyMatcher
+#### NotEmptyMatcher
 Returns true if the value from the evaluator is not empty.
 
-### NotNull
+#### NotNull
 Returns true if the value from the evaluator is not null.
 
-### RegExpMatcher
+#### RegExpMatcher
 Returns true if the value from the evaluator matches a regular expression received as argument.
 
 ### Actions
@@ -122,7 +124,7 @@ This action sets the value of a header. As an argument receives an object with t
 
 ## The configuration
 
-The configuration should be a php array. It must define two keys:
+The configuration must be a php array. It must define two keys:
 * start: The first route to evaluate (the root of the binary tree).
 * routes: The definition of all the routes.
 

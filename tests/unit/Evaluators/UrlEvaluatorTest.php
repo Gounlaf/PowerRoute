@@ -121,6 +121,10 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldFailIfUrlPartIsNotSet()
     {
         $evaluator = new UrlEvaluator('potato');
+        $this->request
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn($this->uri);
         $evaluator->evaluate($this->matcher, $this->request);
     }
 

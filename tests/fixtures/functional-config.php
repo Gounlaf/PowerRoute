@@ -1,12 +1,18 @@
 <?php
 
+// Graph represented in this config:
+//
+// route1 ----< condition matches? > ---yes--- route2
+//                                    \
+//                                     --no--- default
+
 return [
-    'start' => 'route1',
-    'routes' => [
-        // Route 1
+    'root' => 'route1',
+    'nodes' => [
+        // Node 1
         'route1' => [
             'condition' => [
-                'evaluator' => [
+                'input-source' => [
                     'cookie' => 'cookieTest'
                 ],
                 'matcher' => [
@@ -14,12 +20,12 @@ return [
                 ]
             ],
             'actions' => [
-                'match' => [
+                'if-matches' => [
                     [
                         'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
                     ]
                 ],
-                'doesNotMatch' => [
+                'else' => [
                     [
                         'goto' => 'route2'
                     ]
@@ -27,10 +33,10 @@ return [
             ]
         ],
 
-        // Route 2
+        // Node 2
         'route2' => [
             'condition' => [
-                'evaluator' => [
+                'input-source' => [
                     'queryString' => 'potato'
                 ],
                 'matcher' => [
@@ -38,7 +44,7 @@ return [
                 ]
             ],
             'actions' => [
-                'match' => [
+                'if-matches' => [
                     [
                         'saveCookie' => [
                             'name' => 'cookieTest',
@@ -53,7 +59,7 @@ return [
                         'displayFile' => __DIR__ . '/files/potato-{{get.potato}}.html'
                     ]
                 ],
-                'doesNotMatch' => [
+                'else' => [
                     [
                         'goto' => 'default'
                     ]
@@ -61,11 +67,11 @@ return [
             ]
         ],
 
-        // Route 3
+        // Node 3
         'default' => [
             'condition' => [],
             'actions' => [
-                'match' => [
+                'if-matches' => [
                     [
                         'redirect' => 'http://www.google.com'
                     ]

@@ -2,7 +2,6 @@
 namespace Mcustiel\PowerRoute\Tests;
 
 use Zend\Diactoros\Response;
-use Mcustiel\PowerRoute\Http\Request;
 use Mcustiel\PowerRoute\Common\RouteExecutor;
 use Mcustiel\PowerRoute\Common\MatcherFactory;
 use Mcustiel\PowerRoute\Common\EvaluatorFactory;

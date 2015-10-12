@@ -6,6 +6,18 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class RouteExecutor
 {
+    const CONFIG_ROOT_NODE = 'start';
+    const CONFIG_NODES = 'nodes';
+    const CONFIG_NODE_CONDITION = 'condition';
+    const CONFIG_NODE_CONDITION_SOURCE = 'input-source';
+    const CONFIG_NODE_CONDITION_MATCHER = 'matcher';
+    const CONFIG_NODE_CONDITION_ACTIONS = 'actions';
+    const CONFIG_NODE_CONDITION_ACTIONS_MATCH = 'if-matches';
+    const CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH = 'else';
+
+    /**
+     * @var array $config
+     */
     private $config;
 
     /**
@@ -40,20 +52,17 @@ class RouteExecutor
     public function start(ServerRequestInterface $request, ResponseInterface $response)
     {
         $transactionData = new TransactionData($request, $response);
-        $this->execute($this->config['start'], $transactionData);
+        $this->execute($this->config[static::CONFIG_ROOT_NODE], $transactionData);
         return $transactionData->getResponse();
     }
 
     /**
-     * @param string                                  $routeName
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
-     *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @param string          $routeName
+     * @param TransactionData $transactionData
      */
     public function execute($routeName, TransactionData $transactionData)
     {
-        $route = $this->config['routes'][$routeName];
+        $route = $this->config[static::CONFIG_NODES][$routeName];
 
         $actions = $this->actionFactory->createFromConfig(
             $this->getActionsToRun($route, $this->evaluateCondition($route, $transactionData->getRequest())),
@@ -67,9 +76,13 @@ class RouteExecutor
 
     private function evaluateCondition($route, $request)
     {
-        if ($route['condition']) {
-            $evaluator = $this->evaluatorFactory->createFromConfig($route['condition']['evaluator']);
-            $matcher = $this->matcherFactory->createFromConfig($route['condition']['matcher']);
+        if ($route[static::CONFIG_NODE_CONDITION]) {
+            $evaluator = $this->evaluatorFactory->createFromConfig(
+                $route[static::CONFIG_NODE_CONDITION][static::CONFIG_NODE_CONDITION_SOURCE]
+            );
+            $matcher = $this->matcherFactory->createFromConfig(
+                $route[static::CONFIG_NODE_CONDITION][static::CONFIG_NODE_CONDITION_MATCHER]
+            );
             return $evaluator->evaluate($matcher, $request);
         }
         return true;
@@ -78,9 +91,9 @@ class RouteExecutor
     private function getActionsToRun($route, $matched)
     {
         if ($matched) {
-            return $route['actions']['match'];
+            return $route[static::CONFIG_NODE_CONDITION_ACTIONS][static::CONFIG_NODE_CONDITION_ACTIONS_MATCH];
         }
 
-        return $route['actions']['doesNotMatch'];
+        return $route[static::CONFIG_NODE_CONDITION_ACTIONS][static::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH];
     }
 }
