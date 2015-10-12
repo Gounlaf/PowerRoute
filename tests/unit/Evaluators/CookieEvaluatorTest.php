@@ -1,9 +1,9 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\Evaluators;
+namespace Mcustiel\PowerRoute\Tests\s;
 
-use Mcustiel\PowerRoute\Evaluators\CookieEvaluator;
+use Mcustiel\PowerRoute\InputSources\Cookie;
 
-class CookieEvaluatorTest extends AbstractEvaluatorTest
+class CookieTest extends AbstractTest
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo('potato'));
-        $evaluator = new CookieEvaluator('banana');
+        $evaluator = new Cookie('banana');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -35,7 +35,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo(null));
-        $evaluator = new CookieEvaluator('coconut');
+        $evaluator = new Cookie('coconut');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -53,7 +53,7 @@ class CookieEvaluatorTest extends AbstractEvaluatorTest
             ->method('match')
             ->with($this->equalTo(null))
             ->willReturn(true);
-        $evaluator = new CookieEvaluator('coconut');
+        $evaluator = new Cookie('coconut');
         $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
     }
 }

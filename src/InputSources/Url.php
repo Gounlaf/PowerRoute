@@ -1,12 +1,12 @@
 <?php
-namespace Mcustiel\PowerRoute\Evaluators;
+namespace Mcustiel\PowerRoute\InputSources;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\RequestUrlAccess;
 
-class UrlEvaluator extends AbstractArgumentAware implements EvaluatorInterface
+class Url extends AbstractArgumentAware implements InputSourceInterface
 {
     use RequestUrlAccess;
 

@@ -1,7 +1,7 @@
 <?php
 namespace Mcustiel\PowerRoute\Common;
 
-class EvaluatorFactory extends Mapping
+class InputSourceFactory extends Mapping
 {
     public function __construct(array $mapping)
     {
@@ -12,7 +12,7 @@ class EvaluatorFactory extends Mapping
      *
      * @param array $config
      *
-     * @return \Mcustiel\PowerRoute\Evaluators\EvaluatorInterface
+     * @return \Mcustiel\PowerRoute\InputSources\InputSourceInterface
      * @throws \Exception
      */
     public function createFromConfig(array $config)

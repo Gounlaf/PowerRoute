@@ -4,12 +4,12 @@ namespace Mcustiel\PowerRoute\Tests;
 use Zend\Diactoros\Response;
 use Mcustiel\PowerRoute\Common\RouteExecutor;
 use Mcustiel\PowerRoute\Common\MatcherFactory;
-use Mcustiel\PowerRoute\Common\EvaluatorFactory;
+use Mcustiel\PowerRoute\Common\InputSourceFactory;
 use Mcustiel\PowerRoute\Common\ActionFactory;
-use Mcustiel\PowerRoute\Evaluators\CookieEvaluator;
+use Mcustiel\PowerRoute\InputSources\Cookie;
 use Mcustiel\PowerRoute\Matchers\NotNullMatcher;
 use Mcustiel\PowerRoute\Actions\DisplayFileAction;
-use Mcustiel\PowerRoute\Evaluators\QueryStringParamEvaluator;
+use Mcustiel\PowerRoute\InputSources\QueryStringParam;
 use Mcustiel\PowerRoute\Matchers\InArrayMatcher;
 use Mcustiel\PowerRoute\Actions\SaveCookieAction;
 use Mcustiel\Mockable\DateTimeUtils;
@@ -136,14 +136,14 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
     private function buildFactories()
     {
         $this->matcherFactory = new MatcherFactory([]);
-        $this->evaluatorFactory = new EvaluatorFactory([]);
+        $this->evaluatorFactory = new InputSourceFactory([]);
         $this->actionFactory = new ActionFactory([]);
     }
 
     private function setMappings()
     {
-        $this->evaluatorFactory->addMapping('cookie', CookieEvaluator::class);
-        $this->evaluatorFactory->addMapping('queryString', QueryStringParamEvaluator::class);
+        $this->evaluatorFactory->addMapping('cookie', Cookie::class);
+        $this->evaluatorFactory->addMapping('queryString', QueryStringParam::class);
 
         $this->matcherFactory->addMapping('notNull', NotNullMatcher::class);
         $this->matcherFactory->addMapping('inArray', InArrayMatcher::class);

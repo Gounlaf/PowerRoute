@@ -1,10 +1,10 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\Evaluators;
+namespace Mcustiel\PowerRoute\Tests\s;
 
 use Psr\Http\Message\UriInterface;
-use Mcustiel\PowerRoute\Evaluators\UrlEvaluator;
+use Mcustiel\PowerRoute\InputSources\Url;
 
-class UrlEvaluatorTest extends AbstractEvaluatorTest
+class UrlTest extends AbstractTest
 {
     /**
      * @var \Psr\Http\Message\UriInterface|\PHPUnit_Framework_MockObject_MockObject $uri
@@ -29,7 +29,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo('http://www.example.com/?potato=banana#coconut'));
-        $evaluator = new UrlEvaluator('full');
+        $evaluator = new Url('full');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -39,7 +39,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetTheHostPart()
     {
         $this->prepareUri('getHost', 'www.example.com');
-        $evaluator = new UrlEvaluator('host');
+        $evaluator = new Url('host');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -49,7 +49,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetTheSchemePart()
     {
         $this->prepareUri('getScheme', 'http');
-        $evaluator = new UrlEvaluator('scheme');
+        $evaluator = new Url('scheme');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -59,7 +59,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetTheAuthorityPart()
     {
         $this->prepareUri('getAuthority', 'potato@www.example.com:8080');
-        $evaluator = new UrlEvaluator('authority');
+        $evaluator = new Url('authority');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -69,7 +69,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetTheFragmentPart()
     {
         $this->prepareUri('getFragment', 'fragment');
-        $evaluator = new UrlEvaluator('fragment');
+        $evaluator = new Url('fragment');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -79,7 +79,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetThePathPart()
     {
         $this->prepareUri('getPath', '/potato');
-        $evaluator = new UrlEvaluator('path');
+        $evaluator = new Url('path');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -89,7 +89,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetThePortPart()
     {
         $this->prepareUri('getPort', '8080');
-        $evaluator = new UrlEvaluator('port');
+        $evaluator = new Url('port');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -99,7 +99,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetTheQueryPart()
     {
         $this->prepareUri('getQuery', 'potato=banana');
-        $evaluator = new UrlEvaluator('query');
+        $evaluator = new Url('query');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -109,7 +109,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
     public function shouldGetTheUserInfoPart()
     {
         $this->prepareUri('getUserInfo', 'user:pass');
-        $evaluator = new UrlEvaluator('user-info');
+        $evaluator = new Url('user-info');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -120,7 +120,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
      */
     public function shouldFailIfUrlPartIsNotSet()
     {
-        $evaluator = new UrlEvaluator('potato');
+        $evaluator = new Url('potato');
         $this->request
             ->expects($this->once())
             ->method('getUri')
@@ -139,7 +139,7 @@ class UrlEvaluatorTest extends AbstractEvaluatorTest
             ->method('match')
             ->with($this->equalTo('http://www.example.com/?potato=banana#coconut'))
             ->willReturn(true);
-        $evaluator = new UrlEvaluator('full');
+        $evaluator = new Url('full');
         $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
     }
 

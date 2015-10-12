@@ -1,9 +1,9 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\Evaluators;
+namespace Mcustiel\PowerRoute\Tests\s;
 
-use Mcustiel\PowerRoute\Evaluators\HeaderEvaluator;
+use Mcustiel\PowerRoute\InputSources\Header;
 
-class HeaderEvaluatorTest extends AbstractEvaluatorTest
+class HeaderTest extends AbstractTest
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class HeaderEvaluatorTest extends AbstractEvaluatorTest
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo('potato'));
-        $evaluator = new HeaderEvaluator('X-Banana');
+        $evaluator = new Header('X-Banana');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -36,7 +36,7 @@ class HeaderEvaluatorTest extends AbstractEvaluatorTest
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo(null));
-        $evaluator = new HeaderEvaluator('X-Banana');
+        $evaluator = new Header('X-Banana');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -54,7 +54,7 @@ class HeaderEvaluatorTest extends AbstractEvaluatorTest
             ->method('match')
             ->with($this->equalTo('potato'))
             ->willReturn(true);
-        $evaluator = new HeaderEvaluator('X-Banana');
+        $evaluator = new Header('X-Banana');
         $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
     }
 }

@@ -1,11 +1,11 @@
 <?php
-namespace Mcustiel\PowerRoute\Evaluators;
+namespace Mcustiel\PowerRoute\InputSources;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
 
-class QueryStringParamEvaluator extends AbstractArgumentAware implements EvaluatorInterface
+class QueryStringParam extends AbstractArgumentAware implements InputSourceInterface
 {
     public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
     {

@@ -25,7 +25,7 @@ class RouteExecutor
      */
     private $actionFactory;
     /**
-     * @var EvaluatorFactory $evaluatorFactory
+     * @var InputSourceFactory $evaluatorFactory
      */
     private $evaluatorFactory;
     /**
@@ -36,7 +36,7 @@ class RouteExecutor
     public function __construct(
         array $config,
         ActionFactory $actionFactory,
-        EvaluatorFactory $evaluatorFactory,
+        InputSourceFactory $evaluatorFactory,
         MatcherFactory $matcherFactory
     ) {
         $this->config = $config;

@@ -1,10 +1,10 @@
 <?php
-namespace Mcustiel\PowerRoute\Evaluators;
+namespace Mcustiel\PowerRoute\InputSources;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-interface EvaluatorInterface
+interface InputSourceInterface
 {
     /**
      * @param \Mcustiel\PowerRoute\Matchers\MatcherInterface $matchers

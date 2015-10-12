@@ -1,9 +1,9 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\Evaluators;
+namespace Mcustiel\PowerRoute\Tests\s;
 
-use Mcustiel\PowerRoute\Evaluators\QueryStringParamEvaluator;
+use Mcustiel\PowerRoute\InputSources\QueryStringParam;
 
-class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
+class QueryStringParamTest extends AbstractTest
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo('potato'));
-        $evaluator = new QueryStringParamEvaluator('banana');
+        $evaluator = new QueryStringParam('banana');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -35,7 +35,7 @@ class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
             ->expects($this->once())
             ->method('match')
             ->with($this->equalTo(null));
-        $evaluator = new QueryStringParamEvaluator('coconut');
+        $evaluator = new QueryStringParam('coconut');
         $evaluator->evaluate($this->matcher, $this->request);
     }
 
@@ -53,7 +53,7 @@ class QueryStringParamEvaluatorTest extends AbstractEvaluatorTest
             ->method('match')
             ->with($this->equalTo(null))
             ->willReturn(true);
-        $evaluator = new QueryStringParamEvaluator('coconut');
+        $evaluator = new QueryStringParam('coconut');
         $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
     }
 }
