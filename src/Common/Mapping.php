@@ -17,8 +17,8 @@ class Mapping
         }
     }
 
-    public function addMapping($id, $class)
+    public function addMapping($identifier, $class)
     {
-        $this->mapping[$id] = $class;
+        $this->mapping[$identifier] = $class;
     }
 }

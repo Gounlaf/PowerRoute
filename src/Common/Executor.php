@@ -4,7 +4,7 @@ namespace Mcustiel\PowerRoute\Common;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class RouteExecutor
+class Executor
 {
     const CONFIG_ROOT_NODE = 'start';
     const CONFIG_NODES = 'nodes';

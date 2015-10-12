@@ -15,7 +15,7 @@ class ActionFactory extends Mapping
      *
      * @return \Mcustiel\PowerRoute\Actions\ActionInterface[]
      */
-    public function createFromConfig(array $config, RouteExecutor $executor)
+    public function createFromConfig(array $config, Executor $executor)
     {
         $actions = [];
 

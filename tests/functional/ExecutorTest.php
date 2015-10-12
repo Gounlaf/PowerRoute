@@ -2,20 +2,20 @@
 namespace Mcustiel\PowerRoute\Tests;
 
 use Zend\Diactoros\Response;
-use Mcustiel\PowerRoute\Common\RouteExecutor;
+use Zend\Diactoros\ServerRequest;
+use Mcustiel\PowerRoute\Common\Executor;
 use Mcustiel\PowerRoute\Common\MatcherFactory;
 use Mcustiel\PowerRoute\Common\InputSourceFactory;
 use Mcustiel\PowerRoute\Common\ActionFactory;
+use Mcustiel\PowerRoute\Common\TransactionData;
+use Mcustiel\PowerRoute\Actions\DisplayFile;
+use Mcustiel\PowerRoute\Actions\SaveCookie;
+use Mcustiel\PowerRoute\Actions\Redirect;
+use Mcustiel\PowerRoute\InputSources\QueryStringParam;
 use Mcustiel\PowerRoute\InputSources\Cookie;
 use Mcustiel\PowerRoute\Matchers\NotNull;
-use Mcustiel\PowerRoute\Actions\DisplayFile;
-use Mcustiel\PowerRoute\InputSources\QueryStringParam;
 use Mcustiel\PowerRoute\Matchers\InArray;
-use Mcustiel\PowerRoute\Actions\SaveCookie;
 use Mcustiel\Mockable\DateTimeUtils;
-use Mcustiel\PowerRoute\Actions\Redirect;
-use Zend\Diactoros\ServerRequest;
-use Mcustiel\PowerRoute\Common\TransactionData;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +38,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
     {
         $this->buildFactories();
 
-        $this->executor = new RouteExecutor(
+        $this->executor = new Executor(
             include FIXTURES_PATH . '/functional-config.php',
             $this->actionFactory,
             $this->evaluatorFactory,
