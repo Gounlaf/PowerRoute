@@ -1,13 +1,13 @@
 <?php
 namespace Mcustiel\PowerRoute\Common;
 
-use Mcustiel\PowerRoute\Actions as Actions;
+use Mcustiel\PowerRoute\Actions\GoToAction;
 
 class ActionFactory extends Mapping
 {
     public function __construct(array $mapping)
     {
-        parent::__construct(array_merge(['goto' => Actions\GoToAction::class], $mapping));
+        parent::__construct(array_merge(['goto' => GoToAction::class], $mapping));
     }
 
     /**
@@ -32,7 +32,7 @@ class ActionFactory extends Mapping
 
     private function getConstructorArgument($executor, $argument, $class)
     {
-        if ($class == Actions\GoToAction::class) {
+        if ($class == GoToAction::class) {
             $classArgument = new \stdClass;
             $classArgument->route = $argument;
             $classArgument->executor = $executor;

@@ -4,7 +4,7 @@ namespace Mcustiel\PowerRoute\Actions;
 use Mcustiel\Mockable\DateTime;
 use Mcustiel\PowerRoute\Common\TransactionData;
 
-class SaveCookieAction extends AbstractAction implements ActionInterface
+class SaveCookie extends AbstractAction implements ActionInterface
 {
     public function execute(TransactionData $transactionData)
     {

@@ -3,7 +3,7 @@ namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
 
-class SetHeaderAction extends AbstractAction implements ActionInterface
+class SetHeader extends AbstractAction implements ActionInterface
 {
     public function execute(TransactionData $transactionData)
     {

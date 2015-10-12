@@ -4,7 +4,7 @@ namespace Mcustiel\PowerRoute\Actions;
 use Zend\Diactoros\Stream;
 use Mcustiel\PowerRoute\Common\TransactionData;
 
-class DisplayFileAction extends AbstractAction implements ActionInterface
+class DisplayFile extends AbstractAction implements ActionInterface
 {
     public function execute(TransactionData $transactionData)
     {

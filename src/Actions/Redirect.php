@@ -3,7 +3,7 @@ namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
 
-class RedirectAction extends AbstractAction implements ActionInterface
+class Redirect extends AbstractAction implements ActionInterface
 {
     public function execute(TransactionData $transactionData)
     {

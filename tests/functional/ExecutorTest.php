@@ -8,12 +8,12 @@ use Mcustiel\PowerRoute\Common\InputSourceFactory;
 use Mcustiel\PowerRoute\Common\ActionFactory;
 use Mcustiel\PowerRoute\InputSources\Cookie;
 use Mcustiel\PowerRoute\Matchers\NotNull;
-use Mcustiel\PowerRoute\Actions\DisplayFileAction;
+use Mcustiel\PowerRoute\Actions\DisplayFile;
 use Mcustiel\PowerRoute\InputSources\QueryStringParam;
 use Mcustiel\PowerRoute\Matchers\InArray;
-use Mcustiel\PowerRoute\Actions\SaveCookieAction;
+use Mcustiel\PowerRoute\Actions\SaveCookie;
 use Mcustiel\Mockable\DateTimeUtils;
-use Mcustiel\PowerRoute\Actions\RedirectAction;
+use Mcustiel\PowerRoute\Actions\Redirect;
 use Zend\Diactoros\ServerRequest;
 use Mcustiel\PowerRoute\Common\TransactionData;
 
@@ -148,8 +148,8 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->matcherFactory->addMapping('notNull', NotNull::class);
         $this->matcherFactory->addMapping('inArray', InArray::class);
 
-        $this->actionFactory->addMapping('saveCookie', SaveCookieAction::class);
-        $this->actionFactory->addMapping('displayFile', DisplayFileAction::class);
-        $this->actionFactory->addMapping('redirect', RedirectAction::class);
+        $this->actionFactory->addMapping('saveCookie', SaveCookie::class);
+        $this->actionFactory->addMapping('displayFile', DisplayFile::class);
+        $this->actionFactory->addMapping('redirect', Redirect::class);
     }
 }
