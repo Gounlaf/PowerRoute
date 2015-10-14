@@ -4,9 +4,9 @@ Power route is a PHP routing system that can execute different sets of actions b
 ** Important note: ** PowerRoute is a work in progress, there is no versions yet and no BC checks are done during development. 
 
 The configuration is formed by three main components and defines a binary tree:
-* Input sources: The input sources are the component that takes something from the request to be evaluated.
-* Matchers: This component receives the value from the input source and executes a check on it.
-* Actions: The component that is executed based in the result of the check executed by matchers.
+* **Input sources**: The input sources are the component that takes something from the request to be evaluated.
+* **Matchers**: This component receives the value from the input source and executes a check on it.
+* **Actions**: The component that is executed based in the result of the check executed by matchers.
     
 In the configuration the actions can be set for the case in which the matcher returns true and for the case in which it returns true, hence building a binary tree.
 
@@ -18,6 +18,7 @@ The components are grouped forming the nodes of the binary tree, each node looks
 'route1' => [
     'condition' => [ // The condition is formed by the input source and the matcher
         'input-source' => [
+        // The key is the identifier, and the value is the argument. It's the same for input sources, matchers and actions.
             'cookie' => 'cookieTest'
         ],
         'matcher' => [
@@ -27,7 +28,7 @@ The components are grouped forming the nodes of the binary tree, each node looks
     'actions' => [
         'if-matches' => [ // This is an array with the actions to run when the condition evaluates as true
             [
-                'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
+                'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html' // Placeholders can be used.
             ]
         ],
         'else' => [ // This is an array with the actions to run when the condition evaluates as false
@@ -195,3 +196,68 @@ This action sets the value of a header. As an argument receives an object with t
 * name
 * value
 
+## Extending PowerRoute
+
+### Creating your own actions
+
+To create your own actions to be used through PowerRoute you have to create a class in which you should extend AbstractArgumentAware class and must implement ActionInterface.
+
+* **AbstractArgumentAware** is a class shared by all components, that gives them access to the argument from the configuration.
+* **ActionInterface** defines the method that should be implemented by the action.
+
+```php
+interface ActionInterface
+{
+    public function execute(\Mcustiel\PowerRoute\Common\TransactionData $transactionData);
+}
+```
+
+TransactionData is an object that is passed as an argument to all actions, it is used to share the request, the response and other data that you may want to share between them.
+
+Inside an action you should retrieve the object you want to modify from TransactionData (request or response object). Then you modify it and set the new object again in TransactionData. This must be done this way because PSR7 are immutable.
+
+You can even init a framework inside an action. 
+
+#### Example of an action:
+
+```php
+class NotFound extends AbstractArgumentAware implements ActionInterface
+{
+    public function execute(TransactionData $transactionData)
+    {
+        return $transactionData->setResponse($transactionData->getResponse()->withStatus(404, 'Not Found'));
+    }
+}
+```
+
+### Creating your own input sources
+
+The input source is the component used to access data from the request, it uses a matcher uses to validate the data and the request.
+
+It also should extend AbstractArgumentAware to have access to the argument from the configuration and it must implement InputSourceInterface. It must return the value from the Matcher.
+
+```php
+interface InputSourceInterface
+{
+    /**
+     * @param \Mcustiel\PowerRoute\Matchers\MatcherInterface $matchers
+     * @param \Psr\Http\Message\ServerRequestInterface       $request
+     *
+     * @return boolean
+     */
+    public function evaluate(MatcherInterface $matchers, ServerRequestInterface $request);
+}
+```
+
+#### Example of an InputSource:
+
+```php
+class Header extends AbstractArgumentAware implements InputSourceInterface
+{
+    public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
+    {
+        $header = $request->getHeaderLine($this->argument);
+        return $matcher->match($header ?: null);
+    }
+}
+```

@@ -10,6 +10,6 @@ class Header extends AbstractArgumentAware implements InputSourceInterface
     public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
     {
         $header = $request->getHeaderLine($this->argument);
-        return $matcher->match(empty($header) ? null : $header);
+        return $matcher->match($header ?: null);
     }
 }
