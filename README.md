@@ -4,7 +4,7 @@ Power route is a PHP routing system that can execute different sets of actions b
 **Important note:** PowerRoute is a work in progress, there is no versions yet and no BC checks are done during development. 
 
 The configuration is formed by three main components and defines a binary tree:
-* **Input sources**: The input sources are the component that takes something from the request to be evaluated.
+* **Input sources**: The input sources are the component that takes data from the request to be evaluated.
 * **Matchers**: This component receives the value from the input source and executes a check on it.
 * **Actions**: The component that is executed based in the result of the check executed by matchers.
     
@@ -234,18 +234,17 @@ class NotFound extends AbstractArgumentAware implements ActionInterface
 
 The input source is the component used to access data from the request, it uses a matcher uses to validate the data and the request.
 
-It also should extend AbstractArgumentAware to have access to the argument from the configuration and it must implement InputSourceInterface. It must return the value from the Matcher.
+It also should extend AbstractArgumentAware to have access to the argument from the configuration and it must implement InputSourceInterface. It must return the value so PowerRoute gives it to the matcher.
 
 ```php
 interface InputSourceInterface
 {
     /**
-     * @param \Mcustiel\PowerRoute\Matchers\MatcherInterface $matchers
-     * @param \Psr\Http\Message\ServerRequestInterface       $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      *
-     * @return boolean
+     * @return mixed
      */
-    public function evaluate(MatcherInterface $matchers, ServerRequestInterface $request);
+    public function evaluate(ServerRequestInterface $request);
 }
 ```
 
@@ -254,10 +253,38 @@ interface InputSourceInterface
 ```php
 class Header extends AbstractArgumentAware implements InputSourceInterface
 {
-    public function evaluate(MatcherInterface $matcher, ServerRequestInterface $request)
+    public function evaluate(ServerRequestInterface $request)
     {
         $header = $request->getHeaderLine($this->argument);
-        return $matcher->match($header ?: null);
+        return $header ?: null;
+    }
+}
+```
+
+### Creating your own matcher
+
+The matcher is the component in charge of executing a check against the value obtained from the request by the InputSource. To create your own matcher, you must create a class that should extend AbstractArgumentAware to access the argument and must implement MatcherInterface.
+
+```php
+interface MatcherInterface
+{
+    /**
+     * @param mixed $value
+     *
+     * @return boolean
+     */
+    public function match($value);
+}
+```
+
+#### Example of a Matcher:
+
+```php
+class Equals extends AbstractArgumentAware implements MatcherInterface
+{
+    public function match($value)
+    {
+        return $value == $this->argument;
     }
 }
 ```
