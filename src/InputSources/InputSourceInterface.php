@@ -12,5 +12,5 @@ interface InputSourceInterface
      *
      * @return boolean
      */
-    public function evaluate(MatcherInterface $matchers, ServerRequestInterface $request);
+    public function getValue(ServerRequestInterface $request);
 }

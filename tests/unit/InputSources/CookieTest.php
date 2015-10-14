@@ -8,52 +8,26 @@ class CookieTest extends AbstractInputSourceTest
     /**
      * @test
      */
-    public function shouldGetTheCookieAndPassItToMatcher()
+    public function shouldReturnTheValueOfTheCookie()
     {
         $this->request
             ->expects($this->once())
             ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo('potato'));
         $evaluator = new Cookie('banana');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('potato', $evaluator->getValue($this->request));
     }
 
     /**
      * @test
      */
-    public function shouldPassNullToMatcherIfCookieIsNotSet()
+    public function shouldReturnNullCookieIsNotSet()
     {
         $this->request
             ->expects($this->once())
             ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo(null));
         $evaluator = new Cookie('coconut');
-        $evaluator->evaluate($this->matcher, $this->request);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnSameValueAsMatcher()
-    {
-        $this->request
-            ->expects($this->once())
-            ->method('getCookieParams')
-            ->willReturn([]);
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo(null))
-            ->willReturn(true);
-        $evaluator = new Cookie('coconut');
-        $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
+        $this->assertNull($evaluator->getValue($this->request));
     }
 }

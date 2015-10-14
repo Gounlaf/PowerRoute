@@ -8,18 +8,14 @@ class HeaderTest extends AbstractInputSourceTest
     /**
      * @test
      */
-    public function shouldGetTheHeaderAndPassItToMatcher()
+    public function shouldReturnTheValueOfTheHeader()
     {
         $this->request->expects($this->once())
             ->method('getHeaderLine')
             ->with('X-Banana')
             ->willReturn('potato');
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo('potato'));
         $evaluator = new Header('X-Banana');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('potato', $evaluator->getValue($this->request));
     }
 
     /**
@@ -32,29 +28,7 @@ class HeaderTest extends AbstractInputSourceTest
             ->method('getHeaderLine')
             ->with('X-Banana')
             ->willReturn('');
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo(null));
         $evaluator = new Header('X-Banana');
-        $evaluator->evaluate($this->matcher, $this->request);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnSameValueAsMatcher()
-    {
-        $this->request->expects($this->once())
-            ->method('getHeaderLine')
-            ->with('X-Banana')
-            ->willReturn('potato');
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo('potato'))
-            ->willReturn(true);
-        $evaluator = new Header('X-Banana');
-        $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
+        $this->assertNull($evaluator->getValue($this->request));
     }
 }

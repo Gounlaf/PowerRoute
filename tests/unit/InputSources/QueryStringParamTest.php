@@ -8,52 +8,26 @@ class QueryStringParamTest extends AbstractInputSourceTest
     /**
      * @test
      */
-    public function shouldGetTheQueryStringParamAndPassItToMatcher()
+    public function shouldReturnTheQueryStringParam()
     {
         $this->request
             ->expects($this->once())
             ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo('potato'));
         $evaluator = new QueryStringParam('banana');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('potato', $evaluator->getValue($this->request));
     }
 
     /**
      * @test
      */
-    public function shouldPassNullToMatcherIfQueryStringParamIsNotSet()
+    public function shouldReturnNullIfQueryStringParamIsNotSet()
     {
         $this->request
             ->expects($this->once())
             ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo(null));
         $evaluator = new QueryStringParam('coconut');
-        $evaluator->evaluate($this->matcher, $this->request);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnSameValueAsMatcher()
-    {
-        $this->request
-            ->expects($this->once())
-            ->method('getQueryParams')
-            ->willReturn([]);
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo(null))
-            ->willReturn(true);
-        $evaluator = new QueryStringParam('coconut');
-        $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
+        $this->assertNull($evaluator->getValue($this->request));
     }
 }

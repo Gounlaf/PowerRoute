@@ -77,13 +77,13 @@ class Executor
     private function evaluateCondition($route, $request)
     {
         if ($route[static::CONFIG_NODE_CONDITION]) {
-            $evaluator = $this->evaluatorFactory->createFromConfig(
+            $inputSource = $this->evaluatorFactory->createFromConfig(
                 $route[static::CONFIG_NODE_CONDITION][static::CONFIG_NODE_CONDITION_SOURCE]
             );
             $matcher = $this->matcherFactory->createFromConfig(
                 $route[static::CONFIG_NODE_CONDITION][static::CONFIG_NODE_CONDITION_MATCHER]
             );
-            return $evaluator->evaluate($matcher, $request);
+            return $matcher->match($inputSource->getValue($request));
         }
         return true;
     }

@@ -22,15 +22,14 @@ class UrlTest extends AbstractInputSourceTest
     /**
      * @test
      */
-    public function shouldGetTheFullUriAndPassItToMatcher()
+    public function shouldReturnTheFullUri()
     {
         $this->prepareUri('__toString', 'http://www.example.com/?potato=banana#coconut');
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo('http://www.example.com/?potato=banana#coconut'));
         $evaluator = new Url('full');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals(
+            'http://www.example.com/?potato=banana#coconut',
+            $evaluator->getValue($this->request)
+        );
     }
 
     /**
@@ -40,7 +39,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getHost', 'www.example.com');
         $evaluator = new Url('host');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('www.example.com', $evaluator->getValue($this->request));
     }
 
     /**
@@ -50,7 +49,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getScheme', 'http');
         $evaluator = new Url('scheme');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('http', $evaluator->getValue($this->request));
     }
 
     /**
@@ -60,7 +59,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getAuthority', 'potato@www.example.com:8080');
         $evaluator = new Url('authority');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('potato@www.example.com:8080', $evaluator->getValue($this->request));
     }
 
     /**
@@ -70,7 +69,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getFragment', 'fragment');
         $evaluator = new Url('fragment');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('fragment', $evaluator->getValue($this->request));
     }
 
     /**
@@ -80,7 +79,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getPath', '/potato');
         $evaluator = new Url('path');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('/potato', $evaluator->getValue($this->request));
     }
 
     /**
@@ -90,7 +89,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getPort', '8080');
         $evaluator = new Url('port');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('8080', $evaluator->getValue($this->request));
     }
 
     /**
@@ -100,7 +99,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getQuery', 'potato=banana');
         $evaluator = new Url('query');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('potato=banana', $evaluator->getValue($this->request));
     }
 
     /**
@@ -110,7 +109,7 @@ class UrlTest extends AbstractInputSourceTest
     {
         $this->prepareUri('getUserInfo', 'user:pass');
         $evaluator = new Url('user-info');
-        $evaluator->evaluate($this->matcher, $this->request);
+        $this->assertEquals('user:pass', $evaluator->getValue($this->request));
     }
 
     /**
@@ -125,22 +124,7 @@ class UrlTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getUri')
             ->willReturn($this->uri);
-        $evaluator->evaluate($this->matcher, $this->request);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnSameValueAsMatcher()
-    {
-        $this->prepareUri('__toString', 'http://www.example.com/?potato=banana#coconut');
-        $this->matcher
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo('http://www.example.com/?potato=banana#coconut'))
-            ->willReturn(true);
-        $evaluator = new Url('full');
-        $this->assertTrue($evaluator->evaluate($this->matcher, $this->request));
+        $evaluator->getValue($this->request);
     }
 
     private function prepareUri($method, $returnValue)
