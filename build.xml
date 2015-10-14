@@ -87,11 +87,10 @@
 	<!-- ============================================ -->
 	<target name="mess">
 		<echo msg="Running mess detector" />
-		<exec 
-			command="./vendor/bin/phpmd ${dir.base}/src xml unusedcode,codesize,controversial,design,naming --reportfile ${dir.reports}/pmd.xml" 
-			outputProperty="output"
-		/>
-		<echo msg="${output}" />
+		<phpmd rulesets="unusedcode,codesize,controversial,design,naming">
+		   <fileset refid="sources" />
+		   <formatter type="xml" outfile="${dir.reports}/pmd.xml"/>
+		</phpmd>
 	</target>
 
 	<target name="pdepend">
@@ -131,15 +130,21 @@
 	<!-- ============================================ -->
 	<target name="unittests">
 		<echo msg="Running unit tests..." />
-		<exec command="./vendor/bin/phpunit -d zend.enable_gc=0 --log-junit ${dir.reports}/phpunit/phpunit.xml --coverage-clover ${dir.reports.coverage}/clover.xml --coverage-html ${dir.reports.coverage}/ --testdox-html ${dir.reports}/phpunit/testdox.html -c ${dir.tests}" outputProperty="output" returnProperty="returnout" />
-		<echo msg="${output}" />
-		<if>
-			<not>
-				<equals arg1="${returnout}" arg2="0" />
-			</not>
-			<then>
-				<fail msg="Failures occurred in unit tests." />
-			</then>
-		</if>
+		<coverage-setup database="${dir.reports}/phpunit/coverage.db">
+	              <fileset refid="sources" />
+	        </coverage-setup>
+	        <phpunit configuration="${dir.tests}/phpunit.xml" codecoverage="true">
+	            <formatter todir="${dir.reports}/phpunit" type="xml" />
+	        	<formatter todir="${dir.reports}/phpunit" type="clover" />
+	            <batchtest>
+	                <fileset dir="${dir.tests}/unit" />
+	            </batchtest>
+	        </phpunit>
+		<phpunitreport infile="${dir.reports}/phpunit/testsuites.xml" format="frames" todir="${dir.reports}/phpunit/coverage"
+			   usesorttable="true"/>
+		<coverage-report outfile="${dir.reports}/phpunit/coverage.xml">
+			  <report todir="${dir.reports}/phpunit/coverage"  title="Demo Project"
+			  usesorttable="true"/>
+		</coverage-report>
 	</target>
 </project>

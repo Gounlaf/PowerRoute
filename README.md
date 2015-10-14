@@ -1,7 +1,7 @@
 # PowerRoute
 Power route is a PHP routing system that can execute different sets of actions based in several components of the HTTP requests and is fully compatible with PSR-7.
 
-** Important note: ** PowerRoute is a work in progress, there is no versions yet and no BC checks are done during development. 
+**Important note:** PowerRoute is a work in progress, there is no versions yet and no BC checks are done during development. 
 
 The configuration is formed by three main components and defines a binary tree:
 * **Input sources**: The input sources are the component that takes something from the request to be evaluated.
