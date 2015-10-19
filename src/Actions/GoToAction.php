@@ -8,7 +8,7 @@ class GoToAction extends AbstractAction implements ActionInterface
     public function execute(TransactionData $transactionData)
     {
         $this->argument->executor->execute(
-            $this->getValueOrPlaceholder($this->argument->route, $transactionData->getRequest()),
+            $this->getValueOrPlaceholder($this->argument->route, $transactionData),
             $transactionData
         );
     }

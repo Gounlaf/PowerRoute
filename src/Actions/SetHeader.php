@@ -10,7 +10,7 @@ class SetHeader extends AbstractAction implements ActionInterface
         return $transactionData->setResponse(
             $transactionData->getResponse()->withHeader(
                 $this->argument->name,
-                $this->getValueOrPlaceholder($this->argument->value, $transactionData->getRequest())
+                $this->getValueOrPlaceholder($this->argument->value, $transactionData)
             )
         );
     }

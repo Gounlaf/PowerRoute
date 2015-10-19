@@ -12,7 +12,7 @@ class DisplayFile extends AbstractAction implements ActionInterface
             $transactionData->getResponse()->withBody(
                 new Stream('file://' . $this->getValueOrPlaceholder(
                     $this->argument,
-                    $transactionData->getRequest()
+                    $transactionData
                 ))
             )
         );

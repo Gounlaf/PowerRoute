@@ -12,7 +12,7 @@ class SaveCookie extends AbstractAction implements ActionInterface
             $transactionData->getResponse()->withHeader(
                 'Set-Cookie',
                 $this->buildSetCookieHeaderValue(
-                    $this->getValueOrPlaceholder($this->argument['value'], $transactionData->getRequest())
+                    $this->getValueOrPlaceholder($this->argument['value'], $transactionData)
                 )
             )
         );

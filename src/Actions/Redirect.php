@@ -11,7 +11,7 @@ class Redirect extends AbstractAction implements ActionInterface
             $transactionData->getResponse()
             ->withHeader(
                 'Location',
-                $this->getValueOrPlaceholder($this->argument, $transactionData->getRequest())
+                $this->getValueOrPlaceholder($this->argument, $transactionData)
             )
             ->withStatus(302)
         );

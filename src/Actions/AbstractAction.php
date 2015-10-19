@@ -4,28 +4,29 @@ namespace Mcustiel\PowerRoute\Actions;
 use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\RequestUrlAccess;
+use Mcustiel\PowerRoute\Common\TransactionData;
 
 abstract class AbstractAction extends AbstractArgumentAware
 {
     use RequestUrlAccess;
-    const PLACEHOLDER_NOTATION = '/\{\{\s*(uri|get|post|header|cookie|method)(?:\.([a-z0-9-_]+))?\s*\}\}/i';
+    const PLACEHOLDER_NOTATION = '/\{\{\s*(var|uri|get|post|header|cookie|method)(?:\.([a-z0-9-_]+))?\s*\}\}/i';
 
     /**
      *
      * @param mixed $value
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $transactiondata
      *
      * @return mixed
      */
-    protected function getValueOrPlaceholder($value, ServerRequestInterface $request)
+    protected function getValueOrPlaceholder($value, TransactionData $transactiondata)
     {
         return preg_replace_callback(
             self::PLACEHOLDER_NOTATION,
-            function ($matches) use ($request) {
+            function ($matches) use ($transactiondata) {
                 return $this->getValueFromPlaceholder(
                     $matches[1],
                     isset($matches[2]) ? $matches[2] : null,
-                    $request
+                    $transactiondata
                 );
             },
             $value
@@ -36,26 +37,28 @@ abstract class AbstractAction extends AbstractArgumentAware
      *
      * @param string $from
      * @param string|null $name
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $transactionData
      *
      * @return mixed
      */
-    private function getValueFromPlaceholder($from, $name, ServerRequestInterface $request)
+    private function getValueFromPlaceholder($from, $name, TransactionData $transactionData)
     {
         switch ($from) {
+            case 'var':
+                return $transactionData->get($name);
             case 'method':
-                return $request->getMethod();
+                return $transactionData->getRequest()->getMethod();
             case 'uri':
-                return $this->getParsedUrl($name, $request);
+                return $this->getParsedUrl($name, $transactionData->getRequest());
             case 'get':
-                return $request->getQueryParams()[$name];
+                return $transactionData->getRequest()->getQueryParams()[$name];
             case 'header':
-                return $request->getHeader($name);
+                return $transactionData->getRequest()->getHeader($name);
             case 'cookie':
-                return $request->getCookieParams()[$name];
+                return $transactionData->getRequest()->getCookieParams()[$name];
             case 'post':
             case 'bodyParam':
-                return $this->getValueFromParsedBody($name, $request);
+                return $this->getValueFromParsedBody($name, $transactionData->getRequest());
         }
     }
 
