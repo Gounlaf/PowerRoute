@@ -1,10 +1,9 @@
 <?php
 namespace Mcustiel\PowerRoute\Actions;
 
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Mcustiel\PowerRoute\Common\TransactionData;
 
-class NotFound extends AbstractArgumentAware implements ActionInterface
+class NotFound implements ActionInterface
 {
     public function execute(TransactionData $transactionData)
     {

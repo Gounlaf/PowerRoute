@@ -1,15 +1,13 @@
 <?php
 namespace Mcustiel\PowerRoute\Actions;
 
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\RequestUrlAccess;
 use Mcustiel\PowerRoute\Common\TransactionData;
 
-abstract class AbstractAction extends AbstractArgumentAware
+trait PlaceholderEvaluator
 {
     use RequestUrlAccess;
-    const PLACEHOLDER_NOTATION = '/\{\{\s*(var|uri|get|post|header|cookie|method)(?:\.([a-z0-9-_]+))?\s*\}\}/i';
 
     /**
      *
@@ -18,10 +16,10 @@ abstract class AbstractAction extends AbstractArgumentAware
      *
      * @return mixed
      */
-    protected function getValueOrPlaceholder($value, TransactionData $transactiondata)
+    public function getValueOrPlaceholder($value, TransactionData $transactiondata)
     {
         return preg_replace_callback(
-            self::PLACEHOLDER_NOTATION,
+            '/\{\{\s*(var|uri|get|post|header|cookie|method)(?:\.([a-z0-9-_]+))?\s*\}\}/i',
             function ($matches) use ($transactiondata) {
                 return $this->getValueFromPlaceholder(
                     $matches[1],
@@ -62,7 +60,7 @@ abstract class AbstractAction extends AbstractArgumentAware
         }
     }
 
-    private function getParsedUrl($name, $request)
+    private function getParsedUrl($name, ServerRequestInterface $request)
     {
         if ($name != null) {
             return $this->getValueFromUrlPlaceholder($name, $request->getUri());
@@ -70,7 +68,7 @@ abstract class AbstractAction extends AbstractArgumentAware
         return $request->getUri()->__toString();
     }
 
-    private function getValueFromParsedBody($name, $request)
+    private function getValueFromParsedBody($name, ServerRequestInterface $request)
     {
         $data = $request->getParsedBody();
         return is_array($data) ? $data[$name] : $data->$name;
