@@ -21,14 +21,10 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    [
-                        'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
-                    ]
+                    'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
                 ],
                 'else' => [
-                    [
-                        'goto' => 'route2'
-                    ]
+                    'goto' => 'route2'
                 ]
             ]
         ],
@@ -45,24 +41,18 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    [
-                        'saveCookie' => [
-                            'name' => 'cookieTest',
-                            'value' => '{{get.potato}}',
-                            'ttl' => '3600',
-                            'domain' => '',
-                            'path' => '',
-                            'secure' => false
-                        ]
+                    'saveCookie' => [
+                        'name' => 'cookieTest',
+                        'value' => '{{get.potato}}',
+                        'ttl' => '3600',
+                        'domain' => '',
+                        'path' => '',
+                        'secure' => false
                     ],
-                    [
-                        'displayFile' => __DIR__ . '/files/potato-{{get.potato}}.html'
-                    ]
+                    'displayFile' => __DIR__ . '/files/potato-{{get.potato}}.html'
                 ],
                 'else' => [
-                    [
-                        'goto' => 'default'
-                    ]
+                    'goto' => 'default'
                 ]
             ]
         ],
@@ -72,9 +62,7 @@ return [
             'condition' => [],
             'actions' => [
                 'if-matches' => [
-                    [
-                        'redirect' => 'http://www.google.com'
-                    ]
+                    'redirect' => 'http://www.google.com'
                 ]
             ]
         ]

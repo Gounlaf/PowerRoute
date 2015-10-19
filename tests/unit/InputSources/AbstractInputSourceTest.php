@@ -1,7 +1,6 @@
 <?php
 namespace Mcustiel\PowerRoute\Tests\InputSources;
 
-use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractInputSourceTest extends \PHPUnit_Framework_TestCase
