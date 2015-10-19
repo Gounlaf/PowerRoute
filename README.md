@@ -26,15 +26,11 @@ The components are grouped forming the nodes of the binary tree, each node looks
         ]
     ],
     'actions' => [
-        'if-matches' => [ // This is an array with the actions to run when the condition evaluates as true
-            [
-                'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html' // Placeholders can be used.
-            ]
+        'if-matches' => [ // This is an array with all the actions to run when the condition evaluates as true
+                'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html' // Placeholders can be used to access request data.
         ],
-        'else' => [ // This is an array with the actions to run when the condition evaluates as false
-            [
+        'else' => [ // This is an array with all the actions to run when the condition evaluates as false
                 'goto' => 'route2'
-            ]
         ]
     ]
 ]
@@ -200,10 +196,11 @@ This action sets the value of a header. As an argument receives an object with t
 
 ### Creating your own actions
 
-To create your own actions to be used through PowerRoute you have to create a class in which you should extend AbstractArgumentAware class and must implement ActionInterface.
+To create your own actions to be used through PowerRoute you have to create a class in which you should extend AbstractArgumentAware class and must implement ActionInterface. If you want to give your action the ability to support placeholders, you you must use PlacheolderEvaluator trait.
 
 * **AbstractArgumentAware** is a class shared by all components, that gives them access to the argument from the configuration.
 * **ActionInterface** defines the method that should be implemented by the action.
+* **PlaceholderEvaluator** defines the method getValueOrPlaceholder, that gives your action the ability to parse possible placeholders in a string.
 
 ```php
 interface ActionInterface
@@ -218,10 +215,10 @@ Inside an action you should retrieve the object you want to modify from Transact
 
 You can even init a framework inside an action. 
 
-#### Example of an action:
+#### Examples of an action:
 
 ```php
-class NotFound extends AbstractArgumentAware implements ActionInterface
+class NotFound implements ActionInterface
 {
     public function execute(TransactionData $transactionData)
     {
@@ -229,6 +226,61 @@ class NotFound extends AbstractArgumentAware implements ActionInterface
     }
 }
 ```
+
+```php
+class Redirect extends AbstractArgumentAware implements ActionInterface
+{
+    use PlaceholderEvaluator;
+
+    public function execute(TransactionData $transactionData)
+    {
+        return $transactionData->setResponse(
+            $transactionData->getResponse()
+            ->withHeader(
+                'Location',
+                $this->getValueOrPlaceholder($this->argument, $transactionData)
+            )
+            ->withStatus(302)
+        );
+    }
+}
+```
+
+### TransactionData class:
+
+This class is passed as an argument to every action and defines two methods to access the current request and the corresponding response (getRequest and getResponse respectively). Also it gives you the ability to save and fetc custom variables throught **get($name)** and **set($name, $value)** methods.
+
+### Placeholders:
+
+The arguments an action receives can include a placeholder to access values from the TransactionData object. The arguments have the following format:
+
+```
+{{source.name}}
+``` 
+
+Where source indicates from where to obtain the value, and name is the identifier associated with the given value.
+
+#### Possible placeholder sources:
+
+* **var**: allows you to access some custom value saved in the TransactionData object.
+* **uri**: allows you to access data from the url used to request. If you call it without an identifier, it returns the full url. If not, it allows a serie of identifiers to retrieve parts of the request:    
+  * **full**: also returns the full url.
+  * **host**: returns the host part of the url.
+  * **scheme**: returns the scheme part of the url.
+  * **authority**: returns the authority part of the url.
+  * **fragment**: return the fragment part of the url.
+  * **path**: returns the path of the url used in the current request.
+  * **port**: returns the port requested in the url.
+  * **query**: returns the query string from the current request.
+  * **user-info**: returns the user information specified in the url.
+* **method**: returns the method used in the current request.
+* **get**: allows you to access a parameter from the query string, it must be specified as the name part of the placeholder. 
+* **header**: allows you to access a header, it must be specified as the name part of the placeholder.
+* **cookie**: allows you to access a cookie, it must be specified as the name part of the placeholder.
+* **post**:  allows you to access a post variable, it must be specified as the name part of the placeholder.
+* **bodyParam**: allows you to access a variable from the body, it must be specified as the name part of the placeholder.
+
+** __Note__: See PSR7 documentation for more information about previous sources.
 
 ### Creating your own input sources
 
