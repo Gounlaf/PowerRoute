@@ -36,6 +36,52 @@ The components are grouped forming the nodes of the binary tree, each node looks
 ]
 ```
 
+## Table of contents
+
+* [Installation](#installation)
+* [How to use](#how-to-use)
+    * [The configuration](#the-configuration)
+    * [The code](#the-code)
+* [Predefined components](#predefined-components)
+    * [Input sources](#input-sources)
+    * [Matchers](#matchers)
+    * [Actions](#actions)
+* [Extending PowerRoute](#extending-powerroute)
+    * [Creating your own actions](#creating-your-own-actions)
+        * [TransactionData class](#transactiondata-class)
+        * [Placeholders](#placeholders)
+    * [Creating your own input sources](#creating-your-own-input-sources)
+    * [Creating your own matchers](#creating-your-own-matchers)
+
+## Installation
+
+This project is published in packagist, so you just need to add it as a dependency in your composer.json:
+
+```javascript
+    "require": {
+        // ...
+        "mcustiel/power-route": "*"
+    }
+```
+
+If you want to access directly to this repo, adding this to your composer.json should be enough:
+
+```javascript
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mcustiel/PowerRoute"
+        }
+    ],
+    "require": {
+        "mcustiel/power-route": "dev-master"
+    }
+}
+```
+
+Or just download the release and include it in your path.
+
 ## How to use
 
 ### The configuration
@@ -246,11 +292,11 @@ class Redirect extends AbstractArgumentAware implements ActionInterface
 }
 ```
 
-### TransactionData class:
+#### TransactionData class:
 
 This class is passed as an argument to every action and defines two methods to access the current request and the corresponding response (getRequest and getResponse respectively). Also it gives you the ability to save and fetc custom variables throught **get($name)** and **set($name, $value)** methods.
 
-### Placeholders:
+#### Placeholders:
 
 The arguments an action receives can include a placeholder to access values from the TransactionData object. The arguments have the following format:
 
@@ -313,7 +359,7 @@ class Header extends AbstractArgumentAware implements InputSourceInterface
 }
 ```
 
-### Creating your own matcher
+### Creating your own matchers
 
 The matcher is the component in charge of executing a check against the value obtained from the request by the InputSource. To create your own matcher, you must create a class that should extend AbstractArgumentAware to access the argument and must implement MatcherInterface.
 
