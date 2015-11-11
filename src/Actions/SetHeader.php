@@ -12,8 +12,8 @@ class SetHeader extends AbstractArgumentAware implements ActionInterface
     {
         return $transactionData->setResponse(
             $transactionData->getResponse()->withHeader(
-                $this->argument->name,
-                $this->getValueOrPlaceholder($this->argument->value, $transactionData)
+                $this->argument['name'],
+                $this->getValueOrPlaceholder($this->argument['value'], $transactionData)
             )
         );
     }

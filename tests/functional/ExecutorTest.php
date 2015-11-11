@@ -101,7 +101,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             $request->withQueryParams(['a' => '', 'b' => 'test', 'potato' => 'grilled']),
             new Response()
         );
-        $response = $this->executor->execute(
+        $this->executor->execute(
             'route1',
             $transactionData
         );
@@ -126,7 +126,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'php://temp'
         );
         $transactionData = new TransactionData($request, new Response());
-        $response = $this->executor->execute('route1', $transactionData);
+        $this->executor->execute('route1', $transactionData);
 
         $this->assertEquals('', $transactionData->getResponse()->getBody()->__toString());
         $this->assertEquals([ 'http://www.google.com' ], $transactionData->getResponse()->getHeader('Location'));

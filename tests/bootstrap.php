@@ -15,6 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with PowerRoute.  If not, see <http://www.gnu.org/licenses/>.
  */
-$loader = require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 define('FIXTURES_PATH', __DIR__ . '/fixtures');
