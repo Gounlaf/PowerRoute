@@ -36,6 +36,11 @@ The components are grouped forming the nodes of the binary tree, each node looks
 ]
 ```
 
+[![Build Status](https://travis-ci.org/mcustiel/PowerRoute.png?branch=master)](https://travis-ci.org/mcustiel/PowerRoute)
+[![Coverage Status](https://coveralls.io/repos/mcustiel/PowerRoute/badge.svg?branch=master&service=github)](https://coveralls.io/github/mcustiel/PowerRoute?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcustiel/PowerRoute/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/PowerRoute/?branch=master)
+
+
 ## Table of contents
 
 * [Installation](#installation)
