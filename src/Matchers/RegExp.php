@@ -7,6 +7,6 @@ class RegExp extends AbstractArgumentAware implements MatcherInterface
 {
     public function match($value)
     {
-        return preg_match($this->argument, $value);
+        return (boolean) preg_match($this->argument, $value);
     }
 }
