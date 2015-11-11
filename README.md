@@ -1,8 +1,6 @@
 # PowerRoute
 Power route is a PHP routing system that can execute different sets of actions based in several components of the HTTP requests and is fully compatible with PSR-7.
 
-**Important note:** PowerRoute is a work in progress, there is no versions yet and no BC checks are done during development. 
-
 The configuration is formed by three main components and defines a binary tree:
 * **Input sources**: The input sources are the component that takes data from the request to be evaluated.
 * **Matchers**: This component receives the value from the input source and executes a check on it.
@@ -390,4 +388,60 @@ class Equals extends AbstractArgumentAware implements MatcherInterface
         return $value == $this->argument;
     }
 }
+```
+
+## Possible uses
+
+### API versioning
+
+```php
+return [
+    'root' => 'checkHeaders',
+    'nodes' => [
+        'checkHeaders' => [
+            'condition' => [
+                'input-source' => [
+                    'header' => 'Accept'
+                ],
+                'matcher' => [
+                    'regExp' => '/application\/vnd.myapp.(\d+)\+json/'
+                ]
+            ],
+            'actions' => [
+                'if-matches' => [
+                    'myActionChooseApiFromHeader' => '{{header.Accept}}'
+                ],
+                'else' => [
+                    'goto' => 'checkUrl'
+                ]
+            ]
+        ],
+        'checkUrl' => [
+            'condition' => [
+                'input-source' => [
+                    'uri' => null
+                ],
+                'matcher' => [
+                    'regExp' => '/myApiPath\/(\d+)\/.*$/'
+                ]
+            ],
+            'actions' => [
+                'if-matches' => [
+                    'myActionChooseApiFromUrl' => '{{uri.path}}'
+                ],
+                'else' => [
+                    'goto' => 'default'
+                ]
+            ]
+        ],
+        'default' => [
+            'condition' => [],
+            'actions' => [
+                'if-matches' => [
+                    'runLatestApiVersion' => null
+                ]
+            ]
+        ]
+    ]
+]
 ```
