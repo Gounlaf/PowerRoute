@@ -8,6 +8,10 @@
     <testsuite name="PowerRouteFuncitonalTests">
         <directory>./functional</directory>
     </testsuite>
+    <testsuite name="PowerRouteTests">
+        <directory>./functional</directory>
+        <directory>./unit</directory>
+    </testsuite>
     <php>
     </php>
     <filter>
