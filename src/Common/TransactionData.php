@@ -4,6 +4,9 @@ namespace Mcustiel\PowerRoute\Common;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TransactionData
 {
     private $values = [];
