@@ -1,9 +1,7 @@
 <?php
 namespace Mcustiel\PowerRoute\Matchers;
 
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
-
-class NotEmpty extends AbstractArgumentAware implements MatcherInterface
+class NotEmpty implements MatcherInterface
 {
     public function match($value)
     {

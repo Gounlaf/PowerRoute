@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\InputSources;
+namespace Mcustiel\PowerRoute\Tests\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Zend\Diactoros\ServerRequest;
