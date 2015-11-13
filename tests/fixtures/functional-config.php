@@ -12,11 +12,13 @@ return [
         // Node 1
         'route1' => [
             'condition' => [
-                'input-source' => [
-                    'cookie' => 'cookieTest'
-                ],
-                'matcher' => [
-                    'notNull' => null
+                [
+                    'input-source' => [
+                        'cookie' => 'cookieTest'
+                    ],
+                    'matcher' => [
+                        'notNull' => null
+                    ]
                 ]
             ],
             'actions' => [
@@ -32,11 +34,13 @@ return [
         // Node 2
         'route2' => [
             'condition' => [
-                'input-source' => [
-                    'queryString' => 'potato'
-                ],
-                'matcher' => [
-                    'inArray' => ['baked', 'boiled', 'grilled']
+                [
+                    'input-source' => [
+                        'queryString' => 'potato'
+                    ],
+                    'matcher' => [
+                        'inArray' => ['baked', 'boiled', 'grilled']
+                    ]
                 ]
             ],
             'actions' => [

@@ -28,7 +28,13 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
      * @var \Mcustiel\PowerRoute\Common\MatcherFactory $matcherFactory
      */
     private $matcherFactory;
+    /**
+     * @var \Mcustiel\PowerRoute\Common\EvaluatorFactory $matcherFactory
+     */
     private $evaluatorFactory;
+    /**
+     * @var \Mcustiel\PowerRoute\Common\ActionFactory $matcherFactory
+     */
     private $actionFactory;
 
     /**
