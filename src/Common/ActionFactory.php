@@ -19,10 +19,11 @@ class ActionFactory extends Mapping
     {
         $actions = [];
 
-        foreach ($config as $action => $argument) {
+        foreach ($config as $actionData) {
+            $action = key($actionData);
             $this->checkMappingIsValid($action);
             $class = $this->mapping[$action];
-            $actions[] = new $class($this->getConstructorArgument($executor, $argument, $class));
+            $actions[] = new $class($this->getConstructorArgument($executor, $actionData[$action], $class));
         }
 
         return $actions;
