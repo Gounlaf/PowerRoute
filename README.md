@@ -174,6 +174,9 @@ Allows to execute actions based in headers from the http request.
 ##### Arguments
 The name of the header.
 
+#### Method
+Returns the http method used to execute request. It receives no parameters.
+
 #### QueryStringParam
 Allows to execute actions based in parameters from the request's query string.
 
