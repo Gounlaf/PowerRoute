@@ -22,10 +22,10 @@ class ConditionsMatcherFactory
         $this->matcherFactory = $matcherFactory;
     }
 
-    public function get($id)
+    public function get($name)
     {
-        if (isset($this->conditionMatchersMap[$id])) {
-            return new $this->conditionMatchersMap[$id](
+        if (isset($this->conditionMatchersMap[$name])) {
+            return new $this->conditionMatchersMap[$name](
                 $this->inputSouceFactory,
                 $this->matcherFactory
             );

@@ -3,8 +3,6 @@ namespace Mcustiel\PowerRoute;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
-use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use JMS\Serializer\Exception\RuntimeException;
@@ -43,11 +41,6 @@ class PowerRoute
         $this->config = $config;
         $this->conditionMatcherFactory = $conditionsMatcherFactory;
         $this->actionFactory = $actionFactory;
-    }
-
-    public function setConditionsMatcherFactory(ConditionsMatcherFactory $factory)
-    {
-        $this->conditionMatchersFacotry = $factory;
     }
 
     public function setConfig(array $config)
