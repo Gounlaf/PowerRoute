@@ -12,12 +12,10 @@ return [
         // Node 1
         'route1' => [
             'condition' => [
-                [
-                    'input-source' => [
-                        'cookie' => 'cookieTest'
-                    ],
-                    'matcher' => [
-                        'notNull' => null
+                'all-of' => [
+                    [
+                        'input-source' => [ 'cookie' => 'cookieTest' ],
+                        'matcher' => [ 'notNull' => null ]
                     ]
                 ]
             ],
@@ -38,12 +36,10 @@ return [
         // Node 2
         'route2' => [
             'condition' => [
-                [
-                    'input-source' => [
-                        'queryString' => 'potato'
-                    ],
-                    'matcher' => [
-                        'inArray' => ['baked', 'boiled', 'grilled']
+                'one-of' => [
+                    [
+                        'input-source' => [ 'queryString' => 'potato'],
+                        'matcher' => [ 'inArray' => ['baked', 'boiled', 'grilled'] ]
                     ]
                 ]
             ],

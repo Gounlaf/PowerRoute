@@ -7,17 +7,15 @@ use Mcustiel\PowerRoute\Common\MatcherFactory;
 use Mcustiel\PowerRoute\Common\InputSourceFactory;
 use Mcustiel\PowerRoute\Common\ActionFactory;
 use Mcustiel\PowerRoute\Common\TransactionData;
+use JMS\Serializer\Exception\RuntimeException;
+use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface;
+use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+use Mcustiel\PowerRoute\Common\ConfigOptions;
 
 class PowerRoute
 {
-    const CONFIG_ROOT_NODE = 'start';
-    const CONFIG_NODES = 'nodes';
-    const CONFIG_NODE_CONDITION = 'condition';
-    const CONFIG_NODE_CONDITION_SOURCE = 'input-source';
-    const CONFIG_NODE_CONDITION_MATCHER = 'matcher';
-    const CONFIG_NODE_CONDITION_ACTIONS = 'actions';
-    const CONFIG_NODE_CONDITION_ACTIONS_MATCH = 'if-matches';
-    const CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH = 'else';
+    const CONDITIONS_MATCHER_ALL = 'allConditionsMatcher';
+    const CONDITIONS_MATCHER_ONE = 'oneConditionsMatcher';
 
     /**
      * @var array $config
@@ -25,17 +23,23 @@ class PowerRoute
     private $config;
 
     /**
-     * @var \PowerRoute\Common\ActionFactory $actionFactory
+     * @var \Mcustiel\PowerRoute\Common\ActionFactory $actionFactory
      */
     private $actionFactory;
     /**
-     * @var \PowerRoute\Common\InputSourceFactory $evaluatorFactory
+     * @var \Mcustiel\PowerRoute\Common\InputSourceFactory $evaluatorFactory
      */
     private $evaluatorFactory;
     /**
-     * @var \PowerRoute\Common\MatcherFactory $matcherFactory
+     * @var \Mcustiel\PowerRoute\Common\MatcherFactory $matcherFactory
      */
     private $matcherFactory;
+    /**
+     * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface[] $conditionsMatchers
+     */
+    private $conditionMatchers;
+
+    private $conditionMatchersFactory;
 
     public function __construct(
         array $config,
@@ -43,10 +47,17 @@ class PowerRoute
         InputSourceFactory $evaluatorFactory,
         MatcherFactory $matcherFactory
     ) {
+        $this->conditionMatchers = [];
         $this->config = $config;
+        $this->conditionMatchersFactory = new ConditionsMatcherFactory($evaluatorFactory, $matcherFactory);
         $this->evaluatorFactory = $evaluatorFactory;
         $this->actionFactory = $actionFactory;
         $this->matcherFactory = $matcherFactory;
+    }
+
+    public function setConditionsMatcherFactory(ConditionsMatcherFactory $factory)
+    {
+        $this->conditionMatchersFacotry = $factory;
     }
 
     public function setConfig(array $config)
@@ -61,7 +72,7 @@ class PowerRoute
     public function start(ServerRequestInterface $request, ResponseInterface $response)
     {
         $transactionData = new TransactionData($request, $response);
-        $this->execute($this->config[static::CONFIG_ROOT_NODE], $transactionData);
+        $this->execute($this->config[ConfigOptions::CONFIG_ROOT_NODE], $transactionData);
         return $transactionData->getResponse();
     }
 
@@ -71,10 +82,13 @@ class PowerRoute
      */
     public function execute($routeName, TransactionData $transactionData)
     {
-        $route = $this->config[static::CONFIG_NODES][$routeName];
+        $route = $this->config[ConfigOptions::CONFIG_NODES][$routeName];
 
         $actions = $this->actionFactory->createFromConfig(
-            $this->getActionsToRun($route, $this->evaluateCondition($route, $transactionData->getRequest())),
+            $this->getActionsToRun(
+                $route,
+                $this->evaluateConditions($route, $transactionData->getRequest())
+            ),
             $this
         );
 
@@ -83,30 +97,44 @@ class PowerRoute
         }
     }
 
-    private function evaluateCondition($route, $request)
+    private function evaluateConditions($route, $request)
     {
-        if ($route[static::CONFIG_NODE_CONDITION]) {
-            foreach ($route[static::CONFIG_NODE_CONDITION] as $condition) {
-                $inputSource = $this->evaluatorFactory->createFromConfig(
-                    $condition[static::CONFIG_NODE_CONDITION_SOURCE]
-                );
-                $matcher = $this->matcherFactory->createFromConfig(
-                    $condition[static::CONFIG_NODE_CONDITION_MATCHER]
-                );
-                if (!$matcher->match($inputSource->getValue($request))) {
-                    return false;
-                }
-            }
+        if (!$route[ConfigOptions::CONFIG_NODE_CONDITION]) {
+            return true;
         }
-        return true;
+
+        if (isset($route[ConfigOptions::CONFIG_NODE_CONDITION][ConfigOptions::CONFIG_NODE_CONDITION_ALL])) {
+            return $this->getConditionsMatcher(self::CONDITIONS_MATCHER_ALL)->matches(
+                $route[ConfigOptions::CONFIG_NODE_CONDITION][ConfigOptions::CONFIG_NODE_CONDITION_ALL],
+                $request
+            );
+        }
+        if (isset($route[ConfigOptions::CONFIG_NODE_CONDITION][ConfigOptions::CONFIG_NODE_CONDITION_ONE])) {
+            return $this->getConditionsMatcher(self::CONDITIONS_MATCHER_ONE)->matches(
+                $route[ConfigOptions::CONFIG_NODE_CONDITION][ConfigOptions::CONFIG_NODE_CONDITION_ONE],
+                $request
+            );
+        }
+
+        throw new \RuntimeException('Invalid exception');
+    }
+
+    private function getConditionsMatcher($matcher)
+    {
+        if (!isset($this->conditionMatchers[$matcher])) {
+            $this->conditionMatchers[$matcher] = $this->conditionMatchersFactory->get($matcher);
+        }
+        return $this->conditionMatchers[$matcher];
     }
 
     private function getActionsToRun($route, $matched)
     {
         if ($matched) {
-            return $route[static::CONFIG_NODE_CONDITION_ACTIONS][static::CONFIG_NODE_CONDITION_ACTIONS_MATCH];
+            return $route[ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS]
+                [ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS_MATCH];
         }
 
-        return $route[static::CONFIG_NODE_CONDITION_ACTIONS][static::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH];
+        return $route[ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS]
+            [ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH];
     }
 }

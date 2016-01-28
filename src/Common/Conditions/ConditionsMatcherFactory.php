@@ -1,0 +1,35 @@
+<?php
+namespace Mcustiel\PowerRoute\Common\Conditions;
+
+use Mcustiel\PowerRoute\Common\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\MatcherFactory;
+
+class ConditionsMatcherFactory
+{
+    private $conditionMatchersMap = [
+        'allConditionsMatcher' => AllConditionsMatcher::class,
+        'oneConditionsMatcher' => OneConditionMatcher::class
+    ];
+
+    private $inputSouceFactory;
+    private $matcherFactory;
+
+    public function __construct(
+        InputSourceFactory $inputSouceFactory,
+        MatcherFactory $matcherFactory
+    ) {
+        $this->inputSouceFactory = $inputSouceFactory;
+        $this->matcherFactory = $matcherFactory;
+    }
+
+    public function get($id)
+    {
+        if (isset($this->conditionMatchersMap[$id])) {
+            return new $this->conditionMatchersMap[$id](
+                $this->inputSouceFactory,
+                $this->matcherFactory
+            );
+        }
+        throw new \RuntimeException('Invalid condition matcher specified');
+    }
+}
