@@ -21,38 +21,28 @@ class PowerRoute
      * @var array $config
      */
     private $config;
-
     /**
      * @var \Mcustiel\PowerRoute\Common\Factories\ActionFactory $actionFactory
      */
     private $actionFactory;
     /**
-     * @var \Mcustiel\PowerRoute\Common\Factories\InputSourceFactory $evaluatorFactory
-     */
-    private $evaluatorFactory;
-    /**
-     * @var \Mcustiel\PowerRoute\Common\Factories\MatcherFactory $matcherFactory
-     */
-    private $matcherFactory;
-    /**
      * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface[] $conditionsMatchers
      */
     private $conditionMatchers;
-
-    private $conditionMatchersFactory;
+    /**
+     * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory $conditionMatcherFactory
+     */
+    private $conditionMatcherFactory;
 
     public function __construct(
         array $config,
         ActionFactory $actionFactory,
-        InputSourceFactory $evaluatorFactory,
-        MatcherFactory $matcherFactory
+        ConditionsMatcherFactory $conditionsMatcherFactory
     ) {
         $this->conditionMatchers = [];
         $this->config = $config;
-        $this->conditionMatchersFactory = new ConditionsMatcherFactory($evaluatorFactory, $matcherFactory);
-        $this->evaluatorFactory = $evaluatorFactory;
+        $this->conditionMatcherFactory = $conditionsMatcherFactory;
         $this->actionFactory = $actionFactory;
-        $this->matcherFactory = $matcherFactory;
     }
 
     public function setConditionsMatcherFactory(ConditionsMatcherFactory $factory)
@@ -102,7 +92,6 @@ class PowerRoute
         if (!$route[ConfigOptions::CONFIG_NODE_CONDITION]) {
             return true;
         }
-
         if (isset($route[ConfigOptions::CONFIG_NODE_CONDITION][ConfigOptions::CONFIG_NODE_CONDITION_ALL])) {
             return $this->getConditionsMatcher(self::CONDITIONS_MATCHER_ALL)->matches(
                 $route[ConfigOptions::CONFIG_NODE_CONDITION][ConfigOptions::CONFIG_NODE_CONDITION_ALL],
@@ -122,7 +111,7 @@ class PowerRoute
     private function getConditionsMatcher($matcher)
     {
         if (!isset($this->conditionMatchers[$matcher])) {
-            $this->conditionMatchers[$matcher] = $this->conditionMatchersFactory->get($matcher);
+            $this->conditionMatchers[$matcher] = $this->conditionMatcherFactory->get($matcher);
         }
         return $this->conditionMatchers[$matcher];
     }

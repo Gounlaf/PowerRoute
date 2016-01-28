@@ -3,10 +3,9 @@ namespace Mcustiel\PowerRoute\Tests;
 
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
-use Mcustiel\PowerRoute\Common\Executor;
-use Mcustiel\PowerRoute\Common\MatcherFactory;
-use Mcustiel\PowerRoute\Common\InputSourceFactory;
-use Mcustiel\PowerRoute\Common\ActionFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\PowerRoute\Actions\DisplayFile;
 use Mcustiel\PowerRoute\Actions\SaveCookie;
@@ -16,16 +15,18 @@ use Mcustiel\PowerRoute\InputSources\Cookie;
 use Mcustiel\PowerRoute\Matchers\NotNull;
 use Mcustiel\PowerRoute\Matchers\InArray;
 use Mcustiel\Mockable\DateTimeUtils;
+use Mcustiel\PowerRoute\PowerRoute;
+use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Mcustiel\PowerRoute\Common\RouteExecutor $executor
+     * @var \Mcustiel\PowerRoute\PowerRoute $executor
      */
     private $executor;
 
     /**
-     * @var \Mcustiel\PowerRoute\Common\MatcherFactory $matcherFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\MatcherFactory $matcherFactory
      */
     private $matcherFactory;
     /**
@@ -33,7 +34,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
      */
     private $evaluatorFactory;
     /**
-     * @var \Mcustiel\PowerRoute\Common\ActionFactory $matcherFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\ActionFactory $matcherFactory
      */
     private $actionFactory;
 
@@ -44,11 +45,13 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
     {
         $this->buildFactories();
 
-        $this->executor = new Executor(
+        $this->executor = new PowerRoute(
             include FIXTURES_PATH . '/functional-config.php',
             $this->actionFactory,
-            $this->evaluatorFactory,
-            $this->matcherFactory
+            new ConditionsMatcherFactory(
+                $this->evaluatorFactory,
+                $this->matcherFactory
+            )
         );
 
         $this->setMappings();
