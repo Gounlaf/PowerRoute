@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Common;
+namespace Mcustiel\PowerRoute\Common\Factories;
 
 use Mcustiel\PowerRoute\Matchers as Matchers;
 

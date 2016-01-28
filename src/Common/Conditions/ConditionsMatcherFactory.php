@@ -1,8 +1,8 @@
 <?php
 namespace Mcustiel\PowerRoute\Common\Conditions;
 
-use Mcustiel\PowerRoute\Common\InputSourceFactory;
-use Mcustiel\PowerRoute\Common\MatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 
 class ConditionsMatcherFactory
 {

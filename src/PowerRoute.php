@@ -3,9 +3,9 @@ namespace Mcustiel\PowerRoute;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Mcustiel\PowerRoute\Common\MatcherFactory;
-use Mcustiel\PowerRoute\Common\InputSourceFactory;
-use Mcustiel\PowerRoute\Common\ActionFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use JMS\Serializer\Exception\RuntimeException;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface;
@@ -23,15 +23,15 @@ class PowerRoute
     private $config;
 
     /**
-     * @var \Mcustiel\PowerRoute\Common\ActionFactory $actionFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\ActionFactory $actionFactory
      */
     private $actionFactory;
     /**
-     * @var \Mcustiel\PowerRoute\Common\InputSourceFactory $evaluatorFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\InputSourceFactory $evaluatorFactory
      */
     private $evaluatorFactory;
     /**
-     * @var \Mcustiel\PowerRoute\Common\MatcherFactory $matcherFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\MatcherFactory $matcherFactory
      */
     private $matcherFactory;
     /**

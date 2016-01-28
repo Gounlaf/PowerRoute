@@ -1,7 +1,8 @@
 <?php
-namespace Mcustiel\PowerRoute\Common;
+namespace Mcustiel\PowerRoute\Common\Factories;
 
 use Mcustiel\PowerRoute\Actions\GoToAction;
+use Mcustiel\PowerRoute\PowerRoute;
 
 class ActionFactory extends Mapping
 {
@@ -15,7 +16,7 @@ class ActionFactory extends Mapping
      *
      * @return \Mcustiel\PowerRoute\Actions\ActionInterface[]
      */
-    public function createFromConfig(array $config, Executor $executor)
+    public function createFromConfig(array $config, PowerRoute $executor)
     {
         $actions = [];
 
