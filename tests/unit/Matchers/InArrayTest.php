@@ -15,7 +15,8 @@ class InArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function setMatcher()
     {
-        $this->matcher = new InArray(['tomato' => 'potato']);
+        $this->matcher = new InArray();
+        $this->matcher->setArgument(['tomato' => 'potato']);
     }
 
     /**

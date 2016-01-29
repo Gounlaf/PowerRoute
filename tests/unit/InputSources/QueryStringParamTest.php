@@ -5,6 +5,12 @@ use Mcustiel\PowerRoute\InputSources\QueryStringParam;
 
 class QueryStringParamTest extends AbstractInputSourceTest
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->evaluator = new QueryStringParam();
+    }
+
     /**
      * @test
      */
@@ -14,8 +20,8 @@ class QueryStringParamTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
-        $evaluator = new QueryStringParam('banana');
-        $this->assertEquals('potato', $evaluator->getValue($this->request));
+        $this->evaluator->setArgument('banana');
+        $this->assertEquals('potato', $this->evaluator->getValue($this->request));
     }
 
     /**
@@ -27,7 +33,7 @@ class QueryStringParamTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
-        $evaluator = new QueryStringParam('coconut');
-        $this->assertNull($evaluator->getValue($this->request));
+        $this->evaluator->setArgument('coconut');
+        $this->assertNull($this->evaluator->getValue($this->request));
     }
 }

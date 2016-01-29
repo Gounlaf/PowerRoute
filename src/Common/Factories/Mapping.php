@@ -17,8 +17,18 @@ class Mapping
         }
     }
 
-    public function addMapping($identifier, $class)
+    public function addMapping($identifier, $classData)
     {
-        $this->mapping[$identifier] = $class;
+        $this->mapping[$identifier] = $classData;
+    }
+
+    protected function getClassName($classId)
+    {
+        return $this->mapping[$classId][0];
+    }
+
+    protected function getConstructorArguments($classId)
+    {
+        return array_slice($this->mapping[$classId], 1);
     }
 }

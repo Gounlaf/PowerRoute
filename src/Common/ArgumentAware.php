@@ -1,17 +1,17 @@
 <?php
 namespace Mcustiel\PowerRoute\Common;
 
-abstract class AbstractArgumentAware
+trait ArgumentAware
 {
     /**
      * @var mixed
      */
-    protected $argument;
+    private $argument = null;
 
     /**
      * @param mixed $argument
      */
-    public function __construct($argument = null)
+    public function setArgument($argument)
     {
         $this->argument = $argument;
     }

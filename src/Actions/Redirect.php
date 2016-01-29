@@ -2,11 +2,11 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class Redirect extends AbstractArgumentAware implements ActionInterface
+class Redirect implements ActionInterface
 {
-    use PlaceholderEvaluator;
+    use PlaceholderEvaluator, ArgumentAware;
 
     public function execute(TransactionData $transactionData)
     {

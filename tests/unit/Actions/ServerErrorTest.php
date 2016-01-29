@@ -38,7 +38,7 @@ class ServerErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldSetAServerErrorResponseWithGivenCode()
     {
-        $this->action = new ServerError(505);
+        $this->action->setArgument(505);
         $transaction = new TransactionData(new ServerRequest(), new Response());
         $this->action->execute($transaction);
         $this->assertEquals(505, $transaction->getResponse()->getStatusCode());

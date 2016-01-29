@@ -19,7 +19,8 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
      */
     public function initAction()
     {
-        $this->action = new Redirect('http://github.com');
+        $this->action = new Redirect();
+        $this->action->setArgument('http://github.com');
     }
 
     /**

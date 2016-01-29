@@ -1,11 +1,13 @@
 <?php
 namespace Mcustiel\PowerRoute\InputSources;
 
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class QueryStringParam extends AbstractArgumentAware implements InputSourceInterface
+class QueryStringParam implements InputSourceInterface
 {
+    use ArgumentAware;
+
     public function getValue(ServerRequestInterface $request)
     {
         $array = $request->getQueryParams();

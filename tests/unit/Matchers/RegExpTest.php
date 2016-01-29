@@ -15,7 +15,8 @@ class RegExpTest extends \PHPUnit_Framework_TestCase
      */
     public function setMatcher()
     {
-        $this->matcher = new RegExp('/\d+/');
+        $this->matcher = new RegExp();
+        $this->matcher->setArgument('/\d+/');
     }
 
     /**

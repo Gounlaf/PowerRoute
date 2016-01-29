@@ -10,6 +10,8 @@ abstract class AbstractInputSourceTest extends \PHPUnit_Framework_TestCase
      */
     protected $request;
 
+    protected $evaluator;
+
     public function setUp()
     {
         $this->request = $this->getMockBuilder(ServerRequestInterface::class)

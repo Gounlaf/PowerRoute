@@ -3,11 +3,11 @@ namespace Mcustiel\PowerRoute\Actions;
 
 use Zend\Diactoros\Stream;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class DisplayFile extends AbstractArgumentAware implements ActionInterface
+class DisplayFile implements ActionInterface
 {
-    use PlaceholderEvaluator;
+    use PlaceholderEvaluator, ArgumentAware;
 
     public function execute(TransactionData $transactionData)
     {

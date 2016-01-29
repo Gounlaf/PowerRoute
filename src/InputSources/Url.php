@@ -1,13 +1,13 @@
 <?php
 namespace Mcustiel\PowerRoute\InputSources;
 
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\RequestUrlAccess;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class Url extends AbstractArgumentAware implements InputSourceInterface
+class Url implements InputSourceInterface
 {
-    use RequestUrlAccess;
+    use RequestUrlAccess, ArgumentAware;
 
     public function getValue(ServerRequestInterface $request)
     {

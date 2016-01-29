@@ -1,11 +1,13 @@
 <?php
 namespace Mcustiel\PowerRoute\InputSources;
 
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
 use Psr\Http\Message\ServerRequestInterface;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class Cookie extends AbstractArgumentAware implements InputSourceInterface
+class Cookie implements InputSourceInterface
 {
+    use ArgumentAware;
+
     public function getValue(ServerRequestInterface $request)
     {
         $array = $request->getCookieParams();

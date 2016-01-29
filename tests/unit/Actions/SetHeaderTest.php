@@ -19,7 +19,8 @@ class SetHeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function initAction()
     {
-        $this->action = new SetHeader(['name' => 'Location', 'value' => 'http://github.com']);
+        $this->action = new SetHeader();
+        $this->action->setArgument(['name' => 'Location', 'value' => 'http://github.com']);
     }
 
     /**

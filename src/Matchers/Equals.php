@@ -1,10 +1,12 @@
 <?php
 namespace Mcustiel\PowerRoute\Matchers;
 
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class Equals extends AbstractArgumentAware implements MatcherInterface
+class Equals implements MatcherInterface
 {
+    use ArgumentAware;
+
     public function match($value)
     {
         return $value == $this->argument;

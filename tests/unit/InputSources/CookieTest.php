@@ -5,6 +5,12 @@ use Mcustiel\PowerRoute\InputSources\Cookie;
 
 class CookieTest extends AbstractInputSourceTest
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->evaluator = new Cookie();
+    }
+
     /**
      * @test
      */
@@ -14,8 +20,8 @@ class CookieTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
-        $evaluator = new Cookie('banana');
-        $this->assertEquals('potato', $evaluator->getValue($this->request));
+        $this->evaluator->setArgument('banana');
+        $this->assertEquals('potato', $this->evaluator->getValue($this->request));
     }
 
     /**
@@ -27,7 +33,7 @@ class CookieTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
-        $evaluator = new Cookie('coconut');
-        $this->assertNull($evaluator->getValue($this->request));
+        $this->evaluator->setArgument('coconut');
+        $this->assertNull($this->evaluator->getValue($this->request));
     }
 }

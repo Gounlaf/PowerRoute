@@ -151,14 +151,14 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     private function setMappings()
     {
-        $this->evaluatorFactory->addMapping('cookie', Cookie::class);
-        $this->evaluatorFactory->addMapping('queryString', QueryStringParam::class);
+        $this->evaluatorFactory->addMapping('cookie', [Cookie::class]);
+        $this->evaluatorFactory->addMapping('queryString', [QueryStringParam::class]);
 
-        $this->matcherFactory->addMapping('notNull', NotNull::class);
-        $this->matcherFactory->addMapping('inArray', InArray::class);
+        $this->matcherFactory->addMapping('notNull', [NotNull::class]);
+        $this->matcherFactory->addMapping('inArray', [InArray::class]);
 
-        $this->actionFactory->addMapping('saveCookie', SaveCookie::class);
-        $this->actionFactory->addMapping('displayFile', DisplayFile::class);
-        $this->actionFactory->addMapping('redirect', Redirect::class);
+        $this->actionFactory->addMapping('saveCookie', [SaveCookie::class]);
+        $this->actionFactory->addMapping('displayFile', [DisplayFile::class]);
+        $this->actionFactory->addMapping('redirect', [Redirect::class]);
     }
 }

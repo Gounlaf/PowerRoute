@@ -2,11 +2,11 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class SetHeader extends AbstractArgumentAware implements ActionInterface
+class SetHeader implements ActionInterface
 {
-    use PlaceholderEvaluator;
+    use PlaceholderEvaluator, ArgumentAware;
 
     public function execute(TransactionData $transactionData)
     {

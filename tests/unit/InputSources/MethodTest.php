@@ -5,6 +5,12 @@ use Mcustiel\PowerRoute\InputSources\Method;
 
 class MethodTest extends AbstractInputSourceTest
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->evaluator = new Method();
+    }
+
     /**
      * @test
      */
@@ -14,7 +20,6 @@ class MethodTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getMethod')
             ->willReturn('post');
-        $evaluator = new Method();
-        $this->assertEquals('POST', $evaluator->getValue($this->request));
+        $this->assertEquals('POST', $this->evaluator->getValue($this->request));
     }
 }

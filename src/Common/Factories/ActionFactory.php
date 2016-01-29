@@ -3,12 +3,13 @@ namespace Mcustiel\PowerRoute\Common\Factories;
 
 use Mcustiel\PowerRoute\Actions\GoToAction;
 use Mcustiel\PowerRoute\PowerRoute;
+use Mcustiel\PowerRoute\Actions\ActionInterface;
 
 class ActionFactory extends Mapping
 {
     public function __construct(array $mapping)
     {
-        parent::__construct(array_merge(['goto' => GoToAction::class], $mapping));
+        parent::__construct(array_merge(['goto' => [GoToAction::class]], $mapping));
     }
 
     /**
@@ -29,10 +30,22 @@ class ActionFactory extends Mapping
 
     private function createActionFromConfig($actionData, $executor)
     {
-        $action = key($actionData);
-        $this->checkMappingIsValid($action);
-        $class = $this->mapping[$action];
-        return new $class($this->getConstructorArgument($executor, $actionData[$action], $class));
+        $class = key($actionData);
+        $this->checkMappingIsValid($class);
+
+        if (is_object($this->mapping[$class])) {
+            return $this->mapping[$class];
+        }
+
+        $className = $this->getClassName($class);
+        $arguments = $this->getConstructorArguments($class);
+
+        $object = new $className($arguments);
+        $object->setArgument(
+            $this->getConstructorArgument($executor, $actionData[$class], $className)
+        );
+
+        return $object;
     }
 
     private function getConstructorArgument($executor, $argument, $class)

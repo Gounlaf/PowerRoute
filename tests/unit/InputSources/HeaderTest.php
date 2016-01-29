@@ -5,6 +5,12 @@ use Mcustiel\PowerRoute\InputSources\Header;
 
 class HeaderTest extends AbstractInputSourceTest
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->evaluator = new Header();
+    }
+
     /**
      * @test
      */
@@ -14,8 +20,8 @@ class HeaderTest extends AbstractInputSourceTest
             ->method('getHeaderLine')
             ->with('X-Banana')
             ->willReturn('potato');
-        $evaluator = new Header('X-Banana');
-        $this->assertEquals('potato', $evaluator->getValue($this->request));
+        $this->evaluator->setArgument('X-Banana');
+        $this->assertEquals('potato', $this->evaluator->getValue($this->request));
     }
 
     /**
@@ -28,7 +34,7 @@ class HeaderTest extends AbstractInputSourceTest
             ->method('getHeaderLine')
             ->with('X-Banana')
             ->willReturn('');
-        $evaluator = new Header('X-Banana');
-        $this->assertNull($evaluator->getValue($this->request));
+        $this->evaluator->setArgument('X-Banana');
+        $this->assertNull($this->evaluator->getValue($this->request));
     }
 }

@@ -2,10 +2,12 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class ServerError extends AbstractArgumentAware implements ActionInterface
+class ServerError implements ActionInterface
 {
+    use ArgumentAware;
+
     public function execute(TransactionData $transactionData)
     {
         return $transactionData->setResponse(

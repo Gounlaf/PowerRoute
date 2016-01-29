@@ -3,11 +3,11 @@ namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\Mockable\DateTime;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
+use Mcustiel\PowerRoute\Common\ArgumentAware;
 
-class SaveCookie extends AbstractArgumentAware implements ActionInterface
+class SaveCookie implements ActionInterface
 {
-    use PlaceholderEvaluator;
+    use PlaceholderEvaluator, ArgumentAware;
 
     public function execute(TransactionData $transactionData)
     {
