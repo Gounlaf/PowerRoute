@@ -8,9 +8,19 @@ use Mcustiel\PowerRoute\Common\ConfigOptions;
 
 abstract class AbstractConditionsMatcher
 {
+    /**
+     * @var \Mcustiel\PowerRoute\Common\Factories\InputSourceFactory
+     */
     private $inputSouceFactory;
+    /**
+     * @var \Mcustiel\PowerRoute\Common\Factories\MatcherFactory
+     */
     private $matcherFactory;
 
+    /**
+     * @param \Mcustiel\PowerRoute\Common\Factories\InputSourceFactory $inputSouceFactory
+     * @param \Mcustiel\PowerRoute\Common\Factories\MatcherFactory     $matcherFactory
+     */
     public function __construct(
         InputSourceFactory $inputSouceFactory,
         MatcherFactory $matcherFactory
@@ -19,6 +29,11 @@ abstract class AbstractConditionsMatcher
         $this->matcherFactory = $matcherFactory;
     }
 
+    /**
+     * @param array $condition
+     *
+     * @return \Mcustiel\PowerRoute\InputSources\InputSourceInterface
+     */
     protected function getInputSource(array $condition)
     {
         return $this->inputSouceFactory->createFromConfig(
@@ -26,6 +41,11 @@ abstract class AbstractConditionsMatcher
         );
     }
 
+    /**
+     * @param array $condition
+     *
+     * @return \Mcustiel\PowerRoute\InputSources\MatcherInterface
+     */
     protected function getMatcher(array $condition)
     {
         return $this->matcherFactory->createFromConfig(

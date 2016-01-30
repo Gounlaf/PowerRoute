@@ -7,7 +7,7 @@ abstract class AbstractFactory extends Mapping
      *
      * @param array $config
      *
-     * @return \Mcustiel\PowerRoute\InputSources\InputSourceInterface
+     * @return \Mcustiel\PowerRoute\InputSources\InputSourceInterface|\Mcustiel\PowerRoute\InputSources\MatcherInterface
      * @throws \Exception
      */
     public function createFromConfig(array $config)
