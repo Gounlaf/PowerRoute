@@ -13,7 +13,7 @@ class Mapping
     protected function checkMappingIsValid($mapping)
     {
         if (!isset($this->mapping[$mapping])) {
-            throw new \Exception();
+            throw new \Exception("Did not find a mapped class identified by $mapping");
         }
     }
 
