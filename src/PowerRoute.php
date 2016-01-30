@@ -112,11 +112,11 @@ class PowerRoute
     private function getActionsToRun($route, $matched)
     {
         if ($matched) {
-            return $route[ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS]
-                [ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS_MATCH];
+            return $route[ConfigOptions::CONFIG_NODE_ACTIONS]
+                [ConfigOptions::CONFIG_NODE_ACTIONS_MATCH];
         }
 
-        return $route[ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS]
-            [ConfigOptions::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH];
+        return $route[ConfigOptions::CONFIG_NODE_ACTIONS]
+            [ConfigOptions::CONFIG_NODE_ACTIONS_NOTMATCH];
     }
 }
