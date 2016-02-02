@@ -9,6 +9,7 @@ trait RequestUrlAccess
     {
         switch ($name) {
             case 'full':
+            case null:
                 return $uri->__toString();
             case 'host':
                 return $uri->getHost();

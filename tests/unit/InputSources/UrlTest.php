@@ -36,6 +36,18 @@ class UrlTest extends AbstractInputSourceTest
     /**
      * @test
      */
+    public function shouldReturnTheFullUriWithNullArgument()
+    {
+        $this->prepareUri('__toString', 'http://www.example.com/?potato=banana#coconut');
+        $this->assertEquals(
+            'http://www.example.com/?potato=banana#coconut',
+            $this->evaluator->getValue($this->request)
+            );
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetTheHostPart()
     {
         $this->prepareUri('getHost', 'www.example.com');
