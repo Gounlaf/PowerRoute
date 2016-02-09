@@ -3,14 +3,13 @@ namespace Mcustiel\PowerRoute\InputSources;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\RequestUrlAccess;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 
 class Url implements InputSourceInterface
 {
-    use RequestUrlAccess, ArgumentAware;
+    use RequestUrlAccess;
 
-    public function getValue(ServerRequestInterface $request)
+    public function getValue(ServerRequestInterface $request, $argument)
     {
-        return $this->getValueFromUrlPlaceholder($this->argument, $request->getUri());
+        return $this->getValueFromUrlPlaceholder($argument, $request->getUri());
     }
 }

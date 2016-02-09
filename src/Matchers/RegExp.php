@@ -1,14 +1,10 @@
 <?php
 namespace Mcustiel\PowerRoute\Matchers;
 
-use Mcustiel\PowerRoute\Common\ArgumentAware;
-
 class RegExp implements MatcherInterface
 {
-    use ArgumentAware;
-
-    public function match($value)
+    public function match($value, $argument)
     {
-        return (boolean) preg_match($this->argument, $value);
+        return (boolean) preg_match($argument, $value);
     }
 }

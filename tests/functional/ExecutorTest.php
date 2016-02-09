@@ -17,6 +17,7 @@ use Mcustiel\PowerRoute\Matchers\InArray;
 use Mcustiel\Mockable\DateTimeUtils;
 use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+use Mcustiel\PowerRoute\Common\Creation\LazyCreator;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
@@ -151,14 +152,14 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     private function setMappings()
     {
-        $this->evaluatorFactory->addMapping('cookie', [Cookie::class]);
-        $this->evaluatorFactory->addMapping('queryString', [QueryStringParam::class]);
+        $this->evaluatorFactory->addMapping('cookie', new LazyCreator(Cookie::class));
+        $this->evaluatorFactory->addMapping('queryString', new LazyCreator(QueryStringParam::class));
 
-        $this->matcherFactory->addMapping('notNull', [NotNull::class]);
-        $this->matcherFactory->addMapping('inArray', [InArray::class]);
+        $this->matcherFactory->addMapping('notNull', new LazyCreator(NotNull::class));
+        $this->matcherFactory->addMapping('inArray', new LazyCreator(InArray::class));
 
-        $this->actionFactory->addMapping('saveCookie', [SaveCookie::class]);
-        $this->actionFactory->addMapping('displayFile', [DisplayFile::class]);
-        $this->actionFactory->addMapping('redirect', [Redirect::class]);
+        $this->actionFactory->addMapping('saveCookie', new LazyCreator(SaveCookie::class));
+        $this->actionFactory->addMapping('displayFile', new LazyCreator(DisplayFile::class));
+        $this->actionFactory->addMapping('redirect', new LazyCreator(Redirect::class));
     }
 }

@@ -6,11 +6,9 @@ use Mcustiel\PowerRoute\Common\ArgumentAware;
 
 class Header implements InputSourceInterface
 {
-    use ArgumentAware;
-
-    public function getValue(ServerRequestInterface $request)
+    public function getValue(ServerRequestInterface $request, $argument)
     {
-        $header = $request->getHeaderLine($this->argument);
+        $header = $request->getHeaderLine($argument);
         return $header ?: null;
     }
 }

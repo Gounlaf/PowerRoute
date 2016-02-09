@@ -32,7 +32,7 @@ abstract class AbstractConditionsMatcher
     /**
      * @param array $condition
      *
-     * @return \Mcustiel\PowerRoute\InputSources\InputSourceInterface
+     * @return \Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject
      */
     protected function getInputSource(array $condition)
     {
@@ -44,7 +44,7 @@ abstract class AbstractConditionsMatcher
     /**
      * @param array $condition
      *
-     * @return \Mcustiel\PowerRoute\InputSources\MatcherInterface
+     * @return \Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject
      */
     protected function getMatcher(array $condition)
     {

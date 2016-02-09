@@ -2,16 +2,15 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 
 class GoToAction implements ActionInterface
 {
-    use PlaceholderEvaluator, ArgumentAware;
+    use PlaceholderEvaluator;
 
-    public function execute(TransactionData $transactionData)
+    public function execute($argument, TransactionData $transactionData)
     {
         $this->argument->executor->execute(
-            $this->getValueOrPlaceholder($this->argument->route, $transactionData),
+            $this->getValueOrPlaceholder($argument, $transactionData),
             $transactionData
         );
     }

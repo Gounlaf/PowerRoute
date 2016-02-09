@@ -7,7 +7,8 @@ use Mcustiel\PowerRoute\Common\ArgumentAwareInterface;
 interface ActionInterface extends ArgumentAwareInterface
 {
     /**
+     * @param mixed                                       $argument
      * @param \Mcustiel\PowerRoute\Common\TransactionData $transactionData This object is modified inside the class.
      */
-    public function execute(TransactionData $transactionData);
+    public function execute($argument, TransactionData $transactionData);
 }

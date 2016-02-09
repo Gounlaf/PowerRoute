@@ -3,37 +3,39 @@ namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\Mockable\DateTime;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 
 class SaveCookie implements ActionInterface
 {
-    use PlaceholderEvaluator, ArgumentAware;
+    use PlaceholderEvaluator;
 
-    public function execute(TransactionData $transactionData)
+    public function execute($argument, TransactionData $transactionData)
     {
         $transactionData->setResponse(
             $transactionData->getResponse()->withHeader(
                 'Set-Cookie',
                 $this->buildSetCookieHeaderValue(
-                    $this->getValueOrPlaceholder($this->argument['value'], $transactionData)
+                    $argument,
+                    $transactionData
                 )
             )
         );
     }
 
-    private function buildSetCookieHeaderValue($value)
+    private function buildSetCookieHeaderValue($argument, $transactionData)
     {
-        return $this->argument['name'] . '=' . $value . $this->getSetCookieDatePart()
-            . (isset($this->argument['domain']) ? '; domain=' . $this->argument['domain'] : '')
-            . (isset($this->argument['path']) ? '; path=' . $this->argument['path'] : '')
-            . (isset($this->argument['secure']) ? '; secure' : '');
+        $value = $this->getValueOrPlaceholder($argument['value'], $transactionData);
+
+        return $argument['name'] . '=' . $value . $this->getSetCookieDatePart($argument)
+            . (isset($argument['domain']) ? '; domain=' . $argument['domain'] : '')
+            . (isset($argument['path']) ? '; path=' . $argument['path'] : '')
+            . (isset($argument['secure']) ? '; secure' : '');
     }
 
-    private function getSetCookieDatePart()
+    private function getSetCookieDatePart($argument)
     {
-        return isset($this->argument['ttl']) ? '; expires=' . date(
+        return isset($argument['ttl']) ? '; expires=' . date(
             DATE_COOKIE,
-            ((new DateTime())->toPhpDateTime()->getTimestamp() + $this->argument['ttl'])
+            ((new DateTime())->toPhpDateTime()->getTimestamp() + $argument['ttl'])
         ) : '';
     }
 }

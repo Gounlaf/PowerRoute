@@ -4,18 +4,20 @@ namespace Mcustiel\PowerRoute\Common\Factories;
 use Mcustiel\PowerRoute\Actions\GoToAction;
 use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
+use Mcustiel\PowerRoute\Common\Creation\LazyCreator;
+use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 
 class ActionFactory extends Mapping
 {
     public function __construct(array $mapping)
     {
-        parent::__construct(array_merge(['goto' => [GoToAction::class]], $mapping));
+        parent::__construct(array_merge(['goto' => new LazyCreator(GoToAction::class)], $mapping));
     }
 
     /**
      * @param array $config
      *
-     * @return \Mcustiel\PowerRoute\Actions\ActionInterface[]
+     * @return \Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject[]
      */
     public function createFromConfig(array $config, PowerRoute $executor)
     {
@@ -33,24 +35,15 @@ class ActionFactory extends Mapping
         $class = key($actionData);
         $this->checkMappingIsValid($class);
 
-        if (is_object($this->mapping[$class])) {
-            return $this->mapping[$class];
-        }
-
-        $className = $this->getClassName($class);
-        $arguments = $this->getConstructorArguments($class);
-
-        $object = new $className($arguments);
-        $object->setArgument(
-            $this->getConstructorArgument($executor, $actionData[$class], $className)
+        return new ClassArgumentObject(
+            $this->mapping[$class]->getInstance(),
+            $this->getConstructorArgument($executor, $actionData[$class], $class)
         );
-
-        return $object;
     }
 
-    private function getConstructorArgument($executor, $argument, $class)
+    private function getConstructorArgument($executor, $argument, $id)
     {
-        if ($class == GoToAction::class) {
+        if ($id == 'goto') {
             $classArgument = new \stdClass;
             $classArgument->route = $argument;
             $classArgument->executor = $executor;

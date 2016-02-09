@@ -2,13 +2,10 @@
 namespace Mcustiel\PowerRoute\InputSources;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 
 class Method implements InputSourceInterface
 {
-    use ArgumentAware;
-
-    public function getValue(ServerRequestInterface $request)
+    public function getValue(ServerRequestInterface $request, $argument)
     {
         return strtoupper($request->getMethod());
     }

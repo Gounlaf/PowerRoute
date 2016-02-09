@@ -14,9 +14,15 @@ class OneConditionMatcher extends AbstractConditionsMatcher implements Condition
     public function matches(array $conditions, ServerRequestInterface $request)
     {
         foreach ($conditions as $condition) {
-            $inputSource = $this->getInputSource($condition);
-            $matcher = $this->getMatcher($condition);
-            if ($matcher->match($inputSource->getValue($request))) {
+            $inputSourceData = $this->getInputSource($condition);
+            $matcherData = $this->getMatcher($condition);
+
+            $inputValue = $inputSourceData->getInstance()->getValue(
+                $request,
+                $inputSourceData->getArgument()
+            );
+
+            if ($matcherData->getInstance()->match($inputValue, $matcherData->getArgument())) {
                 return true;
             }
         }

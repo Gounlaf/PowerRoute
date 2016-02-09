@@ -2,18 +2,17 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 
 class SetHeader implements ActionInterface
 {
-    use PlaceholderEvaluator, ArgumentAware;
+    use PlaceholderEvaluator;
 
-    public function execute(TransactionData $transactionData)
+    public function execute($argument, TransactionData $transactionData)
     {
         return $transactionData->setResponse(
             $transactionData->getResponse()->withHeader(
-                $this->argument['name'],
-                $this->getValueOrPlaceholder($this->argument['value'], $transactionData)
+                $argument['name'],
+                $this->getValueOrPlaceholder($argument['value'], $transactionData)
             )
         );
     }

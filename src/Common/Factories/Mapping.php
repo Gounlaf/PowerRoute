@@ -1,6 +1,8 @@
 <?php
 namespace Mcustiel\PowerRoute\Common\Factories;
 
+use Mcustiel\PowerRoute\Common\Creation\CreatorInterface;
+
 class Mapping
 {
     protected $mapping = [];
@@ -17,18 +19,8 @@ class Mapping
         }
     }
 
-    public function addMapping($identifier, $classData)
+    public function addMapping($identifier, CreatorInterface $creator)
     {
-        $this->mapping[$identifier] = $classData;
-    }
-
-    protected function getClassName($classId)
-    {
-        return $this->mapping[$classId][0];
-    }
-
-    protected function getConstructorArguments($classId)
-    {
-        return array_slice($this->mapping[$classId], 1);
+        $this->mapping[$identifier] = $creator;
     }
 }

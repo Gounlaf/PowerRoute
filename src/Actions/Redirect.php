@@ -2,19 +2,18 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 
 class Redirect implements ActionInterface
 {
-    use PlaceholderEvaluator, ArgumentAware;
+    use PlaceholderEvaluator;
 
-    public function execute(TransactionData $transactionData)
+    public function execute($argument, TransactionData $transactionData)
     {
         return $transactionData->setResponse(
             $transactionData->getResponse()
             ->withHeader(
                 'Location',
-                $this->getValueOrPlaceholder($this->argument, $transactionData)
+                $this->getValueOrPlaceholder($argument, $transactionData)
             )
             ->withStatus(302)
         );

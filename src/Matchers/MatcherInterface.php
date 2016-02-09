@@ -1,14 +1,13 @@
 <?php
 namespace Mcustiel\PowerRoute\Matchers;
 
-use Mcustiel\PowerRoute\Common\ArgumentAwareInterface;
-
-interface MatcherInterface extends ArgumentAwareInterface
+interface MatcherInterface
 {
     /**
      * @param mixed $value
+     * @param mixed $argument
      *
      * @return boolean
      */
-    public function match($value);
+    public function match($value, $argument);
 }

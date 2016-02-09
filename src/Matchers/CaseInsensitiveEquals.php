@@ -1,14 +1,10 @@
 <?php
 namespace Mcustiel\PowerRoute\Matchers;
 
-use Mcustiel\PowerRoute\Common\ArgumentAware;
-
 class CaseInsensitiveEquals implements MatcherInterface
 {
-    use ArgumentAware;
-
-    public function match($value)
+    public function match($value, $argument)
     {
-        return strtolower($value) == strtolower($this->argument);
+        return strtolower($value) == strtolower($argument);
     }
 }

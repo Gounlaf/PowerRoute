@@ -1,14 +1,10 @@
 <?php
 namespace Mcustiel\PowerRoute\Matchers;
 
-use Mcustiel\PowerRoute\Common\ArgumentAware;
-
 class InArray implements MatcherInterface
 {
-    use ArgumentAware;
-
-    public function match($value)
+    public function match($value, $argument)
     {
-        return in_array($value, $this->argument);
+        return in_array($value, $argument);
     }
 }

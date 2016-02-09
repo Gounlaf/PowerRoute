@@ -76,7 +76,7 @@ class PowerRoute
         );
 
         foreach ($actions as $action) {
-            $action->execute($transactionData);
+            $action->getInstance()->execute($action->getArgument(), $transactionData);
         }
     }
 
@@ -98,7 +98,7 @@ class PowerRoute
             );
         }
 
-        throw new \RuntimeException('Invalid exception');
+        throw new \RuntimeException('Invalid condition specified for route: ' . $route);
     }
 
     private function getConditionsMatcher($matcher)

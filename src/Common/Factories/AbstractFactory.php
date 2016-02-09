@@ -1,6 +1,8 @@
 <?php
 namespace Mcustiel\PowerRoute\Common\Factories;
 
+use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
+
 abstract class AbstractFactory extends Mapping
 {
     /**
@@ -15,25 +17,6 @@ abstract class AbstractFactory extends Mapping
         $class = key($config);
         $this->checkMappingIsValid($class);
 
-        return $this->getInstance($class, $config);
-    }
-
-    private function getInstance($class, $config)
-    {
-        if (is_object($this->mapping[$class])) {
-            return $this->mapping[$class];
-        }
-
-        return $this->createInstance($this->getClassName($class), $config, $class);
-    }
-
-    private function createInstance($className, $config, $class)
-    {
-        $arguments = $this->getConstructorArguments($class);
-
-        $object = new $className(...$arguments);
-        $object->setArgument($config[$class]);
-
-        return $object;
+        return new ClassArgumentObject($this->mapping[$class]->getInstance(), $config[$class]);
     }
 }
