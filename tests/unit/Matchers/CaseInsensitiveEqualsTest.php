@@ -16,7 +16,6 @@ class CaseInsensitiveEqualsTest extends \PHPUnit_Framework_TestCase
     public function setMatcher()
     {
         $this->matcher = new CaseInsensitiveEquals();
-        $this->matcher->setArgument('PoTaTo');
     }
 
     /**
@@ -24,7 +23,7 @@ class CaseInsensitiveEqualsTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnTrue()
     {
-        $this->assertTrue($this->matcher->match('pOtAtO'));
+        $this->assertTrue($this->matcher->match('PoTaTo', 'pOtAtO'));
     }
 
     /**
@@ -32,6 +31,6 @@ class CaseInsensitiveEqualsTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnFalse()
     {
-        $this->assertFalse($this->matcher->match('tomato'));
+        $this->assertFalse($this->matcher->match('PoTaTo', 'tomato'));
     }
 }

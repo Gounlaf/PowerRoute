@@ -11,5 +11,5 @@ interface InputSourceInterface
      *
      * @return mixed
      */
-    public function getValue(ServerRequestInterface $request, $argument);
+    public function getValue(ServerRequestInterface $request, $argument = null);
 }

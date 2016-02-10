@@ -10,13 +10,14 @@ class InArrayTest extends \PHPUnit_Framework_TestCase
      */
     private $matcher;
 
+    private $argument = ['tomato' => 'potato'];
+
     /**
      * @before
      */
     public function setMatcher()
     {
         $this->matcher = new InArray();
-        $this->matcher->setArgument(['tomato' => 'potato']);
     }
 
     /**
@@ -24,7 +25,7 @@ class InArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnTrue()
     {
-        $this->assertTrue($this->matcher->match('potato'));
+        $this->assertTrue($this->matcher->match('potato', $this->argument));
     }
 
     /**
@@ -32,6 +33,6 @@ class InArrayTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnFalse()
     {
-        $this->assertFalse($this->matcher->match('tomato'));
+        $this->assertFalse($this->matcher->match('tomato', $this->argument));
     }
 }

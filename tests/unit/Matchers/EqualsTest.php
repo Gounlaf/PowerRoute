@@ -16,7 +16,6 @@ class EqualsTest extends \PHPUnit_Framework_TestCase
     public function setMatcher()
     {
         $this->matcher = new Equals();
-        $this->matcher->setArgument('potato');
     }
 
     /**
@@ -24,7 +23,7 @@ class EqualsTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnTrue()
     {
-        $this->assertTrue($this->matcher->match('potato'));
+        $this->assertTrue($this->matcher->match('potato', 'potato'));
     }
 
     /**
@@ -32,6 +31,6 @@ class EqualsTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnFalse()
     {
-        $this->assertFalse($this->matcher->match('tomato'));
+        $this->assertFalse($this->matcher->match('potato', 'tomato'));
     }
 }

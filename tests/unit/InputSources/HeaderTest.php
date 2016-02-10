@@ -20,8 +20,7 @@ class HeaderTest extends AbstractInputSourceTest
             ->method('getHeaderLine')
             ->with('X-Banana')
             ->willReturn('potato');
-        $this->evaluator->setArgument('X-Banana');
-        $this->assertEquals('potato', $this->evaluator->getValue($this->request));
+        $this->assertEquals('potato', $this->evaluator->getValue($this->request, 'X-Banana'));
     }
 
     /**
@@ -34,7 +33,6 @@ class HeaderTest extends AbstractInputSourceTest
             ->method('getHeaderLine')
             ->with('X-Banana')
             ->willReturn('');
-        $this->evaluator->setArgument('X-Banana');
-        $this->assertNull($this->evaluator->getValue($this->request));
+        $this->assertNull($this->evaluator->getValue($this->request, 'X-Banana'));
     }
 }

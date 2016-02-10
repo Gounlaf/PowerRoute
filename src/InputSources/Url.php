@@ -8,7 +8,7 @@ class Url implements InputSourceInterface
 {
     use RequestUrlAccess;
 
-    public function getValue(ServerRequestInterface $request, $argument)
+    public function getValue(ServerRequestInterface $request, $argument = null)
     {
         return $this->getValueFromUrlPlaceholder($argument, $request->getUri());
     }

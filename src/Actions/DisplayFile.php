@@ -8,7 +8,7 @@ class DisplayFile implements ActionInterface
 {
     use PlaceholderEvaluator;
 
-    public function execute($argument, TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         $transactionData->setResponse(
             $transactionData->getResponse()->withBody(

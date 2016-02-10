@@ -14,13 +14,14 @@ class SetHeaderTest extends \PHPUnit_Framework_TestCase
      */
     private $action;
 
+    private $argument = ['name' => 'Location', 'value' => 'http://github.com'];
+
     /**
      * @before
      */
     public function initAction()
     {
         $this->action = new SetHeader();
-        $this->action->setArgument(['name' => 'Location', 'value' => 'http://github.com']);
     }
 
     /**
@@ -29,7 +30,7 @@ class SetHeaderTest extends \PHPUnit_Framework_TestCase
     public function shouldSetAHeader()
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
-        $this->action->execute($transaction);
+        $this->action->execute($transaction, $this->argument);
         $this->assertArrayHasKey('Location', $transaction->getResponse()->getHeaders());
         $this->assertEquals(
             'http://github.com',
@@ -46,7 +47,7 @@ class SetHeaderTest extends \PHPUnit_Framework_TestCase
             new ServerRequest(),
             new Response('data://text/plain,This is the previous text')
         );
-        $this->action->execute($transaction);
+        $this->action->execute($transaction, $this->argument);
         $this->assertArrayHasKey('Location', $transaction->getResponse()->getHeaders());
         $this->assertEquals(
             'http://github.com',

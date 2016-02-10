@@ -10,13 +10,14 @@ class RegExpTest extends \PHPUnit_Framework_TestCase
      */
     private $matcher;
 
+    private $argument = '/\d+/';
+
     /**
      * @before
      */
     public function setMatcher()
     {
         $this->matcher = new RegExp();
-        $this->matcher->setArgument('/\d+/');
     }
 
     /**
@@ -24,7 +25,7 @@ class RegExpTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnTrue()
     {
-        $this->assertTrue($this->matcher->match('123456'));
+        $this->assertTrue($this->matcher->match('123456', $this->argument));
     }
 
     /**
@@ -32,6 +33,6 @@ class RegExpTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReturnFalse()
     {
-        $this->assertTrue($this->matcher->match('123abc'));
+        $this->assertTrue($this->matcher->match('123abc', $this->argument));
     }
 }

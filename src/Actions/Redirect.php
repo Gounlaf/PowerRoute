@@ -7,7 +7,7 @@ class Redirect implements ActionInterface
 {
     use PlaceholderEvaluator;
 
-    public function execute($argument, TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         return $transactionData->setResponse(
             $transactionData->getResponse()

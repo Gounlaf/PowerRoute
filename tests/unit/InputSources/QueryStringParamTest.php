@@ -20,8 +20,7 @@ class QueryStringParamTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
-        $this->evaluator->setArgument('banana');
-        $this->assertEquals('potato', $this->evaluator->getValue($this->request));
+        $this->assertEquals('potato', $this->evaluator->getValue($this->request, 'banana'));
     }
 
     /**
@@ -33,7 +32,6 @@ class QueryStringParamTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getQueryParams')
             ->willReturn(['banana' => 'potato']);
-        $this->evaluator->setArgument('coconut');
-        $this->assertNull($this->evaluator->getValue($this->request));
+        $this->assertNull($this->evaluator->getValue($this->request, 'coconut'));
     }
 }

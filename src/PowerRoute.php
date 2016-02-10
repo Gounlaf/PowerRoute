@@ -76,7 +76,7 @@ class PowerRoute
         );
 
         foreach ($actions as $action) {
-            $action->getInstance()->execute($action->getArgument(), $transactionData);
+            $action->getInstance()->execute($transactionData, $action->getArgument());
         }
     }
 

@@ -9,5 +9,5 @@ interface ActionInterface
      * @param mixed                                       $argument
      * @param \Mcustiel\PowerRoute\Common\TransactionData $transactionData This object is modified inside the class.
      */
-    public function execute($argument, TransactionData $transactionData);
+    public function execute(TransactionData $transactionData, $argument = null);
 }

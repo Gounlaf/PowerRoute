@@ -20,7 +20,6 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
     public function initAction()
     {
         $this->action = new Redirect();
-        $this->action->setArgument('http://github.com');
     }
 
     /**
@@ -29,7 +28,7 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
     public function shouldSetARedirectResponse()
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
-        $this->action->execute($transaction);
+        $this->action->execute($transaction, 'http://github.com');
         $this->assertEquals(302, $transaction->getResponse()->getStatusCode());
         $this->assertArrayHasKey('Location', $transaction->getResponse()->getHeaders());
         $this->assertEquals(
@@ -47,7 +46,7 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
             new ServerRequest(),
             new Response('data://text/plain,This is the previous text')
         );
-        $this->action->execute($transaction);
+        $this->action->execute($transaction, 'http://github.com');
         $this->assertEquals(302, $transaction->getResponse()->getStatusCode());
         $this->assertArrayHasKey('Location', $transaction->getResponse()->getHeaders());
         $this->assertEquals(
