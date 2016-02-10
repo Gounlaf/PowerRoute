@@ -2,35 +2,29 @@
 namespace Mcustiel\PowerRoute\Tests\Factories;
 
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
-use Mcustiel\PowerRoute\Common\AbstractArgumentAware;
+use Mcustiel\PowerRoute\Common\Creation\CreatorInterface;
+use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
 
 class InputSourceFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
-    public function shouldReturnAnInstanceIfItIsWasConfigured()
-    {
-        $this->markTestSkipped();
-        $object = new \stdClass();
-        $object->test = 'test';
-        $factory = new InputSourceFactory(['potato' => $object]);
-        $instance = $factory->createFromConfig(['potato' => null]);
-        $this->assertSame($object, $instance);
-    }
-
     public function shouldReturnAnInstanceAndSetArguments()
     {
-        $this->markTestSkipped();
-        $mock = $this->getMockBuilder(AbstractArgumentAware::class)
+        $creator = $this->getMockBuilder(CreatorInterface::class)->disableOriginalConstructor()->getMock();
+
+        $mock = $this->getMockBuilder(InputSourceInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $mock->expects($this->once())
-            ->method('setArgument')
-            ->with($this->equalTo('tomato'));
 
-        $factory = new InputSourceFactory(['potato' => $object]);
-        $instance = $factory->createFromConfig(['potato' => 'tomato']);
-        $this->assertSame($mock, $instance);
+        $creator->expects($this->once())
+            ->method('getInstance')
+            ->willReturn($mock);
+
+        $factory = new InputSourceFactory(['potato' => $creator]);
+        $argumentClassObject = $factory->createFromConfig(['potato' => 'tomato']);
+        $this->assertSame($mock, $argumentClassObject->getInstance());
+        $this->assertSame('tomato', $argumentClassObject->getArgument());
     }
 }
