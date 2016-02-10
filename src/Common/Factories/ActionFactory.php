@@ -3,7 +3,6 @@ namespace Mcustiel\PowerRoute\Common\Factories;
 
 use Mcustiel\PowerRoute\Actions\GoToAction;
 use Mcustiel\PowerRoute\PowerRoute;
-use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\Creation\LazyCreator;
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 

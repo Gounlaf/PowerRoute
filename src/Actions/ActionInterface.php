@@ -2,9 +2,8 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\ArgumentAwareInterface;
 
-interface ActionInterface extends ArgumentAwareInterface
+interface ActionInterface
 {
     /**
      * @param mixed                                       $argument

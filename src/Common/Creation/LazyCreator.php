@@ -4,7 +4,7 @@ namespace Mcustiel\PowerRoute\Common\Creation;
 class LazyCreator implements CreatorInterface
 {
     private $className;
-    private $arguments;
+    private $arguments = [];
 
     public function __construct($className, array $arguments = [])
     {
@@ -19,6 +19,15 @@ class LazyCreator implements CreatorInterface
                 'Error creating instance. Class does not exists: ' . $this->className
             );
         }
-        return eval("new {$this->className}(" . implode(',', $this->arguments) . ")");
+        return eval("return new \\{$this->className}(" . $this->argumentsArrayToArgumentsString() . ");");
+    }
+
+    public function argumentsArrayToArgumentsString()
+    {
+        $argumentsList = '';
+        foreach (array_keys($this->arguments) as $key) {
+            $argumentsList .= '$this->arguments[\'' . $key . '\'],';
+        }
+        return rtrim($argumentsList, ',');
     }
 }

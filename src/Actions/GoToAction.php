@@ -9,8 +9,8 @@ class GoToAction implements ActionInterface
 
     public function execute($argument, TransactionData $transactionData)
     {
-        $this->argument->executor->execute(
-            $this->getValueOrPlaceholder($argument, $transactionData),
+        $argument->executor->execute(
+            $this->getValueOrPlaceholder($argument->route, $transactionData),
             $transactionData
         );
     }
