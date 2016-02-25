@@ -17,7 +17,7 @@ use Mcustiel\PowerRoute\Matchers\InArray;
 use Mcustiel\Mockable\DateTimeUtils;
 use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
-use Mcustiel\PowerRoute\Common\Creation\LazyCreator;
+use Mcustiel\Creature\LazyCreator;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Mcustiel\PowerRoute\Common\Factories;
 
-use Mcustiel\PowerRoute\Common\Creation\CreatorInterface;
+use Mcustiel\Creature\CreatorInterface;
 
 class Mapping
 {

@@ -2,7 +2,7 @@
 namespace Mcustiel\PowerRoute\Tests\Factories;
 
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
-use Mcustiel\PowerRoute\Common\Creation\CreatorInterface;
+use Mcustiel\Creature\CreatorInterface;
 use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
 
 class InputSourceFactoryTest extends \PHPUnit_Framework_TestCase
