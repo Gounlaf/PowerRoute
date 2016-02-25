@@ -6,8 +6,8 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 interface ActionInterface
 {
     /**
-     * @param mixed                                       $argument
      * @param \Mcustiel\PowerRoute\Common\TransactionData $transactionData This object is modified inside the class.
+     * @param mixed                                       $argument
      */
     public function execute(TransactionData $transactionData, $argument = null);
 }

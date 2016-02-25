@@ -1,5 +1,5 @@
-# PowerRoute
-Power route is a PHP routing system that can execute different sets of actions based in several components of the HTTP requests and is fully compatible with PSR-7.
+# PowerRoute! 2
+PowerRoute! is a PHP routing system that can execute different sets of actions based in several components of the HTTP requests and is fully compatible with PSR-7.
 
 The configuration is formed by three main components and defines a binary tree:
 * **Input sources**: The input sources are the component that takes data from the request to be evaluated.
@@ -13,25 +13,24 @@ The full system can be extended by adding input sources, matchers and actions. A
 The components are grouped forming the nodes of the binary tree, each node looks as following:
 
 ```php
-'route1' => [
-    'condition' => [ // The condition is formed by the input source and the matcher
-        'input-source' => [
-        // The key is the identifier, and the value is the argument. It's the same for input sources, matchers and actions.
-            'cookie' => 'cookieTest'
+'expectationUrl' => [
+    'condition' => [
+        'one-of' => [
+            [
+                'input-source' => ['url' => 'path'],
+                'matcher' => [ 'matches' => '/some/url/?' ],
+            ],
         ],
-        'matcher' => [
-            'notNull' => null
-        ]
     ],
     'actions' => [
-        'if-matches' => [ // This is an array with all the actions to run when the condition evaluates as true
-                'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html' // Placeholders can be used to access request data.
+        'if-matches' => [
+            ['myCustomAction' => 'withSomeParameter'],
         ],
-        'else' => [ // This is an array with all the actions to run when the condition evaluates as false
-                'goto' => 'route2'
-        ]
-    ]
-]
+        'else' => [
+            ['notFound' => null],
+        ],
+    ],
+],
 ```
 
 [![Build Status](https://travis-ci.org/mcustiel/PowerRoute.png?branch=master)](https://travis-ci.org/mcustiel/PowerRoute)
@@ -49,7 +48,7 @@ The components are grouped forming the nodes of the binary tree, each node looks
     * [Input sources](#input-sources)
     * [Matchers](#matchers)
     * [Actions](#actions)
-* [Extending PowerRoute](#extending-powerroute)
+* [Extending PowerRoute!](#extending-powerroute)
     * [Creating your own actions](#creating-your-own-actions)
         * [TransactionData class](#transactiondata-class)
         * [Placeholders](#placeholders)
@@ -105,9 +104,7 @@ A configuration that always redirects to google.com:
             'condition' => [],
             'actions' => [
                 'if-matches' => [
-                    [
-                        'redirect' => 'http://www.google.com'
-                    ]
+                    [ 'redirect' => 'http://www.google.com' ]
                 ]
             ]
         ]
@@ -121,28 +118,57 @@ You can use the names you prefer for the input sources, the matchers and the act
 
 After all the configuration is correctly defined, Executor class must be used to walk the graph based in the request received.
 To create an instance of Executor class, the factories for Actions, Input Sources and Matchers must be created first.
+Each factory constructor expects an array of Mcustiel\Creature\CreatorInterface objects, indexed by the identificator of the class used in PowerRoute! config file. See following example:  
 
 ```php
+use Mcustiel\PowerRoute\PowerRoute;
+
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
+
+Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+
 use Mcustiel\PowerRoute\Matchers\NotNull;
 use Mcustiel\PowerRoute\Matchers\Equals;
+
 use Mcustiel\PowerRoute\InputSources\QueryStringParam;
+
 use Mcustiel\PowerRoute\Actions\Redirect;
+
+use Mcustiel\Creature\SingletonLazyCreator;
+
 use Your\Namespace\MyMatcher;
 use Your\Namespace\MyInputSource;
 use Your\Namespace\MyAction;
 
 $matcherFactory = new MatcherFactory(
-    [ 'notNull' => NotNull::class, 'equals' => Equals::class, 'someSpecialMatcher' => MyMatcher::class ]
+    [ 
+        'notNull' => new SingletonLazyCreator(NotNull::class), 
+        'equals' => new SingletonLazyCreator(Equals::class),
+        'someSpecialMatcher' => new SingletonLazyCreator(MyMatcher::class)
+    ]
 );
 $inputSourceFactory = new InputSourceFactory(
-    [ 'get' => QueryStringParam::class, 'someSpecialInputSource' => MyInputSource::class ]
+    [ 
+        'get' => new SingletonLazyCreator(QueryStringParam::class), 
+        'someSpecialInputSource' => new SingletonLazyCreator(MyInputSource::class)
+    ]
 );
 $actionFactory = new ActionFactory(
-    [ 'redirect' => Redirect::class, 'someSpecialAction' => MyAction::class ]
+    [ 
+        'redirect' => new SingletonLazyCreator(Redirect::class),
+        'someSpecialAction' => new SingletonLazyCreator(MyAction::class) 
+    ]
 );
 
 $config = $yourConfigManager->getYourPowerRouteConfig();
-$executor = new Executor($config, $actionFactory, $inputSourceFactory, $matcherFactory);
+$router = new PowerRoute(
+    $config, $
+    actionFactory, 
+    ConditionsMatcherFactory($inputSourceFactory, $matcherFactory)
+);
 ```
 
 After you have your executor instance, just call start method with the PSR7 request and response:
@@ -153,7 +179,7 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response\SapiEmitter;
 
 $request = ServerRequestFactory::fromGlobals();
-$response = $executor->start($request, new Response());
+$response = $router->start($request, new Response());
 
 (new SapiEmiter())->emit($response);
 ```
@@ -161,6 +187,9 @@ $response = $executor->start($request, new Response());
 ## Predefined components
 
 ### Input sources
+
+#### Cookie
+Allows to match the request body.
 
 #### Cookie
 Allows to execute actions based in cookies from the http request.
@@ -200,6 +229,9 @@ A string specifying the part of the url to evaluate. With the following possible
 
 ### Matchers
 
+#### CaseInsensitiveEquals
+Useful to compare two strings without taking case into account.
+
 #### Equals
 Returns true if the value from the input source is equal to another value received as argument.
 
@@ -216,6 +248,10 @@ Returns true if the value from the input source is not null.
 Returns true if the value from the input source matches a regular expression received as argument.
 
 ### Actions
+
+### Goto
+
+This is a default action that is always added, it's identifier is the string 'goto'. It allow to jump the execution to another node. It's argument is the name of the node to execute.
 
 #### DisplayFile
 
@@ -238,17 +274,25 @@ This action sets the value of a cookie. It receives as an argument an object wit
 * path
 * secure
 
+#### ServerError
+
+Sets the response statusCode to 500. Other error statusCode can also be passed as argument. On invalid error given, sets 500.
+
 #### SetHeader
 
 This action sets the value of a header. As an argument receives an object with the following keys:
 * name
 * value
 
-## Extending PowerRoute
+#### StatusCode
+
+Sets the response statusCode to 200 as default. Other error statusCode can be passed as argument. On invalid error throws an exception.
+
+## Extending PowerRoute!
 
 ### Creating your own actions
 
-To create your own actions to be used through PowerRoute you have to create a class in which you should extend AbstractArgumentAware class and must implement ActionInterface. If you want to give your action the ability to support placeholders, you you must use PlacheolderEvaluator trait.
+To create your own actions to be used through PowerRoute! you have to create a class in which you should extend AbstractArgumentAware class and must implement ActionInterface. If you want to give your action the ability to support placeholders, you you must use PlacheolderEvaluator trait.
 
 * **AbstractArgumentAware** is a class shared by all components, that gives them access to the argument from the configuration.
 * **ActionInterface** defines the method that should be implemented by the action.
@@ -257,7 +301,7 @@ To create your own actions to be used through PowerRoute you have to create a cl
 ```php
 interface ActionInterface
 {
-    public function execute(\Mcustiel\PowerRoute\Common\TransactionData $transactionData);
+    public function execute(\Mcustiel\PowerRoute\Common\TransactionData $transactionData, $argument = null);
 }
 ```
 
@@ -270,27 +314,28 @@ You can even init a framework inside an action.
 #### Examples of an action:
 
 ```php
-class NotFound implements ActionInterface
+interface ActionInterface
 {
-    public function execute(TransactionData $transactionData)
-    {
-        return $transactionData->setResponse($transactionData->getResponse()->withStatus(404, 'Not Found'));
-    }
+    /**
+     * @param \Mcustiel\PowerRoute\Common\TransactionData $transactionData This object is modified inside the class.
+     * @param mixed                                       $argument        This optional argument comes from the config of PowerRoute!
+     */
+    public function execute(TransactionData $transactionData, $argument = null);
 }
 ```
 
 ```php
-class Redirect extends AbstractArgumentAware implements ActionInterface
+class Redirect implements ActionInterface
 {
     use PlaceholderEvaluator;
 
-    public function execute(TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         return $transactionData->setResponse(
             $transactionData->getResponse()
             ->withHeader(
                 'Location',
-                $this->getValueOrPlaceholder($this->argument, $transactionData)
+                $this->getValueOrPlaceholder($argument, $transactionData)
             )
             ->withStatus(302)
         );
@@ -338,28 +383,29 @@ Where source indicates from where to obtain the value, and name is the identifie
 
 The input source is the component used to access data from the request, it uses a matcher uses to validate the data and the request.
 
-It also should extend AbstractArgumentAware to have access to the argument from the configuration and it must implement InputSourceInterface. It must return the value so PowerRoute gives it to the matcher.
+It also should extend AbstractArgumentAware to have access to the argument from the configuration and it must implement InputSourceInterface. It must return the value so PowerRoute! gives it to the matcher.
 
 ```php
 interface InputSourceInterface
 {
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param mixed                                    $argument
      *
      * @return mixed
      */
-    public function evaluate(ServerRequestInterface $request);
+    public function getValue(ServerRequestInterface $request, $argument = null);
 }
 ```
 
 #### Example of an InputSource:
 
 ```php
-class Header extends AbstractArgumentAware implements InputSourceInterface
+class Header implements InputSourceInterface
 {
-    public function evaluate(ServerRequestInterface $request)
+    public function getValue(ServerRequestInterface $request, $argument = null)
     {
-        $header = $request->getHeaderLine($this->argument);
+        $header = $request->getHeaderLine($argument);
         return $header ?: null;
     }
 }
@@ -374,77 +420,26 @@ interface MatcherInterface
 {
     /**
      * @param mixed $value
+     * @param mixed $argument
      *
      * @return boolean
      */
-    public function match($value);
+    public function match($value, $argument = null);
 }
 ```
 
 #### Example of a Matcher:
 
 ```php
-class Equals extends AbstractArgumentAware implements MatcherInterface
+class Equals implements MatcherInterface
 {
-    public function match($value)
+    public function match($value, $argument = null)
     {
-        return $value == $this->argument;
+        return $value == $argument;
     }
 }
 ```
 
-## Possible uses
+## Examples
 
-### API versioning
-
-```php
-return [
-    'root' => 'checkHeaders',
-    'nodes' => [
-        'checkHeaders' => [
-            'condition' => [
-                'input-source' => [
-                    'header' => 'Accept'
-                ],
-                'matcher' => [
-                    'regExp' => '/application\/vnd.myapp.(\d+)\+json/'
-                ]
-            ],
-            'actions' => [
-                'if-matches' => [
-                    'myActionChooseApiFromHeader' => '{{header.Accept}}'
-                ],
-                'else' => [
-                    'goto' => 'checkUrl'
-                ]
-            ]
-        ],
-        'checkUrl' => [
-            'condition' => [
-                'input-source' => [
-                    'uri' => null
-                ],
-                'matcher' => [
-                    'regExp' => '/myApiPath\/(\d+)\/.*$/'
-                ]
-            ],
-            'actions' => [
-                'if-matches' => [
-                    'myActionChooseApiFromUrl' => '{{uri.path}}'
-                ],
-                'else' => [
-                    'goto' => 'default'
-                ]
-            ]
-        ],
-        'default' => [
-            'condition' => [],
-            'actions' => [
-                'if-matches' => [
-                    'runLatestApiVersion' => null
-                ]
-            ]
-        ]
-    ]
-]
-```
+Phiremock uses PowerRoute, you can check it's config file [here](https://github.com/mcustiel/phiremock/blob/master/src/Server/Config/router-config.php).

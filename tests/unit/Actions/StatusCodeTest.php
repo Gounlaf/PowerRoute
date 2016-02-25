@@ -5,9 +5,9 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
-use Mcustiel\PowerRoute\Actions\ServerError;
+use Mcustiel\PowerRoute\Actions\StatusCode;
 
-class ServerErrorTest extends \PHPUnit_Framework_TestCase
+class StatusCodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Mcustiel\PowerRoute\Actions\ActionInterface
@@ -19,23 +19,23 @@ class ServerErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function initAction()
     {
-        $this->action = new ServerError();
+        $this->action = new StatusCode();
     }
 
     /**
      * @test
      */
-    public function shouldSetAServerErrorResponseWithDefaultCode()
+    public function shouldSetAResponseWithDefaultStatusCode()
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
         $this->action->execute($transaction);
-        $this->assertEquals(500, $transaction->getResponse()->getStatusCode());
+        $this->assertEquals(200, $transaction->getResponse()->getStatusCode());
     }
 
     /**
      * @test
      */
-    public function shouldSetAServerErrorResponseWithGivenCode()
+    public function shouldSetAResponseWithGivenCode()
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
         $this->action->execute($transaction, 505);
@@ -45,14 +45,14 @@ class ServerErrorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldSetAServerErrorResponseAndKeepOldDataFromResponse()
+    public function shouldSetAResponseStatusCodeAndKeepOldDataFromResponse()
     {
         $transaction = new TransactionData(
             new ServerRequest(),
             new Response('data://text/plain,This is the previous text')
         );
-        $this->action->execute($transaction);
-        $this->assertEquals(500, $transaction->getResponse()->getStatusCode());
+        $this->action->execute($transaction, 204);
+        $this->assertEquals(204, $transaction->getResponse()->getStatusCode());
         $this->assertEquals(
             'This is the previous text',
             $transaction->getResponse()->getBody()->__toString()
@@ -61,14 +61,13 @@ class ServerErrorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Invalid status code: 605
      */
-    public function shouldSetDefaultOnInvalidStatusCode()
+    public function shouldFailDefaultOnInvalidStatusCode()
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
-        $this->action->execute($transaction, 499);
-        $this->assertEquals(500, $transaction->getResponse()->getStatusCode());
-
-        $this->action->execute($transaction, 600);
+        $this->action->execute($transaction, 605);
         $this->assertEquals(500, $transaction->getResponse()->getStatusCode());
     }
 }

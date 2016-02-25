@@ -3,13 +3,13 @@ namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
 
-class ServerError implements ActionInterface
+class StatusCode implements ActionInterface
 {
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        $argument = (integer) $argument;
-        if ($argument < 500 || $argument >= 600) {
-            $argument = 500;
+        $argument = (integer) $argument ?: 200;
+        if ($argument < 100 || $argument >= 600) {
+            throw new \RuntimeException('Invalid status code: ' . $argument);
         }
         return $transactionData->setResponse(
             $transactionData->getResponse()->withStatus($argument)
