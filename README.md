@@ -1,6 +1,8 @@
 # PowerRoute! 2
 PowerRoute! is a PHP routing system that can execute different sets of actions based in several components of the HTTP requests and is fully compatible with PSR-7.
 
+PowertRoute! is [![PPM Compatible](https://raw.githubusercontent.com/php-pm/ppm-badge/master/ppm-badge.png)](https://github.com/php-pm/php-pm).
+
 The configuration is formed by three main components and defines a binary tree:
 * **Input sources**: The input sources are the component that takes data from the request to be evaluated.
 * **Matchers**: This component receives the value from the input source and executes a check on it.
