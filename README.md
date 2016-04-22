@@ -66,24 +66,6 @@ This project is published in packagist, so you just need to add it as a dependen
     }
 ```
 
-If you want to access directly to this repo, adding this to your composer.json should be enough:
-
-```javascript
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/mcustiel/PowerRoute"
-        }
-    ],
-    "require": {
-        "mcustiel/power-route": "dev-master"
-    }
-}
-```
-
-Or just download the release and include it in your path.
-
 ## How to use
 
 ### The configuration
