@@ -6,7 +6,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use JMS\Serializer\Exception\RuntimeException;
-use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
 use Mcustiel\PowerRoute\Common\ConfigOptions;
 

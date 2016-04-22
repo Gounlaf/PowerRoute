@@ -62,7 +62,7 @@ trait PlaceholderEvaluator
 
     private function getParsedUrl($name, ServerRequestInterface $request)
     {
-        if ($name != null) {
+        if ($name !== null) {
             return $this->getValueFromUrlPlaceholder($name, $request->getUri());
         }
         return $request->getUri()->__toString();

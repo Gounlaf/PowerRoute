@@ -21,4 +21,4 @@ class ClassArgumentObject
     {
         return $this->argument;
     }
- }
+}
