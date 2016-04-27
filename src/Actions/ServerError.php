@@ -11,7 +11,7 @@ class ServerError implements ActionInterface
         if ($argument < 500 || $argument >= 600) {
             $argument = 500;
         }
-        return $transactionData->setResponse(
+        $transactionData->setResponse(
             $transactionData->getResponse()->withStatus($argument)
         );
     }

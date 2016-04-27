@@ -11,7 +11,7 @@ class StatusCode implements ActionInterface
         if ($argument < 100 || $argument >= 600) {
             throw new \RuntimeException('Invalid status code: ' . $argument);
         }
-        return $transactionData->setResponse(
+        $transactionData->setResponse(
             $transactionData->getResponse()->withStatus($argument)
         );
     }

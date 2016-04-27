@@ -11,7 +11,9 @@
 	},
 	"autoload-dev" : {
 		"psr-4" : {
-			"Mcustiel\\PowerRoute\\Tests\\" : "tests/unit"
+			"Mcustiel\\PowerRoute\\Tests\\Unit\\" : "tests/unit",
+			"Mcustiel\\PowerRoute\\Tests\\Functional\\" : "tests/functional",
+			"Mcustiel\\PowerRoute\\Tests\\Fixtures\\" : "tests/fixtures"
 		}
 	},
 	"name" : "mcustiel/power-route",

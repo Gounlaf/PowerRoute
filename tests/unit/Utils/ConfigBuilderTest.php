@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\Utils;
+namespace Mcustiel\PowerRoute\Tests\Unit\Utils;
 
 use Mcustiel\PowerRoute\Utils\NodeBuilder;
 use Mcustiel\PowerRoute\Utils\ConfigBuilder;

@@ -8,6 +8,8 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 use JMS\Serializer\Exception\RuntimeException;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
 use Mcustiel\PowerRoute\Common\ConfigOptions;
+use Mcustiel\Creature\LazyCreator;
+use Mcustiel\PowerRoute\Actions\Psr7MiddlewareAction;
 
 class PowerRoute
 {
@@ -30,6 +32,10 @@ class PowerRoute
      * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory $conditionMatcherFactory
      */
     private $conditionMatcherFactory;
+    /**
+     * @var \Mcustiel\Creature\LazyCreator $psr7InvokerCreator
+     */
+    private $psr7InvokerCreator;
 
     public function __construct(
         array $config,
@@ -40,6 +46,7 @@ class PowerRoute
         $this->config = $config;
         $this->conditionMatcherFactory = $conditionsMatcherFactory;
         $this->actionFactory = $actionFactory;
+        $this->psr7InvokerCreator = new LazyCreator(Psr7MiddlewareAction::class);
     }
 
     public function setConfig(array $config)
@@ -75,7 +82,12 @@ class PowerRoute
         );
 
         foreach ($actions as $action) {
-            $action->getInstance()->execute($transactionData, $action->getArgument());
+            $instance = $action->getInstance();
+            if (method_exists($instance, '__invoke')) {
+                $this->psr7InvokerCreator->getInstance()->execute($transactionData, $action);
+            } else {
+                $instance->execute($transactionData, $action->getArgument());
+            }
         }
     }
 

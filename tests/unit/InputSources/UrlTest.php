@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\InputSources;
+namespace Mcustiel\PowerRoute\Tests\Unit\InputSources;
 
 use Psr\Http\Message\UriInterface;
 use Mcustiel\PowerRoute\InputSources\Url;

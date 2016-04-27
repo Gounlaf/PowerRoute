@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\Actions;
+namespace Mcustiel\PowerRoute\Tests\Unit\Actions;
 
 use Mcustiel\PowerRoute\Matchers\NotNull;
 

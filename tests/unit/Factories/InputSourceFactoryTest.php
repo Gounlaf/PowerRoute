@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests\Factories;
+namespace Mcustiel\PowerRoute\Tests\Unit\Factories;
 
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\Creature\CreatorInterface;

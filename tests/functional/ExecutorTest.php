@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\PowerRoute\Tests;
+namespace Mcustiel\PowerRoute\Tests\Functional;
 
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
@@ -18,6 +18,7 @@ use Mcustiel\Mockable\DateTimeUtils;
 use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
 use Mcustiel\Creature\LazyCreator;
+use Mcustiel\PowerRoute\Tests\Fixtures\Actions\MiddlewareAction;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
@@ -126,7 +127,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldRunTheDefaultRoute()
+    public function shouldRunTheDefaultRouteWithMiddleware()
     {
         $request = new ServerRequest(
             [],
@@ -141,6 +142,8 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $transactionData->getResponse()->getBody()->__toString());
         $this->assertEquals([ 'http://www.google.com' ], $transactionData->getResponse()->getHeader('Location'));
         $this->assertEquals(302, $transactionData->getResponse()->getStatusCode());
+        $this->assertTrue($transactionData->getResponse()->hasHeader('X-MIDDLEWARE-EXECUTED'));
+        $this->assertEquals([ 'Oh yeah!' ], $transactionData->getResponse()->getHeader('X-MIDDLEWARE-EXECUTED'));
     }
 
     private function buildFactories()
@@ -161,5 +164,6 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->actionFactory->addMapping('saveCookie', new LazyCreator(SaveCookie::class));
         $this->actionFactory->addMapping('displayFile', new LazyCreator(DisplayFile::class));
         $this->actionFactory->addMapping('redirect', new LazyCreator(Redirect::class));
+        $this->actionFactory->addMapping('middleware', new LazyCreator(MiddlewareAction::class));
     }
 }

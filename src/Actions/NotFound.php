@@ -7,6 +7,6 @@ class NotFound implements ActionInterface
 {
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        return $transactionData->setResponse($transactionData->getResponse()->withStatus(404, 'Not Found'));
+        $transactionData->setResponse($transactionData->getResponse()->withStatus(404, 'Not Found'));
     }
 }

@@ -73,8 +73,11 @@ return [
             'actions' => [
                 'if-matches' => [
                     [
-                        'redirect' => 'http://www.google.com'
-                    ]
+                        'redirect' => 'http://www.google.com',
+                    ],
+                    [
+                        'middleware' => null,
+                    ],
                 ]
             ]
         ]

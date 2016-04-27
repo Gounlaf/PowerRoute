@@ -9,7 +9,7 @@ class SetHeader implements ActionInterface
 
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        return $transactionData->setResponse(
+        $transactionData->setResponse(
             $transactionData->getResponse()->withHeader(
                 $argument['name'],
                 $this->getValueOrPlaceholder($argument['value'], $transactionData)
