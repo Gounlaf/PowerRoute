@@ -83,7 +83,7 @@ class PowerRoute
 
         foreach ($actions as $action) {
             $instance = $action->getInstance();
-            if (method_exists($instance, '__invoke')) {
+            if (is_callable($instance)) {
                 $this->psr7InvokerCreator->getInstance()->execute($transactionData, $action);
             } else {
                 $instance->execute($transactionData, $action->getArgument());

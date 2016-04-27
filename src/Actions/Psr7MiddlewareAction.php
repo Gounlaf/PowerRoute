@@ -16,8 +16,10 @@ class Psr7MiddlewareAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
+        $middleware = $argument->getInstance();
+
         $transactionData->setResponse(
-            $argument->getInstance()->__invoke(
+            $middleware(
                 $transactionData->getRequest(),
                 $transactionData->getResponse(),
                 $argument->getArgument()
