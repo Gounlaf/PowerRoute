@@ -147,8 +147,8 @@ $actionFactory = new ActionFactory(
 
 $config = $yourConfigManager->getYourPowerRouteConfig();
 $router = new PowerRoute(
-    $config, $
-    actionFactory, 
+    $config, 
+    $actionFactory, 
     ConditionsMatcherFactory($inputSourceFactory, $matcherFactory)
 );
 ```
@@ -164,6 +164,37 @@ $request = ServerRequestFactory::fromGlobals();
 $response = $router->start($request, new Response());
 
 (new SapiEmiter())->emit($response);
+```
+
+Or, to boost it up, you can use [PHP-PM](https://github.com/php-pm):
+
+```php
+namespace Your\Namespace;
+
+class MyApplication
+{
+    private $router;
+    
+    public function __construct()
+    {
+        // Set up the application
+        // ...
+        $this->router = new PowerRoute(
+            $config, 
+            $actionFactory, 
+            ConditionsMatcherFactory($inputSourceFactory, $matcherFactory)
+        );
+    }
+
+    public function __invoke($request, $response, $next = null)
+    {
+        return $this->router->start($request, $response);
+    }
+}
+```
+and run it as: 
+```bash
+vendor/bin/ppm start --bridge=PHPPM\\Psr7\\Psr7Bridge --bootstrap=Your\\Namespace\\MyApplication
 ```
 
 ## Predefined components
