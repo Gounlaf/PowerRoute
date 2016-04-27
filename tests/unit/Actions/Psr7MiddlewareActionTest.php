@@ -4,7 +4,6 @@ namespace Mcustiel\PowerRoute\Tests\Unit\Actions;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response;
-use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Actions\Psr7MiddlewareAction;
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 use Mcustiel\PowerRoute\Tests\Fixtures\Actions\Middleware;

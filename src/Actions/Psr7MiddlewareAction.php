@@ -2,12 +2,9 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 
 class Psr7MiddlewareAction implements ActionInterface
 {
-    use PlaceholderEvaluator;
-
     /**
      * Executes a PSR-7 middleware.
      *

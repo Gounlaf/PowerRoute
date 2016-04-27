@@ -5,7 +5,6 @@ use Mcustiel\PowerRoute\Utils\NodeBuilder;
 use Mcustiel\PowerRoute\Utils\ConfigBuilder;
 use Mcustiel\PowerRoute\Utils\MatcherBuilder;
 use Mcustiel\PowerRoute\Utils\InputSourceBuilder;
-use Mcustiel\PowerRoute\Common\ConfigOptions;
 
 class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,11 +31,11 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
                 'one-of' => [
                     [
                         'input-source' => [ 'coconut' => 'banana' ],
-                        'matcher' => [ 'potato' => 'tomato' ],
+                        'matcher'      => [ 'potato' => 'tomato' ],
                     ],
                     [
                         'input-source' => [ 'strawberry' => 'pear' ],
-                        'matcher' => [ 'paprika' => 'onion' ],
+                        'matcher'      => [ 'paprika' => 'onion' ],
                     ],
                 ]
             ],

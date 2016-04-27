@@ -29,7 +29,7 @@ class ConfigBuilder
     {
         return [
             ConfigOptions::CONFIG_ROOT_NODE => $this->start,
-            ConfigOptions::CONFIG_NODES => $this->nodes,
+            ConfigOptions::CONFIG_NODES     => $this->nodes,
         ];
     }
 }

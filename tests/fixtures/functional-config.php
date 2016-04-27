@@ -7,7 +7,7 @@
 //                                     --no--- default
 
 return [
-    'root' => 'route1',
+    'root'  => 'route1',
     'nodes' => [
         // Node 1
         'route1' => [
@@ -15,7 +15,7 @@ return [
                 'all-of' => [
                     [
                         'input-source' => [ 'cookie' => 'cookieTest' ],
-                        'matcher' => [ 'notNull' => null ]
+                        'matcher'      => [ 'notNull' => null ]
                     ]
                 ]
             ],
@@ -39,7 +39,7 @@ return [
                 'one-of' => [
                     [
                         'input-source' => [ 'queryString' => 'potato'],
-                        'matcher' => [ 'inArray' => ['baked', 'boiled', 'grilled'] ]
+                        'matcher'      => [ 'inArray' => ['baked', 'boiled', 'grilled'] ]
                     ]
                 ]
             ],
@@ -47,11 +47,11 @@ return [
                 'if-matches' => [
                     [
                         'saveCookie' => [
-                            'name' => 'cookieTest',
-                            'value' => '{{get.potato}}',
-                            'ttl' => '3600',
+                            'name'   => 'cookieTest',
+                            'value'  => '{{get.potato}}',
+                            'ttl'    => '3600',
                             'domain' => '',
-                            'path' => '',
+                            'path'   => '',
                             'secure' => false
                         ]
                     ],
@@ -70,7 +70,7 @@ return [
         // Node 3
         'default' => [
             'condition' => [],
-            'actions' => [
+            'actions'   => [
                 'if-matches' => [
                     [
                         'redirect' => 'http://www.google.com',

@@ -5,7 +5,6 @@ use Mcustiel\PowerRoute\Actions\NotFound;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response;
-use Mcustiel\PowerRoute\Actions\ActionInterface;
 
 class NotFoundTest extends \PHPUnit_Framework_TestCase
 {

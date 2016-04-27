@@ -50,6 +50,7 @@ The components are grouped forming the nodes of the binary tree, each node looks
     * [Actions](#actions)
 * [Extending PowerRoute!](#extending-powerroute)
     * [Creating your own actions](#creating-your-own-actions)
+        * [Using PSR-7 middleware](#using-psr7-middleware)
         * [TransactionData class](#transactiondata-class)
         * [Placeholders](#placeholders)
     * [Creating your own input sources](#creating-your-own-input-sources)
@@ -305,9 +306,8 @@ Sets the response statusCode to 200 as default. Other error statusCode can be pa
 
 ### Creating your own actions
 
-To create your own actions to be used through PowerRoute! you have to create a class in which you should extend AbstractArgumentAware class and must implement ActionInterface. If you want to give your action the ability to support placeholders, you you must use PlacheolderEvaluator trait.
+To create your own actions to be used through PowerRoute! you have to create a class implementing ActionInterface. If you want to give your action the ability to support placeholders, you you must use PlacheolderEvaluator trait.
 
-* **AbstractArgumentAware** is a class shared by all components, that gives them access to the argument from the configuration.
 * **ActionInterface** defines the method that should be implemented by the action.
 * **PlaceholderEvaluator** defines the method getValueOrPlaceholder, that gives your action the ability to parse possible placeholders in a string.
 
@@ -322,7 +322,36 @@ TransactionData is an object that is passed as an argument to all actions, it is
 
 Inside an action you should retrieve the object you want to modify from TransactionData (request or response object). Then you modify it and set the new object again in TransactionData. This must be done this way because PSR7 are immutable.
 
-You can even init a framework inside an action. 
+You can even init a framework inside an action.
+
+#### Using PSR7 middleware:
+
+PowerRoute! supports psr7 middleware as an actions. All you need to do is to map the action name in the config to a class implementing the following method:
+
+```php
+function __invoke($request, $response, $next = null);
+``` 
+You can also map the action name a callable with that signature.
+
+PowerRoute! will call the middleware and pass the configured argument as the `$next` argument.
+
+##### Example:
+
+For the action config:
+```php
+    [ 'myMiddleware' => new OtherMiddleware() ]
+```
+And the factory setup:
+```php
+    [
+        'myMiddleware' => new LazyCreator(MyMiddlewareImplementation::class)
+    ]
+```
+PowerRoute will do something like this:
+```php
+    $implementation = new MyMiddleWareImplementation();
+    $implementation($request, $response, new OtherMiddleware());
+```
 
 #### Examples of an action:
 
