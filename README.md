@@ -326,12 +326,12 @@ You can even init a framework inside an action.
 
 #### Using PSR7 middleware:
 
-PowerRoute! supports psr7 middleware as an actions. All you need to do is to map the action name in the config to a class implementing the following method:
+PowerRoute! supports psr-7 middlewares as actions. All you need to do is to map the action name in the config to a class implementing the following method:
 
 ```php
 function __invoke($request, $response, $next = null);
 ``` 
-You can also map the action name a callable with that signature.
+You can also map the action name to a callable with that signature.
 
 PowerRoute! will call the middleware and pass the configured argument as the `$next` argument.
 
