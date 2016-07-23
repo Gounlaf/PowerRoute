@@ -38,6 +38,8 @@ The components are grouped forming the nodes of the binary tree, each node looks
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcustiel/PowerRoute/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/PowerRoute/?branch=master)
 [![PPM Compatible](https://raw.githubusercontent.com/php-pm/ppm-badge/master/ppm-badge.png)](https://github.com/php-pm/php-pm)
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f28ecdd1-28d0-4385-9183-972ca55cfe93/big.png)](https://insight.sensiolabs.com/projects/f28ecdd1-28d0-4385-9183-972ca55cfe93)
+
 ## Table of contents
 
 * [Installation](#installation)
