@@ -248,6 +248,9 @@ A string specifying the part of the url to evaluate. With the following possible
 #### CaseInsensitiveEquals
 Useful to compare two strings without taking case into account.
 
+#### Contains
+This matcher returns true if the value from the input source contains as a substring the value received as an argument.
+
 #### Equals
 Returns true if the value from the input source is equal to another value received as argument.
 
