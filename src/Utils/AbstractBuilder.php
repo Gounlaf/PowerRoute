@@ -25,7 +25,7 @@ abstract class AbstractBuilder
             throw new \RuntimeException('Actions, Matchers and InputSources should be identified by a name');
         }
         return [
-            $this->name => $this->argument
+            $this->name => $this->argument,
         ];
     }
 }

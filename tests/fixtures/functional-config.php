@@ -15,22 +15,22 @@ return [
                 'all-of' => [
                     [
                         'input-source' => [ 'cookie' => 'cookieTest' ],
-                        'matcher'      => [ 'notNull' => null ]
-                    ]
-                ]
+                        'matcher'      => [ 'notNull' => null ],
+                    ],
+                ],
             ],
             'actions' => [
                 'if-matches' => [
                     [
-                        'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html'
-                    ]
+                        'displayFile' => __DIR__ . '/files/potato-{{cookie.cookieTest}}.html',
+                    ],
                 ],
                 'else' => [
                     [
-                        'goto' => 'route2'
-                    ]
-                ]
-            ]
+                        'goto' => 'route2',
+                    ],
+                ],
+            ],
         ],
 
         // Node 2
@@ -39,9 +39,9 @@ return [
                 'one-of' => [
                     [
                         'input-source' => [ 'queryString' => 'potato'],
-                        'matcher'      => [ 'inArray' => ['baked', 'boiled', 'grilled'] ]
-                    ]
-                ]
+                        'matcher'      => [ 'inArray' => ['baked', 'boiled', 'grilled'] ],
+                    ],
+                ],
             ],
             'actions' => [
                 'if-matches' => [
@@ -52,19 +52,19 @@ return [
                             'ttl'    => '3600',
                             'domain' => '',
                             'path'   => '',
-                            'secure' => false
-                        ]
+                            'secure' => false,
+                        ],
                     ],
                     [
-                        'displayFile' => __DIR__ . '/files/potato-{{get.potato}}.html'
-                    ]
+                        'displayFile' => __DIR__ . '/files/potato-{{get.potato}}.html',
+                    ],
                 ],
                 'else' => [
                     [
-                        'goto' => 'default'
-                    ]
-                ]
-            ]
+                        'goto' => 'default',
+                    ],
+                ],
+            ],
         ],
 
         // Node 3
@@ -78,8 +78,8 @@ return [
                     [
                         'middleware' => null,
                     ],
-                ]
-            ]
-        ]
-    ]
+                ],
+            ],
+        ],
+    ],
 ];

@@ -8,7 +8,7 @@ class ConditionsMatcherFactory
 {
     private $conditionMatchersMap = [
         'allConditionsMatcher' => AllConditionsMatcher::class,
-        'oneConditionsMatcher' => OneConditionMatcher::class
+        'oneConditionsMatcher' => OneConditionMatcher::class,
     ];
 
     private $inputSouceFactory;

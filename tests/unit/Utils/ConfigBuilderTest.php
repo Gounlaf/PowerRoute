@@ -37,7 +37,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
                         'input-source' => [ 'strawberry' => 'pear' ],
                         'matcher'      => [ 'paprika' => 'onion' ],
                     ],
-                ]
+                ],
             ],
             'actions' => [
                 'if-matches' => [
@@ -47,14 +47,14 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
                 'else' => [
                     [ 'onionAction' => 'paprikaAction' ],
                     [ 'pearAction' => 'strawberryAction' ],
-                ]
-            ]
+                ],
+            ],
         ];
         $expected = [
             'start' => 'theNode',
             'nodes' => [
-                'theNode' => $expectedNode
-            ]
+                'theNode' => $expectedNode,
+            ],
         ];
 
         $nodeBuilder = NodeBuilder::create();

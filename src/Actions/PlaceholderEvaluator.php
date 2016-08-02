@@ -11,7 +11,7 @@ trait PlaceholderEvaluator
 
     /**
      *
-     * @param mixed $value
+     * @param mixed                                    $value
      * @param \Psr\Http\Message\ServerRequestInterface $transactiondata
      *
      * @return mixed
@@ -33,8 +33,8 @@ trait PlaceholderEvaluator
 
     /**
      *
-     * @param string $from
-     * @param string|null $name
+     * @param string                                   $from
+     * @param string|null                              $name
      * @param \Psr\Http\Message\ServerRequestInterface $transactionData
      *
      * @return mixed

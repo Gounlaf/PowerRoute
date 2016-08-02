@@ -7,7 +7,7 @@ interface MatcherInterface
      * @param mixed $value
      * @param mixed $argument
      *
-     * @return boolean
+     * @return bool
      */
     public function match($value, $argument = null);
 }

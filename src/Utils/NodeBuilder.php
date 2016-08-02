@@ -19,7 +19,7 @@ class NodeBuilder
         $this->conditions = [];
         $this->actions = [
             ConfigOptions::CONFIG_NODE_ACTIONS_MATCH    => [],
-            ConfigOptions::CONFIG_NODE_ACTIONS_NOTMATCH => []
+            ConfigOptions::CONFIG_NODE_ACTIONS_NOTMATCH => [],
         ];
         $this->operator = self::CONDITION_OPERATOR_ONE;
     }
@@ -57,7 +57,7 @@ class NodeBuilder
             ConfigOptions::CONFIG_NODE_CONDITION => [
                 $this->operator => $this->conditions,
             ],
-            ConfigOptions::CONFIG_NODE_ACTIONS => $this->actions
+            ConfigOptions::CONFIG_NODE_ACTIONS => $this->actions,
         ];
     }
 }
