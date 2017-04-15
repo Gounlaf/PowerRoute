@@ -3,6 +3,7 @@
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
+use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 
 class Psr7MiddlewareAction implements ActionInterface
 {
@@ -14,14 +15,16 @@ class Psr7MiddlewareAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        $middleware = $argument->getInstance();
+        if ($argument instanceof ClassArgumentObject) {
+            $middleware = $argument->getInstance();
 
-        $transactionData->setResponse(
-            $middleware(
-                $transactionData->getRequest(),
-                $transactionData->getResponse(),
-                $argument->getArgument()
-            )
-        );
+            $transactionData->setResponse(
+                $middleware(
+                    $transactionData->getRequest(),
+                    $transactionData->getResponse(),
+                    $argument->getArgument()
+                )
+            );
+        }
     }
 }
