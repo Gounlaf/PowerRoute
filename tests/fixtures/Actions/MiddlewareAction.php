@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Fixtures\Actions;
 
 class MiddlewareAction implements Middleware

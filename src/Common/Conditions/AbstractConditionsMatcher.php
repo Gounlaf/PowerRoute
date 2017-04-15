@@ -1,9 +1,10 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Common\Conditions;
 
+use Mcustiel\PowerRoute\Common\ConfigOptions;
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
-use Mcustiel\PowerRoute\Common\ConfigOptions;
 
 abstract class AbstractConditionsMatcher
 {

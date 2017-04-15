@@ -1,10 +1,11 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\Utils;
 
-use Mcustiel\PowerRoute\Utils\NodeBuilder;
 use Mcustiel\PowerRoute\Utils\ConfigBuilder;
-use Mcustiel\PowerRoute\Utils\MatcherBuilder;
 use Mcustiel\PowerRoute\Utils\InputSourceBuilder;
+use Mcustiel\PowerRoute\Utils\MatcherBuilder;
+use Mcustiel\PowerRoute\Utils\NodeBuilder;
 
 class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,23 +31,23 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
             'condition' => [
                 'one-of' => [
                     [
-                        'input-source' => [ 'coconut' => 'banana' ],
-                        'matcher'      => [ 'potato' => 'tomato' ],
+                        'input-source' => ['coconut' => 'banana'],
+                        'matcher' => ['potato' => 'tomato'],
                     ],
                     [
-                        'input-source' => [ 'strawberry' => 'pear' ],
-                        'matcher'      => [ 'paprika' => 'onion' ],
+                        'input-source' => ['strawberry' => 'pear'],
+                        'matcher' => ['paprika' => 'onion'],
                     ],
                 ],
             ],
             'actions' => [
                 'if-matches' => [
-                    [ 'potatoAction' => 'tomatoAction' ],
-                    [ 'coconutAction' => 'bananaAction' ],
+                    ['potatoAction' => 'tomatoAction'],
+                    ['coconutAction' => 'bananaAction'],
                 ],
                 'else' => [
-                    [ 'onionAction' => 'paprikaAction' ],
-                    [ 'pearAction' => 'strawberryAction' ],
+                    ['onionAction' => 'paprikaAction'],
+                    ['pearAction' => 'strawberryAction'],
                 ],
             ],
         ];

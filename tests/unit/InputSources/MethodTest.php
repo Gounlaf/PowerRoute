@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\InputSources;
 
 use Mcustiel\PowerRoute\InputSources\Method;
@@ -20,6 +21,6 @@ class MethodTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getMethod')
             ->willReturn('post');
-        $this->assertEquals('POST', $this->evaluator->getValue($this->request));
+        $this->assertSame('POST', $this->evaluator->getValue($this->request));
     }
 }

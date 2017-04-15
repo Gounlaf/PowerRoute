@@ -1,42 +1,43 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Functional;
 
+use Mcustiel\Creature\LazyCreator;
+use Mcustiel\Mockable\DateTimeUtils;
+use Mcustiel\PowerRoute\Actions\DisplayFile;
+use Mcustiel\PowerRoute\Actions\Redirect;
+use Mcustiel\PowerRoute\Actions\SaveCookie;
+use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
+use Mcustiel\PowerRoute\Common\TransactionData;
+use Mcustiel\PowerRoute\InputSources\Cookie;
+use Mcustiel\PowerRoute\InputSources\QueryStringParam;
+use Mcustiel\PowerRoute\Matchers\InArray;
+use Mcustiel\PowerRoute\Matchers\NotNull;
+use Mcustiel\PowerRoute\PowerRoute;
+use Mcustiel\PowerRoute\Tests\Fixtures\Actions\MiddlewareAction;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
-use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
-use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
-use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
-use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Actions\DisplayFile;
-use Mcustiel\PowerRoute\Actions\SaveCookie;
-use Mcustiel\PowerRoute\Actions\Redirect;
-use Mcustiel\PowerRoute\InputSources\QueryStringParam;
-use Mcustiel\PowerRoute\InputSources\Cookie;
-use Mcustiel\PowerRoute\Matchers\NotNull;
-use Mcustiel\PowerRoute\Matchers\InArray;
-use Mcustiel\Mockable\DateTimeUtils;
-use Mcustiel\PowerRoute\PowerRoute;
-use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
-use Mcustiel\Creature\LazyCreator;
-use Mcustiel\PowerRoute\Tests\Fixtures\Actions\MiddlewareAction;
 
 class ExecutorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Mcustiel\PowerRoute\PowerRoute $executor
+     * @var \Mcustiel\PowerRoute\PowerRoute
      */
     private $executor;
 
     /**
-     * @var \Mcustiel\PowerRoute\Common\Factories\MatcherFactory $matcherFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\MatcherFactory
      */
     private $matcherFactory;
     /**
-     * @var \Mcustiel\PowerRoute\Common\EvaluatorFactory $matcherFactory
+     * @var \Mcustiel\PowerRoute\Common\EvaluatorFactory
      */
     private $evaluatorFactory;
     /**
-     * @var \Mcustiel\PowerRoute\Common\Factories\ActionFactory $matcherFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\ActionFactory
      */
     private $actionFactory;
 
@@ -90,7 +91,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             'route1',
             $transactionData
         );
-        $this->assertEquals('potato baked', $transactionData->getResponse()->getBody()->__toString());
+        $this->assertSame('potato baked', $transactionData->getResponse()->getBody()->__toString());
     }
 
     /**
@@ -117,9 +118,9 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             $transactionData
         );
 
-        $this->assertEquals('potato grilled', $transactionData->getResponse()->getBody()->__toString());
-        $this->assertEquals(
-            [ 'cookieTest=grilled; expires=Thursday, 01-Oct-2015 21:35:41 UTC; domain=; path=; secure' ],
+        $this->assertSame('potato grilled', $transactionData->getResponse()->getBody()->__toString());
+        $this->assertSame(
+            ['cookieTest=grilled; expires=Thursday, 01-Oct-2015 21:35:41 UTC; domain=; path=; secure'],
             $transactionData->getResponse()->getHeader('Set-Cookie')
         );
     }
@@ -139,11 +140,11 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $transactionData = new TransactionData($request, new Response());
         $this->executor->execute('route1', $transactionData);
 
-        $this->assertEquals('', $transactionData->getResponse()->getBody()->__toString());
-        $this->assertEquals([ 'http://www.google.com' ], $transactionData->getResponse()->getHeader('Location'));
-        $this->assertEquals(302, $transactionData->getResponse()->getStatusCode());
+        $this->assertSame('', $transactionData->getResponse()->getBody()->__toString());
+        $this->assertSame(['http://www.google.com'], $transactionData->getResponse()->getHeader('Location'));
+        $this->assertSame(302, $transactionData->getResponse()->getStatusCode());
         $this->assertTrue($transactionData->getResponse()->hasHeader('X-MIDDLEWARE-EXECUTED'));
-        $this->assertEquals([ 'Oh yeah!' ], $transactionData->getResponse()->getHeader('X-MIDDLEWARE-EXECUTED'));
+        $this->assertSame(['Oh yeah!'], $transactionData->getResponse()->getHeader('X-MIDDLEWARE-EXECUTED'));
     }
 
     private function buildFactories()

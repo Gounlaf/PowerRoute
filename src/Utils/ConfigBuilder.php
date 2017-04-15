@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Utils;
 
 use Mcustiel\PowerRoute\Common\ConfigOptions;
@@ -29,7 +30,7 @@ class ConfigBuilder
     {
         return [
             ConfigOptions::CONFIG_ROOT_NODE => $this->start,
-            ConfigOptions::CONFIG_NODES     => $this->nodes,
+            ConfigOptions::CONFIG_NODES => $this->nodes,
         ];
     }
 }

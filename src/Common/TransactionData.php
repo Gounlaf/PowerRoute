@@ -1,8 +1,9 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Common;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @codeCoverageIgnore
@@ -12,11 +13,11 @@ class TransactionData
     private $values = [];
 
     /**
-     * @var \Psr\Http\Message\ServerRequestInterface $request
+     * @var \Psr\Http\Message\ServerRequestInterface
      */
     private $request;
     /**
-     * @var \Psr\Http\Message\ResponseInterface $response
+     * @var \Psr\Http\Message\ResponseInterface
      */
     private $response;
 
@@ -24,6 +25,16 @@ class TransactionData
     {
         $this->request = $request;
         $this->response = $response;
+    }
+
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    public function __set($name, $value)
+    {
+        $this->set($name, $value);
     }
 
     /**
@@ -42,6 +53,7 @@ class TransactionData
     public function setRequest(ServerRequestInterface $request)
     {
         $this->request = $request;
+
         return $this;
     }
 
@@ -61,6 +73,7 @@ class TransactionData
     public function setResponse($response)
     {
         $this->response = $response;
+
         return $this;
     }
 
@@ -72,15 +85,5 @@ class TransactionData
     public function set($name, $value)
     {
         $this->values[$name] = $value;
-    }
-
-    public function __get($name)
-    {
-        return $this->get($name);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->set($name, $value);
     }
 }

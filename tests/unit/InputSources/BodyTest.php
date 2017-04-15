@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\InputSources;
 
 use Mcustiel\PowerRoute\InputSources\Body;
@@ -28,6 +29,6 @@ class BodyTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getBody')
             ->willReturn($bodyMock);
-        $this->assertEquals('potato', $this->evaluator->getValue($this->request));
+        $this->assertSame('potato', $this->evaluator->getValue($this->request));
     }
 }

@@ -1,16 +1,16 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Actions;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\RequestUrlAccess;
 use Mcustiel\PowerRoute\Common\TransactionData;
+use Psr\Http\Message\ServerRequestInterface;
 
 trait PlaceholderEvaluator
 {
     use RequestUrlAccess;
 
     /**
-     *
      * @param mixed                                    $value
      * @param \Psr\Http\Message\ServerRequestInterface $transactiondata
      *
@@ -32,7 +32,6 @@ trait PlaceholderEvaluator
     }
 
     /**
-     *
      * @param string                                   $from
      * @param string|null                              $name
      * @param \Psr\Http\Message\ServerRequestInterface $transactionData
@@ -65,12 +64,14 @@ trait PlaceholderEvaluator
         if ($name !== null) {
             return $this->getValueFromUrlPlaceholder($name, $request->getUri());
         }
+
         return $request->getUri()->__toString();
     }
 
     private function getValueFromParsedBody($name, ServerRequestInterface $request)
     {
         $data = $request->getParsedBody();
+
         return is_array($data) ? $data[$name] : $data->$name;
     }
 }

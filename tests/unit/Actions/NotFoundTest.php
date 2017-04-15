@@ -1,10 +1,11 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\Actions;
 
 use Mcustiel\PowerRoute\Actions\NotFound;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequest;
 
 class NotFoundTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +29,7 @@ class NotFoundTest extends \PHPUnit_Framework_TestCase
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
         $this->action->execute($transaction);
-        $this->assertEquals(404, $transaction->getResponse()->getStatusCode());
+        $this->assertSame(404, $transaction->getResponse()->getStatusCode());
     }
 
     /**
@@ -41,8 +42,8 @@ class NotFoundTest extends \PHPUnit_Framework_TestCase
             new Response('data://text/plain,This is the previous text')
         );
         $this->action->execute($transaction);
-        $this->assertEquals(404, $transaction->getResponse()->getStatusCode());
-        $this->assertEquals(
+        $this->assertSame(404, $transaction->getResponse()->getStatusCode());
+        $this->assertSame(
             'This is the previous text',
             $transaction->getResponse()->getBody()->__toString()
         );

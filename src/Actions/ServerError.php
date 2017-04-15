@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;
@@ -7,7 +8,7 @@ class ServerError implements ActionInterface
 {
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        $argument = (integer) $argument;
+        $argument = (int) $argument;
         if ($argument < 500 || $argument >= 600) {
             $argument = 500;
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\InputSources;
 
 use Mcustiel\PowerRoute\InputSources\Cookie;
@@ -20,7 +21,7 @@ class CookieTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getCookieParams')
             ->willReturn(['banana' => 'potato']);
-        $this->assertEquals('potato', $this->evaluator->getValue($this->request, 'banana'));
+        $this->assertSame('potato', $this->evaluator->getValue($this->request, 'banana'));
     }
 
     /**

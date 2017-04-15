@@ -1,14 +1,15 @@
 <?php
+
 namespace Mcustiel\PowerRoute;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
-use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
-use Mcustiel\PowerRoute\Common\ConfigOptions;
 use Mcustiel\Creature\LazyCreator;
 use Mcustiel\PowerRoute\Actions\Psr7MiddlewareAction;
+use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+use Mcustiel\PowerRoute\Common\ConfigOptions;
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
+use Mcustiel\PowerRoute\Common\TransactionData;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class PowerRoute
 {
@@ -16,23 +17,23 @@ class PowerRoute
     const CONDITIONS_MATCHER_ONE = 'oneConditionsMatcher';
 
     /**
-     * @var array $config
+     * @var array
      */
     private $config;
     /**
-     * @var \Mcustiel\PowerRoute\Common\Factories\ActionFactory $actionFactory
+     * @var \Mcustiel\PowerRoute\Common\Factories\ActionFactory
      */
     private $actionFactory;
     /**
-     * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface[] $conditionsMatchers
+     * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface[]
      */
     private $conditionMatchers;
     /**
-     * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory $conditionMatcherFactory
+     * @var \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory
      */
     private $conditionMatcherFactory;
     /**
-     * @var \Mcustiel\Creature\LazyCreator $psr7InvokerCreator
+     * @var \Mcustiel\Creature\LazyCreator
      */
     private $psr7InvokerCreator;
 
@@ -61,6 +62,7 @@ class PowerRoute
     {
         $transactionData = new TransactionData($request, $response);
         $this->execute($this->config[ConfigOptions::CONFIG_ROOT_NODE], $transactionData);
+
         return $transactionData->getResponse();
     }
 
@@ -116,17 +118,16 @@ class PowerRoute
         if (!isset($this->conditionMatchers[$matcher])) {
             $this->conditionMatchers[$matcher] = $this->conditionMatcherFactory->get($matcher);
         }
+
         return $this->conditionMatchers[$matcher];
     }
 
     private function getActionsToRun($route, $matched)
     {
         if ($matched) {
-            return $route[ConfigOptions::CONFIG_NODE_ACTIONS]
-                [ConfigOptions::CONFIG_NODE_ACTIONS_MATCH];
+            return $route[ConfigOptions::CONFIG_NODE_ACTIONS][ConfigOptions::CONFIG_NODE_ACTIONS_MATCH];
         }
 
-        return $route[ConfigOptions::CONFIG_NODE_ACTIONS]
-            [ConfigOptions::CONFIG_NODE_ACTIONS_NOTMATCH];
+        return $route[ConfigOptions::CONFIG_NODE_ACTIONS][ConfigOptions::CONFIG_NODE_ACTIONS_NOTMATCH];
     }
 }

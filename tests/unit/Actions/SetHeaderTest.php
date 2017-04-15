@@ -1,10 +1,11 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\Actions;
 
-use Mcustiel\PowerRoute\Common\TransactionData;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Response;
 use Mcustiel\PowerRoute\Actions\SetHeader;
+use Mcustiel\PowerRoute\Common\TransactionData;
+use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequest;
 
 class SetHeaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +32,7 @@ class SetHeaderTest extends \PHPUnit_Framework_TestCase
         $transaction = new TransactionData(new ServerRequest(), new Response());
         $this->action->execute($transaction, $this->argument);
         $this->assertArrayHasKey('Location', $transaction->getResponse()->getHeaders());
-        $this->assertEquals(
+        $this->assertSame(
             'http://github.com',
             $transaction->getResponse()->getHeaderLine('Location')
         );
@@ -48,11 +49,11 @@ class SetHeaderTest extends \PHPUnit_Framework_TestCase
         );
         $this->action->execute($transaction, $this->argument);
         $this->assertArrayHasKey('Location', $transaction->getResponse()->getHeaders());
-        $this->assertEquals(
+        $this->assertSame(
             'http://github.com',
             $transaction->getResponse()->getHeaderLine('Location')
         );
-        $this->assertEquals(
+        $this->assertSame(
             'This is the previous text',
             $transaction->getResponse()->getBody()->__toString()
         );

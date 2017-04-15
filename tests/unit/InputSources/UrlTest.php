@@ -1,13 +1,14 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\InputSources;
 
-use Psr\Http\Message\UriInterface;
 use Mcustiel\PowerRoute\InputSources\Url;
+use Psr\Http\Message\UriInterface;
 
 class UrlTest extends AbstractInputSourceTest
 {
     /**
-     * @var \Psr\Http\Message\UriInterface|\PHPUnit_Framework_MockObject_MockObject $uri
+     * @var \Psr\Http\Message\UriInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $uri;
 
@@ -26,7 +27,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldReturnTheFullUri()
     {
         $this->prepareUri('__toString', 'http://www.example.com/?potato=banana#coconut');
-        $this->assertEquals(
+        $this->assertSame(
             'http://www.example.com/?potato=banana#coconut',
             $this->evaluator->getValue($this->request, 'full')
         );
@@ -38,7 +39,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldReturnTheFullUriWithNullArgument()
     {
         $this->prepareUri('__toString', 'http://www.example.com/?potato=banana#coconut');
-        $this->assertEquals(
+        $this->assertSame(
             'http://www.example.com/?potato=banana#coconut',
             $this->evaluator->getValue($this->request)
         );
@@ -50,7 +51,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetTheHostPart()
     {
         $this->prepareUri('getHost', 'www.example.com');
-        $this->assertEquals('www.example.com', $this->evaluator->getValue($this->request, 'host'));
+        $this->assertSame('www.example.com', $this->evaluator->getValue($this->request, 'host'));
     }
 
     /**
@@ -59,7 +60,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetTheSchemePart()
     {
         $this->prepareUri('getScheme', 'http');
-        $this->assertEquals('http', $this->evaluator->getValue($this->request, 'scheme'));
+        $this->assertSame('http', $this->evaluator->getValue($this->request, 'scheme'));
     }
 
     /**
@@ -68,7 +69,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetTheAuthorityPart()
     {
         $this->prepareUri('getAuthority', 'potato@www.example.com:8080');
-        $this->assertEquals('potato@www.example.com:8080', $this->evaluator->getValue($this->request, 'authority'));
+        $this->assertSame('potato@www.example.com:8080', $this->evaluator->getValue($this->request, 'authority'));
     }
 
     /**
@@ -77,7 +78,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetTheFragmentPart()
     {
         $this->prepareUri('getFragment', 'fragment');
-        $this->assertEquals('fragment', $this->evaluator->getValue($this->request, 'fragment'));
+        $this->assertSame('fragment', $this->evaluator->getValue($this->request, 'fragment'));
     }
 
     /**
@@ -86,7 +87,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetThePathPart()
     {
         $this->prepareUri('getPath', '/potato');
-        $this->assertEquals('/potato', $this->evaluator->getValue($this->request, 'path'));
+        $this->assertSame('/potato', $this->evaluator->getValue($this->request, 'path'));
     }
 
     /**
@@ -95,7 +96,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetThePortPart()
     {
         $this->prepareUri('getPort', '8080');
-        $this->assertEquals('8080', $this->evaluator->getValue($this->request, 'port'));
+        $this->assertSame('8080', $this->evaluator->getValue($this->request, 'port'));
     }
 
     /**
@@ -104,7 +105,7 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetTheQueryPart()
     {
         $this->prepareUri('getQuery', 'potato=banana');
-        $this->assertEquals('potato=banana', $this->evaluator->getValue($this->request, 'query'));
+        $this->assertSame('potato=banana', $this->evaluator->getValue($this->request, 'query'));
     }
 
     /**
@@ -113,13 +114,11 @@ class UrlTest extends AbstractInputSourceTest
     public function shouldGetTheUserInfoPart()
     {
         $this->prepareUri('getUserInfo', 'user:pass');
-        $this->assertEquals('user:pass', $this->evaluator->getValue($this->request, 'user-info'));
+        $this->assertSame('user:pass', $this->evaluator->getValue($this->request, 'user-info'));
     }
 
     /**
      * @test
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid config
      */
     public function shouldFailIfUrlPartIsNotSet()
     {
@@ -127,6 +126,7 @@ class UrlTest extends AbstractInputSourceTest
             ->expects($this->once())
             ->method('getUri')
             ->willReturn($this->uri);
+        $this->setExpectedException(\Exception::class, 'Invalid config');
         $this->evaluator->getValue($this->request, 'potato');
     }
 

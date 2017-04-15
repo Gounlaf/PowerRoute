@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\InputSources;
 
 use Mcustiel\PowerRoute\InputSources\Header;
@@ -20,7 +21,7 @@ class HeaderTest extends AbstractInputSourceTest
             ->method('getHeaderLine')
             ->with('X-Banana')
             ->willReturn('potato');
-        $this->assertEquals('potato', $this->evaluator->getValue($this->request, 'X-Banana'));
+        $this->assertSame('potato', $this->evaluator->getValue($this->request, 'X-Banana'));
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Actions;
 
 use Mcustiel\PowerRoute\Common\TransactionData;

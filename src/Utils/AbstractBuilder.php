@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Utils;
 
 abstract class AbstractBuilder
@@ -16,6 +17,7 @@ abstract class AbstractBuilder
     public function withArgument($argument)
     {
         $this->argument = $argument;
+
         return $this;
     }
 
@@ -24,6 +26,7 @@ abstract class AbstractBuilder
         if (empty($this->name)) {
             throw new \RuntimeException('Actions, Matchers and InputSources should be identified by a name');
         }
+
         return [
             $this->name => $this->argument,
         ];

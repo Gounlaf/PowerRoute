@@ -1,10 +1,11 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Common\Factories;
 
-use Mcustiel\PowerRoute\Actions\GoToAction;
-use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\Creature\LazyCreator;
+use Mcustiel\PowerRoute\Actions\GoToAction;
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
+use Mcustiel\PowerRoute\PowerRoute;
 
 class ActionFactory extends Mapping
 {
@@ -42,8 +43,8 @@ class ActionFactory extends Mapping
 
     private function getConstructorArgument($executor, $argument, $id)
     {
-        if ($id == 'goto') {
-            $classArgument = new \stdClass;
+        if ($id === 'goto') {
+            $classArgument = new \stdClass();
             $classArgument->route = $argument;
             $classArgument->executor = $executor;
         } else {

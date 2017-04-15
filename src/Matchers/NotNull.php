@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Matchers;
 
 class NotNull implements MatcherInterface

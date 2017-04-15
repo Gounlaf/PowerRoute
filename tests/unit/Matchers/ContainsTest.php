@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\Actions;
 
 use Mcustiel\PowerRoute\Matchers\Contains;

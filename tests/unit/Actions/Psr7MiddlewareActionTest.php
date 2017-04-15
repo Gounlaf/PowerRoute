@@ -1,12 +1,13 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\Actions;
 
-use Mcustiel\PowerRoute\Common\TransactionData;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Response;
 use Mcustiel\PowerRoute\Actions\Psr7MiddlewareAction;
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
+use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\PowerRoute\Tests\Fixtures\Actions\Middleware;
+use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequest;
 
 class Psr7MiddlewareActionTest extends \PHPUnit_Framework_TestCase
 {

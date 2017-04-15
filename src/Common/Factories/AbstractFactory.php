@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Common\Factories;
 
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
@@ -6,12 +7,11 @@ use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 abstract class AbstractFactory extends Mapping
 {
     /**
-     *
      * @param array $config
      *
-     * @return \Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject
-     *
      * @throws \Exception
+     *
+     * @return \Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject
      */
     public function createFromConfig(array $config)
     {

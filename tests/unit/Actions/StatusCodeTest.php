@@ -1,10 +1,11 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\Actions;
 
-use Mcustiel\PowerRoute\Common\TransactionData;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Response;
 use Mcustiel\PowerRoute\Actions\StatusCode;
+use Mcustiel\PowerRoute\Common\TransactionData;
+use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequest;
 
 class StatusCodeTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +29,7 @@ class StatusCodeTest extends \PHPUnit_Framework_TestCase
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
         $this->action->execute($transaction);
-        $this->assertEquals(200, $transaction->getResponse()->getStatusCode());
+        $this->assertSame(200, $transaction->getResponse()->getStatusCode());
     }
 
     /**
@@ -38,7 +39,7 @@ class StatusCodeTest extends \PHPUnit_Framework_TestCase
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
         $this->action->execute($transaction, 505);
-        $this->assertEquals(505, $transaction->getResponse()->getStatusCode());
+        $this->assertSame(505, $transaction->getResponse()->getStatusCode());
     }
 
     /**
@@ -51,8 +52,8 @@ class StatusCodeTest extends \PHPUnit_Framework_TestCase
             new Response('data://text/plain,This is the previous text')
         );
         $this->action->execute($transaction, 204);
-        $this->assertEquals(204, $transaction->getResponse()->getStatusCode());
-        $this->assertEquals(
+        $this->assertSame(204, $transaction->getResponse()->getStatusCode());
+        $this->assertSame(
             'This is the previous text',
             $transaction->getResponse()->getBody()->__toString()
         );
@@ -60,13 +61,11 @@ class StatusCodeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Invalid status code: 605
      */
     public function shouldFailDefaultOnInvalidStatusCode()
     {
         $transaction = new TransactionData(new ServerRequest(), new Response());
+        $this->setExpectedException(\RuntimeException::class, 'Invalid status code: 605');
         $this->action->execute($transaction, 605);
-        $this->assertEquals(500, $transaction->getResponse()->getStatusCode());
     }
 }

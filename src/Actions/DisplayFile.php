@@ -1,8 +1,9 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Actions;
 
-use Zend\Diactoros\Stream;
 use Mcustiel\PowerRoute\Common\TransactionData;
+use Zend\Diactoros\Stream;
 
 class DisplayFile implements ActionInterface
 {

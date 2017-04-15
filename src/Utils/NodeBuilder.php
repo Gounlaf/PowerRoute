@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Utils;
 
 use Mcustiel\PowerRoute\Common\ConfigOptions;
@@ -18,7 +19,7 @@ class NodeBuilder
     {
         $this->conditions = [];
         $this->actions = [
-            ConfigOptions::CONFIG_NODE_ACTIONS_MATCH    => [],
+            ConfigOptions::CONFIG_NODE_ACTIONS_MATCH => [],
             ConfigOptions::CONFIG_NODE_ACTIONS_NOTMATCH => [],
         ];
         $this->operator = self::CONDITION_OPERATOR_ONE;
@@ -28,26 +29,30 @@ class NodeBuilder
     {
         $this->conditions[] = [
             ConfigOptions::CONFIG_NODE_CONDITION_MATCHER => $matcherBuilder->build(),
-            ConfigOptions::CONFIG_NODE_CONDITION_SOURCE  => $inputSourceBuilder->build(),
+            ConfigOptions::CONFIG_NODE_CONDITION_SOURCE => $inputSourceBuilder->build(),
         ];
+
         return $this;
     }
 
     public function addActionIfConditionMatches($name, $argument)
     {
         $this->actions[ConfigOptions::CONFIG_NODE_ACTIONS_MATCH][] = [$name => $argument];
+
         return $this;
     }
 
     public function addActionIfConditionDoesNotMatch($name, $argument)
     {
         $this->actions[ConfigOptions::CONFIG_NODE_ACTIONS_NOTMATCH][] = [$name => $argument];
+
         return $this;
     }
 
     public function withConditionOperator($operator)
     {
         $this->operator = $operator;
+
         return $this;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Common\Conditions;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -6,8 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class OneConditionMatcher extends AbstractConditionsMatcher implements ConditionsMatcherInterface
 {
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherInterface::conditionsMatches()
      */
@@ -26,6 +26,7 @@ class OneConditionMatcher extends AbstractConditionsMatcher implements Condition
                 return true;
             }
         }
+
         return false;
     }
 }

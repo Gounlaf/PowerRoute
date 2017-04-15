@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Common;
 
 class ConfigOptions

@@ -1,8 +1,9 @@
 <?php
+
 namespace Mcustiel\PowerRoute\InputSources;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\PowerRoute\Common\RequestUrlAccess;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Url implements InputSourceInterface
 {

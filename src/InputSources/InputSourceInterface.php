@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\InputSources;
 
 use Psr\Http\Message\ServerRequestInterface;

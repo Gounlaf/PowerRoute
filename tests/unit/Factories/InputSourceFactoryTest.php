@@ -1,8 +1,9 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Tests\Unit\Factories;
 
-use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\Creature\CreatorInterface;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
 
 class InputSourceFactoryTest extends \PHPUnit_Framework_TestCase

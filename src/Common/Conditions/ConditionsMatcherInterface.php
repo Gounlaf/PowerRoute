@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\PowerRoute\Common\Conditions;
 
 use Psr\Http\Message\ServerRequestInterface;
