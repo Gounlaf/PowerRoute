@@ -1,4 +1,3 @@
-# PowerRoute! 2
 PowerRoute! is a PHP routing system that can execute different sets of actions based in several components of the HTTP requests and is fully compatible with PSR-7.
 
 The configuration is formed by three main components and defines a binary tree:
